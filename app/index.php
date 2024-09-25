@@ -22,8 +22,10 @@ while ($row = mysqli_fetch_array($query)) {
     <td>{$row['id']}</td>
     <td>{$row['nombre']}</td>
    </tr>";
-   
 
 }
+  
+  echo '<a href="login.php">Sign in</a>';
+  echo '<a href="register.php">Register</a>';
 
 ?>
