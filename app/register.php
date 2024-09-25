@@ -67,7 +67,7 @@ function obtenerLetra(num){
 	
 	<body>
 	<form name="formulario">
-		Introduzca la infromación pedida a continuación:
+		Introduzca la información pedida a continuación:
 		Nombre completo:<br>
 		<input type="text" name="nombre" value="Nombre">  <input type="text" name="apellido" value="Apellido"><br>
 		DNI: <br>
