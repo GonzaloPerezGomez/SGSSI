@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+<html>
+<head>
+<title> registro </title>
+<script src="comprobacionDeDatos.js"></script>
+</head>
+
 <?php
   // phpinfo();
   $hostname = "db";
