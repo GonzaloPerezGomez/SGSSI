@@ -22,7 +22,7 @@
     
 
 <form name="formulario">
-	Introduzca el nombre del usuario y su contraseña:
+	<p>Introduzca el nombre del usuario y su contraseña:<P>
 	Nombre de usuario:<input type="text" name="nombreUsuario" value=""> 
 	Contraseña:<input type="text" name="contraseña" value=""> 
   	<br>

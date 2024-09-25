@@ -2,6 +2,7 @@
 <head>
 <title> registro </title>
 <script src="comprobacionDeDatos.js"></script>
+<link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
