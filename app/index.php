@@ -1,5 +1,11 @@
+<<<<<<< HEAD
+<html>
+<head>
+<title> registro </title>
+<script src="comprobacionDeDatos.js"></script>
+</head>
+
 <?php
-  echo '<h1>Yeah, it works!<h1>';
   // phpinfo();
   $hostname = "db";
   $username = "admin";
