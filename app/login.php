@@ -31,7 +31,7 @@
 	<input type="button" value="Acceder" onclick="comprobardatos()">
 </form>
 
-<a href="index.php">Volver a inicio</a>
+<a href="index.php" class="button">Volver a inicio</a>
 	
 <footer>
         <p align="center">&copy; 2023 Mi sitio web</p>
