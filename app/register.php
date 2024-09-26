@@ -24,7 +24,12 @@
 		<br>
 		<input type="button" value="Enviar" onclick="comprobardatos()">
 	</form>
+		
 	<a href="index.php">Volver a inicio</a>
+
+	<footer>
+        	<p align="center">&copy; 2023 Mi sitio web</p>
+	</footer>
 <html>
 
 
