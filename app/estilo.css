@@ -102,3 +102,7 @@ input[type="submit"]:hover {
     background-color: var(--color-boton-hover);
 }
 
+form{
+    width: 500px;
+}
+
