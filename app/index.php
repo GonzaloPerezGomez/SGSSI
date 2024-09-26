@@ -1,15 +1,5 @@
-<html>
-<head>
-<title> index </title>
-<script src="comprobacionDeDatos.js"></script>
-<link rel="stylesheet" href="estilo.css">
-</head>
-
-<body>
-
-<h1>Página principal</h1>
-
 <?php
+  echo '<h1>Yeah, it works!<h1>';
   // phpinfo();
   $hostname = "db";
   $username = "admin";
@@ -25,34 +15,15 @@
 
 $query = mysqli_query($conn, "SELECT * FROM usuarios")
    or die (mysqli_error($conn));
-?>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
 while ($row = mysqli_fetch_array($query)) {
   echo
    "<tr>
     <td>{$row['id']}</td>
     <td>{$row['nombre']}</td>
    </tr>";
+   
 
 }
+
 ?>
-</tbody>
-</table>
-
-
-<div class="button-container">
-    <a href="login.php" class="button">Sign in</a>
-    <a href="register.php" class="button">Register</a>
-</div>
-
-</body>
-</html>
