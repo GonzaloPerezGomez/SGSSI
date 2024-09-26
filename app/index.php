@@ -49,6 +49,38 @@ while ($row = mysqli_fetch_array($query)) {
 </tbody>
 </table>
 
+<?php
+$query = mysqli_query($conn, "SELECT titulo, autor FROM libro")
+   or die (mysqli_error($conn));
+?>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Titulo</th>
+            <th>Autor</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+while ($row = mysqli_fetch_array($query)) {
+  $nombre = "image/" . strtolower($row['titulo'] . ".jpeg");
+  $nombre = str_replace(" ", "-", $nombre);
+  echo
+   "
+   <tr>
+    <td><img src=$nombre
+    style=width:60px ; height:auto ;></td>
+    <td>{$row['titulo']}</td>
+    <td>{$row['autor']}</td>
+   </tr>";
+
+}
+?>
+</tbody>
+</table>
+
 
 <div class="button-container">
     <a href="login.php" class="button">Sign in</a>
