@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db:3306
--- Tiempo de generación: 25-09-2024 a las 13:40:51
+-- Tiempo de generación: 26-09-2024 a las 22:38:48
 -- Versión del servidor: 10.8.2-MariaDB-1:10.8.2+maria~focal
 -- Versión de PHP: 8.2.8
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `database`
 --
-CREATE DATABASE IF NOT EXISTS `database` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `database`;
 
 -- --------------------------------------------------------
 
@@ -36,6 +34,13 @@ CREATE TABLE `libro` (
   `ISBN` char(13) NOT NULL,
   `n_paginas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `libro`
+--
+
+INSERT INTO `libro` (`titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VALUES
+('Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '123456789123', 500);
 
 -- --------------------------------------------------------
 
