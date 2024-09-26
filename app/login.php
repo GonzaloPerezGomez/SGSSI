@@ -30,9 +30,12 @@
 	<br>
 	<input type="button" value="Acceder" onclick="comprobardatos()">
 </form>
+
+<a href="index.php">Volver a inicio</a>
+	
 <footer>
         <p>&copy; 2023 Mi sitio web</p>
-    </footer>
+</footer>
  
 </body>
 <html>
