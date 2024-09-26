@@ -1,38 +1,104 @@
+/* Colores base */
+:root {
+    --color-fondo: #ffffff; /* Fondo rosa pastel */
+    --color-texto: #000000; /* Texto en color negro */
+    --color-enlace: #ff007c; /* Color de los enlaces */
+    --color-boton: #ff80be; /* Color de los botones */
+    --color-boton-hover: #ff007c; /* Hover del botón = poner el ratón encima*/
+    --color-tablaborde: #ff80be;
+    --color-tablafondo: #ffb6da;
+}
+
+/* Estilos generales */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f123;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 20px;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
-  margin-top: 50px;
+/* Encabezados */
+h1, h2, h3 {
+    color: var(--color-texto);
+    text-align: center;
 }
 
-p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #666;
-  margin: 20px;
+/* Enlaces */
+a {
+    color: var(--color-enlace);
+    text-decoration: none;
 }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
+a:hover {
+    /*text-decoration: underline; /*cuando el ratón está encima se subraya*/
 }
 
+/* Botones */
 .button {
-  background-color: #4CAF50; /* Verde */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+    background-color: var(--color-boton);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
+
+.button:hover {
+    background-color: var(--color-boton-hover);
+}
+
+/* Contenedor de botones */
+.button-container {
+    display: flex; /* Utiliza flexbox para el alineamiento */
+    justify-content: center; /* Centrar horizontalmente */
+    margin: 20px 0; /* Margen superior e inferior */
+}
+
+.button-container a {
+    margin: 0 10px; /* Espaciado horizontal entre botones */
+}
+
+/* Estilos para la tabla */
+table {
+    border-collapse: collapse; /* Colapsar bordes */
+    width: 600px%; /* Ancho de la tabla */
+    margin: 20px auto; /* Centrar la tabla */
+}
+
+th, td {
+    border: 1px solid var(--color-tablaborde); /* Bordes */
+    padding: 10px; /* Espaciado interno */
+    text-align: center; /* Alinear texto al centro */
+}
+
+th {
+    background-color: var(--color-tablafondo); /* Fondo rosa claro para encabezados */
+}
+
+
+/* Estilos de formularios */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: var(--color-boton);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--color-boton-hover);
+}
+
