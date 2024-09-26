@@ -8,7 +8,7 @@
 	
 	<body>
 	<form name="formulario">
-		Introduzca la información pedida a continuación:<br>
+		<p align="center">Introduzca la información pedida a continuación:</p>
 		Nombre completo:<br>
 		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
 		DNI: <br>
