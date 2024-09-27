@@ -17,7 +17,7 @@
   		Teléfono:<br>
   		<input type="text" name="telefono" placeholder=""> <br>
 		Fecha de Nacimiento:<br>
-		<input type="text" name="fechaNacimiento" placeholder="DD/MM/AAAA"><br>
+		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"><br>
 		Email:<br>
 		<input type="text" name="correo" placeholder="example@xxx.yyy" > <br>
 		
