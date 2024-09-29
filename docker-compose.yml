@@ -18,6 +18,7 @@ services:
   restart: always
   volumes:
    - ./mysql:/var/lib/mysql
+   - ./database.sql:/docker-entrypoint-initdb.d/database.sql # Create tables
   environment:
    MYSQL_ROOT_PASSWORD: root
    MYSQL_USER: admin

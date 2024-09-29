@@ -49,9 +49,15 @@ INSERT INTO `libro` (`titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VA
 --
 
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nombre` text NOT NULL,
-  `contraseña` varchar(12) NOT NULL
+  `apellido` text NOT NULL,
+  `numeroDNI` text NOT NULL,
+  `telefono` text,
+  `nacimiento` text,
+  `email` text NOT NULL,
+  `usuario` text NOT NULL,
+  `contrasena` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
