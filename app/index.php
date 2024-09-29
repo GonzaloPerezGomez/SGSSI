@@ -10,6 +10,11 @@
 
 <h1>Página principal</h1>
 
+<div class="button-container">
+    <a href="login.php" class="button">Sign in</a>
+    <a href="register.php" class="button">Register</a>
+</div>
+
 <?php
   // phpinfo();
   $hostname = "db";
@@ -49,6 +54,8 @@ while ($row = mysqli_fetch_array($query)) {
 </tbody>
 </table>
 
+<a class="button" href="anadir_libro.php">Añadir libro</a>
+
 <?php
 $query = mysqli_query($conn, "SELECT titulo, autor FROM libro")
    or die (mysqli_error($conn));
@@ -74,6 +81,12 @@ while ($row = mysqli_fetch_array($query)) {
     style=width:60px ; height:auto ;></td>
     <td>{$row['titulo']}</td>
     <td>{$row['autor']}</td>
+    <td>
+        <div class=button-container>
+            <a class=button href=edit_libro.php></a>
+            <a class=button></a>
+        </div>
+    </td>
    </tr>";
 
 }
@@ -82,10 +95,7 @@ while ($row = mysqli_fetch_array($query)) {
 </table>
 
 
-<div class="button-container">
-    <a href="login.php" class="button">Sign in</a>
-    <a href="register.php" class="button">Register</a>
-</div>
+
 
 </body>
 </html>
