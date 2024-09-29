@@ -13,7 +13,7 @@
 body {
     font-family: 'Arial', sans-serif;
     /*background-color: var(--color-fondo);*/
-    background-image: url("https://www.educaciontrespuntocero.com/wp-content/uploads/2020/05/477-1.jpg.webp");
+    background-image: url("image/background.jpg");
     color: var(--color-texto);
     margin: 0;
     padding: 20px;
