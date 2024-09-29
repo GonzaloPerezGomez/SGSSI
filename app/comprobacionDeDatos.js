@@ -1,5 +1,6 @@
 function comprobardatos(){
-	if(comprobarNombreApellido() && comprobarDNI() && comprobarTelefono()){
+    //comprobamos si todos los campos son validos
+	if(comprobarNombreApellido() && comprobarDNI() && comprobarTelefono() && comprobarFecha() &&  comprobarCorreo()){
 	
 	}
 }
@@ -11,26 +12,27 @@ function comprobardatos(){
 
 //Comprobacion del nombre y apellido
 function comprobarNombreApellido(){
+    //obtiene el valor del campo nombre
 	var nombre= document.formulario.nombre.value;
-	if(soloLetras(nombre) && nombre.length!=0){
+	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
+	if(/^[a-zA-Z\s]+$/.test(nombre) && nombre.length!=0){
+	    //si se cumple la condicion comprueba el apellido
+	    //obtiene el valor de campo apellido
 		var apellido= document.formulario.apellido.value;
-		if (soloLetras(apellido) && apellido.length!=0){
+		//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
+		if (/^[a-zA-Z\s]+$/.test(apellido) && apellido.length!=0){
+		    //si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
 			return true;}
 		else{
+		    //si no se cumple, lo indica en una ventana de alerta
 			window.alert ("El apellido no es correcto");
+			//devuelve false
 			return false;}}
 	else{
+	     //si no se cumple, lo indica en una ventana de alerta
 		window.alert ("El nombre no es correcto");
+		//devolvemos false
 		return false;}}
-
-
-function soloLetras(aux){
-	const letras = ['a','b','c','d','e','f','g','h','i','j','k','l','m','ñ','o','p','q','r','s','t','u','v','w','x','y','z']		   
-	for (let letra of aux.toLowerCase()){
-		if (!letras.includes(letra)){
-			return false;}}
-	return true;}
-	
 
 	
 //------------------------------------------------------------------------------------------------------------------------//
@@ -41,23 +43,23 @@ function comprobarDNI() {
 	//Guardamos el valor de DNI introducido por el usuario en una variable
 	var DNI= document.formulario.numeroDNI.value;
 	//miramos si su longitud es correcta 
-	if (DNI.length==8){
-		//Obtenemos el resto de dividir el numero del DNI con 23
+	if (DNI.length==8 && /^[0-9]+$/.test(DNI)){
+		//Obtiene el resto de dividir el numero del DNI con 23
 		aux=DNI % 23;
-		//llamamos a la funcion obtenerLetra que nos devolvera la letra correspondiente al numero del DNI
+		//llama a la funcion obtenerLetra que nos devuelve la letra correspondiente al numero del DNI
 		letraEsperada= obtenerLetra(aux);
-		//Guardamos el valor de la letra del DNI en otra variable
+		//Guarda el valor de la letra del DNI en otra variable
 		letraIntroducida=document.formulario.letraDNI.value;
-		//miramos que las dos letras obtenidas son la iguales(para mira tanto mayuscula como minuscula la letra del usuario la pasamos a minuscula)
+		//mira que las dos letras obtenidas son la iguales(para mira tanto mayuscula como minuscula la letra del usuario la pasamos a minuscula)
 		if (letraIntroducida.toLowerCase()==letraEsperada ){
-			//si son iguales devolvemos un true
+			//si son iguales devuelve un true
 			return true; }
 		else{
-			//si no son iguales indicamos fallo en la letra del DNI
+			//si no son iguales indica fallo en la letra del DNI
 			window.alert ("La letra del DNI no es correcta"); 
 			return false;}}	
 	else{
-		//si no son tiene la longitud esperada indicamos fallo en el numero del DNI
+		//si no son tiene la longitud esperada indica fallo en el numero del DNI
 		window.alert ("El numero del DNI no es correcto");
 		return false;}	
 	
@@ -100,18 +102,108 @@ function obtenerLetra(num){
 
 //Comprobacion del nombre y apellido
 function comprobarTelefono(){
-	var tel= documento.formulario.telefono.value;
-	if (tel.length==9 && todoNumeros(tel)){
+    //obtiene el valor del numero de telefono
+	var tel= document.formulario.telefono.value;
+	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
+	if (tel.length==9 && /^[0-9]+$/.test(tel)){
+	    //si cumple las condiciones devuelve true
 		return true;}
 	else{
+	    //si no cumple alerta del fallo en el telefono
 		window.alert ("El telefono no es correcto");
+		//devuelve false
 		return false;}}
 
 
-function todoNumeros(aux){
-	const numeros=['1','2','3','4','5','6','7','8','9','0'];
-	for( let num of aux){
-		if (!numeros.includes(num)){
-			return false;}}
-	return true;}
-	
+
+//------------------------------------------------------------------------------------------------------------------------//
+
+
+//Comprobacion de la fecha de nacimiento
+function comprobarFecha(){
+    //obtiene el valor introducido en el registro fechaNacimiento
+    fechaCompleta= document.formulario.fechaNacimiento.value;
+    //mira si la longitud del string es de 10= 4(anno)+1(-)+2(mes)+1(-)+2(dia)
+    if (fechaCompleta.length=10){
+        // si la longitud es correcta dividimos la fecha en base al separador -
+        fecha= fechaCompleta.split('-');
+        //mira si las longitudes de los valores año, mes y dia son correctos 4,2,2
+        if (fecha[0].length==4 &&  fecha[1].length==2 && fecha[2].length==2){
+            //pasa el anno a un integer
+            anno= parseInt(fecha[0]);
+            //pasa el mes a un integer
+            mes=parseInt(fecha[1]);
+            //pasa el dia a un integer
+            dia=parseInt(fecha[2]);
+            //Crea una variable de tipo date con la fecha introducida
+            fechaIndicada= new Date(anno,mes-1,dia);
+            //Crea una variable de tipo date con la fecha actual
+            fechaActual=new Date();
+            //mira si la fecha es valida y si no hemos introducido una fecha superior a la actual
+            if (fechaValida(anno,mes,dia) && fechaIndicada<=fechaActual){
+                //si la fecha es valida e inferior a la actual devuelve un true
+                return true;}}}
+    //si el programa no ha terminado, es decir, no se han cumplido todos los terminos de validacion salta una alarma de alerta
+    window.alert ("La fecha de nacimiento no es valida");
+    //devuelve un false
+    return false;}
+    
+
+
+function fechaValida(anno, mes, dia){
+    //mira si los meses son correctos rango de 1-12 y si el dia es mayor o igual a 1
+    if (mes >= 1 && mes <= 12 && dia>=1){
+        //si cumple mira si el dia no se excede con lo permitido en su mes
+        switch(mes){
+		    case 1: return dia<=31;
+		    case 2: return esBisiesto(anno, dia);
+		    case 3: return dia<=31;
+		    case 4: return dia<=30;
+		    case 5: return dia<=31;
+		    case 6: return dia<=30; 
+	    	case 7: return dia<=31;
+	    	case 8: return dia<=31;
+		    case 9: return dia<=30;
+		    case 10: return dia<=31;
+		    case 11: return dia<=30;
+		    case 12: return dia<=31 }}
+	else{
+	    //si no se cumple devuelve false
+	    return false}}
+
+
+
+function esBisiesto(anno, dia){
+    //mira si ele año es bisiesto
+    if ((anno % 4==0 && anno % 100!=0) || anno % 400==0){
+        //devuelve el resulatado de la expresion dia<=29, es decir si dia es > devuelve false y al contrario
+        return dia<=29;}
+    else{
+        //devuelve el resulatado de la expresion dia<=28, es decir si dia es > devuelve false y al contrario
+        return dia<=28;}}
+        
+        
+        
+        
+//------------------------------------------------------------------------------------------------------------------------//
+
+
+//Comprobacion del correo electronico        
+function comprobarCorreo(){
+    //establece el patron requerido para el correo electronico 
+    correoBase = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    //guarda en una variable el valor introducido en el recuadro de correo 
+    var correo= document.formulario.correo.value;
+    //mira si el valor introdicido sigue el patron del correo electronico( es decir xxxxx@xx.xx)
+    if (correoBase.test(correo)){
+        //si sigue el patron, devuelve true
+        return true;}
+       
+    else{
+        //si no cumple el patron avisa del fallo de formato en el correo
+        window.alert ("El correo electronico no es correcto");
+        //devuelve false
+        return false;}      
+        
+}
+

@@ -17,10 +17,14 @@
   		Teléfono:<br>
   		<input type="text" name="telefono" placeholder=""> <br>
 		Fecha de Nacimiento:<br>
-		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"><br>
+		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"/><br>
 		Email:<br>
 		<input type="text" name="correo" placeholder="example@xxx.yyy" > <br>
-		
+		Nombre Del usuario<br>
+		<input type="text" name="nombreUsuario"><br>
+		Contraseña:<br>
+		<input type="text" name="contraseña"> <br>
+
 		<br>
 		<input type="button" value="Enviar" onclick="comprobardatos()">
 	</form>
