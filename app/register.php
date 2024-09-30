@@ -15,7 +15,7 @@
 		<input type="text" name="numeroDNI" placeholder="1234567"> <input type="text" name="letraDNI" placeholder="A"> <br>
   	
   		Teléfono:<br>
-  		<input type="text" name="telefono" placeholder=""> <br>
+  		<input type="text" name="telefono" placeholder="123456789"> <br>
 		Fecha de Nacimiento:<br>
 		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"/><br>
 		Email:<br>
