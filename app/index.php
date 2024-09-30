@@ -8,7 +8,7 @@
 
 <body>
 
-<h1>Página principal</h1>
+<h1>PÁGINA PRINCIPAL</h1>
 
 <div class="button-container">
     <a href="login.php" class="button">Sign in</a>
@@ -27,41 +27,10 @@
     die("Database connection failed: " . $conn->connect_error);
   }
 
-
-
-$query = mysqli_query($conn, "SELECT * FROM usuarios")
-   or die (mysqli_error($conn));
 ?>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-while ($row = mysqli_fetch_array($query)) {
-  echo
-   "<tr>
-    <td>{$row['id']}</td>
-    <td>{$row['nombre']}</td>
-    <td>{$row['apellido']}</td>
-
-
-   </tr>";
-
-}
-?>
-</tbody>
-</table>
-
-<a class="button" href="anadir_libro.php">Añadir libro</a>
 
 <?php
-$query = mysqli_query($conn, "SELECT titulo, autor FROM libro")
+$query = mysqli_query($conn, "SELECT titulo, autor  FROM libro")
    or die (mysqli_error($conn));
 ?>
 
@@ -69,8 +38,9 @@ $query = mysqli_query($conn, "SELECT titulo, autor FROM libro")
     <thead>
         <tr>
             <th>Imagen</th>
-            <th>Titulo</th>
+            <th>Título</th>
             <th>Autor</th>
+            <th>Editar / Borrar</th>
         </tr>
     </thead>
     <tbody>
@@ -87,18 +57,22 @@ while ($row = mysqli_fetch_array($query)) {
     <td>{$row['autor']}</td>
     <td>
         <div class=button-container>
-            <a class=button href=edit_libro.php></a>
-            <a class=button></a>
+            <a class=button href=edit_libro.php>
+            <img src='image/editar.png' style='height:20px;'></a>
+            <a class=button>
+            <img src='image/borrar.png' style='height:20px;'></a>
         </div>
     </td>
    </tr>";
 
 }
 ?>
+
 </tbody>
 </table>
-
-
+<div class="button-container">
+    <a class="button" href="anadir_libro.php">Añadir libro</a>
+</div>
 
 
 </body>

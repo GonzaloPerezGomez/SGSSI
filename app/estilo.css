@@ -1,26 +1,33 @@
 /* Colores base */
 :root {
-    --color-fondo: #ffffff; /* Fondo rosa pastel */
-    --color-texto: #ffffff; /* Texto en color blanco */
+    --color-fondo: #ffffff; /* Fondo */
+    --color-texto: #ffffff; /* Texto */
+    --color-textotabla: #000000; /* Texto */
     --color-enlace: #ff007c; /* Color de los enlaces */
-    --color-boton: #ff80be; /* Color de los botones */
-    --color-boton-hover: #ff007c; /* Hover del botón = poner el ratón encima*/
-    --color-tablaborde: #ff80be;
-    --color-tablafondo: #ffb6da;
+    --color-boton: #ffaa65; /* Color de los botones */
+    --color-boton-hover: #ff8724; /* Hover del botón = poner el ratón encima*/
+    --color-tablaborde: #ff8724;
+    --color-tablafondo: #ffcba1;
+    --color-tablafondoencabezado: #ffaa65;
 }
 
 /* Estilos generales */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Baskerville', serif;
     /*background-color: var(--color-fondo);*/
     background-image: url("image/background.jpg");
     color: var(--color-texto);
     margin: 0;
     padding: 20px;
+    font-weight: bold;
 }
 
 /* Encabezados */
-h1, h2, h3 {
+h1 {
+    color: var(--color-boton-hover);
+    text-align: center;
+}
+h2, h3 {
     color: var(--color-texto);
     text-align: center;
 }
@@ -38,7 +45,7 @@ a:hover {
 /* Botones */
 .button {
     background-color: var(--color-boton);
-    color: white;
+    color: var(--color-textotabla);
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -63,9 +70,11 @@ a:hover {
 
 /* Estilos para la tabla */
 table {
+    background-color: var(--color-tablafondo);
     border-collapse: collapse; /* Colapsar bordes */
-    width: 600px%; /* Ancho de la tabla */
+    width: 600px; /* Ancho de la tabla */
     margin: 20px auto; /* Centrar la tabla */
+    color: var(--color-textotabla)
 }
 
 th, td {
@@ -75,7 +84,7 @@ th, td {
 }
 
 th {
-    background-color: var(--color-tablafondo); /* Fondo rosa claro para encabezados */
+    background-color: var(--color-tablafondoencabezado); /* Fondo para encabezados */
 }
 
 

@@ -8,7 +8,7 @@
 	<body>
 	<form name="datos_libro">
     <p align="center">Introduzca la información pedida a continuación:</p>
-		Titulo:<br>
+		Título:<br>
 		<input type="text" name="titulo"> 
         Autor: <br>
 		<input type="text" name="autor"> <br>
@@ -16,8 +16,10 @@
   		<input type="text" name="f_publicacion" placeholder="AAAA-MM-DD"> <br>
 		ISBN:<br>
 		<input type="text" name="ISBN"><br>
-		Nº de Paginas:<br>
+		Nº de Páginas:<br>
 		<input type="text" name="n_paginas"> <br>
+		Imagen (.png):<br>
+		<input type="file" name="imagen" accept=".png"> <br>
 	</form>
 	
 	<div class="button-container">
