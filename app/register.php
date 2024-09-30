@@ -7,12 +7,13 @@
 	
 	
 	<body>
-	<form name="formulario">
+	<?php include 'register-database.php'; ?>	
+	<form name="formulario" action="register-database.php" method="post">
 		<p align="center">Introduzca la información pedida a continuación:</p>
 		Nombre completo:<br>
 		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
 		DNI: <br>
-		<input type="text" name="numeroDNI" placeholder="1234567"> <input type="text" name="letraDNI" placeholder="A"> <br>
+		<input type="text" name="numeroDNI" placeholder="1234567"> <input type="text" name="letraDNI" placeholder="Letra DNI"> <br>
   	
   		Teléfono:<br>
   		<input type="text" name="telefono" placeholder=""> <br>
@@ -23,10 +24,10 @@
 		Nombre Del usuario<br>
 		<input type="text" name="nombreUsuario"><br>
 		Contraseña:<br>
-		<input type="text" name="contraseña"> <br>
+		<input type="text" name="contrasena"> <br>
 
 		<br>
-		<input type="button" value="Enviar" onclick="comprobardatos()">
+		<input type="submit" name="submit" class ="button" value="Enviar" onclick="comprobardatos()">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>
