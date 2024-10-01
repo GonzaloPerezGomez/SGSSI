@@ -16,17 +16,14 @@ if ($conn->connect_error) {
 // Check if the form has been submitted
 if (isset($_POST['submit'])) {
     // Get the name and password from the form
-    $nombre = $_POST['nombre'];
-    $apellido= $_POST['apellido'];
-    $DNI = $_POST['numeroDNI'];
-    $telefono=$_POST['telefono'];
-    $nacimiento=$_POST['fechaNacimiento'];
-    $email=$_POST['correo'];
-    $usuario=$_POST['nombreUsuario'];
-    $contraseña=$_POST['contrasena'];
-    $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,telefono,nacimiento,email,usuario,contrasena)
-    VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
-    echo $sql;
+    $titulo = $_POST['titulo'];
+    $autor= $_POST['autor'];
+    $f_publicacion = $_POST['f_publicacion'];
+    $ISBN=$_POST['ISBN'];
+    $n_paginas=$_POST['n_paginas'];
+    $sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
+    VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
+    
     if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
     } else {
@@ -40,5 +37,3 @@ if (isset($_POST['submit'])) {
 // Close the database connection
 $conn->close();
 ?>
-
-
