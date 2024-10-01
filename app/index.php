@@ -30,7 +30,7 @@
 ?>
 
 <?php
-$query = mysqli_query($conn, "SELECT titulo, autor  FROM libro")
+$query = mysqli_query($conn, "SELECT titulo, autor, ISBN  FROM libro")
    or die (mysqli_error($conn));
 ?>
 
@@ -48,7 +48,7 @@ $query = mysqli_query($conn, "SELECT titulo, autor  FROM libro")
 while ($row = mysqli_fetch_array($query)) {
   $nombre = "image/" . strtolower($row['titulo'] . ".jpeg");
   $nombre = str_replace(" ", "-", $nombre);
-  echo
+  echo 
    "
    <tr>
     <td><img src=$nombre
@@ -57,7 +57,7 @@ while ($row = mysqli_fetch_array($query)) {
     <td>{$row['autor']}</td>
     <td>
         <div class=button-container>
-            <a class=button href=edit_libro.php>
+            <a class=button href=edit_libro.php?ISBN=" . $row['ISBN'] . ">
             <img src='image/editar.png' style='height:20px;'></a>
             <a class=button>
             <img src='image/borrar.png' style='height:20px;'></a>

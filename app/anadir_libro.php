@@ -6,7 +6,8 @@
 	
 	
 	<body>
-	<form name="datos_libro">
+	<?php include 'add_item_database.php'; ?>
+	<form name="item_add_form" action="add_item_database.php" method="post">
     <p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo"> 
@@ -18,12 +19,15 @@
 		<input type="text" name="ISBN"><br>
 		Nº de Páginas:<br>
 		<input type="text" name="n_paginas"> <br>
-		Imagen (.png):<br>
-		<input type="file" name="imagen" accept=".png"> <br>
+		Imagen (.jpeg):<br>
+		<input type="file" name="imagen" accept=".jpeg"> <br>
+	
+		<br>
+		<input type="submit" name="submit" class ="button" value="Añadir">
 	</form>
 	
 	<div class="button-container">
-		<a class="button" onclick="">Añadir</a>
+		
 		<a class="button" href="index.php">Cancelar</a>
 	</div>	
 	
