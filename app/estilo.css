@@ -92,20 +92,23 @@ th {
 input[type="text"],
 input[type="email"],
 textarea {
+    color: var(--color-textotabla);
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
 }
 
 input[type="submit"] {
     background-color: var(--color-boton);
-    color: white;
+    color: var(--color-textotabla);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 input[type="submit"]:hover {

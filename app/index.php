@@ -14,7 +14,7 @@
     <a href="login.php" class="button">Sign in</a>
     <a href="register.php" class="button">Register</a>
     <a class="button" href="anadir_libro.php">Añadir libro</a>
-    <a class="button" href="items.php">Catalogo</a>
+    <a class="button" href="items.php">Catálogo</a>
 </div>
 
 </body>

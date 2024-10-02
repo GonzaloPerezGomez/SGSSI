@@ -49,8 +49,11 @@ while ($row = mysqli_fetch_array($query)) {
   echo 
    "
    <tr>
-    <td><img src=$nombre
-    style=width:60px ; height:auto ;></td>
+    <td>
+        <a href=show_item.php?ISBN=" . $row['ISBN'] . ">
+        <img src='$nombre' style=width:60px ; height:auto ;>
+        </a>
+    </td>
     <td>{$row['titulo']}</td>
     <td>{$row['autor']}</td>
     <td>
