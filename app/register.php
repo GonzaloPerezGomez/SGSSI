@@ -11,12 +11,12 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
+	
 }
 
-
 // Check if the form has been submitted
-if (isset($_POST['submit'])) {
-    // Get the name and password from the form
+if (isset($_POST['register_submit'])) {
+	// Get the name and password from the form
     $nombre = $_POST['nombre'];
     $apellido= $_POST['apellido'];
     $DNI = $_POST['numeroDNI'];
@@ -27,24 +27,23 @@ if (isset($_POST['submit'])) {
     $contraseña=$_POST['contrasena'];
     $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,telefono,nacimiento,email,usuario,contrasena)
     VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
-    echo $sql;
     if ($conn->query($sql) === TRUE) {
 		echo "<script>
-				window.alert('Infromacion actualizada correctamente.');
+				window.alert('Se ha registrado correctamente :)');
 				window.location.href = 'items.php';
 			</script>";
-$conn->close();
-exit();
+		$conn->close();
+		exit();
     } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
     // Prepare and execute the SQL statement to insert the data
-   
+   // Close the database connection
+	$conn->close();
 }
 
-// Close the database connection
-$conn->close();
+
 ?>
 
 <html>
