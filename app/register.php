@@ -30,7 +30,7 @@ if (isset($_POST['register_submit'])) {
     if ($conn->query($sql) === TRUE) {
 		echo "<script>
 				window.alert('Se ha registrado correctamente :)');
-				window.location.href = 'items.php';
+				window.location.href = 'login.php';
 			</script>";
 		$conn->close();
 		exit();
