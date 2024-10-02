@@ -1,14 +1,62 @@
+<?php
+// Connect to the database
+$servername = "db";
+$username = "admin";
+$password = "test";
+$dbname = "database";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    echo "aaaaaaa";
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+// Check if the form has been submitted
+if (isset($_POST['submit'])) {
+    // Get the name and password from the form
+    $nombre = $_POST['nombre'];
+    $apellido= $_POST['apellido'];
+    $DNI = $_POST['numeroDNI'];
+    $telefono=$_POST['telefono'];
+    $nacimiento=$_POST['fechaNacimiento'];
+    $email=$_POST['correo'];
+    $usuario=$_POST['nombreUsuario'];
+    $contraseña=$_POST['contrasena'];
+    $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,telefono,nacimiento,email,usuario,contrasena)
+    VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
+    echo $sql;
+    if ($conn->query($sql) === TRUE) {
+		echo "<script>
+				window.alert('Infromacion actualizada correctamente.');
+				window.location.href = 'items.php';
+			</script>";
+$conn->close();
+exit();
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Prepare and execute the SQL statement to insert the data
+   
+}
+
+// Close the database connection
+$conn->close();
+?>
+
 <html>
 <head>
-<title> registro </title>
+<title> Registrarse </title>
 <script src="comprobacionDeDatos.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<?php include 'register-database.php'; ?>	
-	<form name="formulario" action="register-database.php" method="post">
+	<form name="register_form" method="post">
 		<p align="center">Introduzca la información pedida a continuación:</p>
 		Nombre completo:<br>
 		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
@@ -27,7 +75,7 @@
 		<input type="text" name="contrasena"> <br>
 
 		<br>
-		<input type="submit" name="submit" class ="button" value="Enviar" onclick="comprobardatos()">
+		<input type="submit" name="register_submit" class ="button" value="Enviar" onclick="comprobardatos()">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>
