@@ -13,67 +13,9 @@
 <div class="button-container">
     <a href="login.php" class="button">Sign in</a>
     <a href="register.php" class="button">Register</a>
-</div>
-
-<?php
-  // phpinfo();
-  $hostname = "db";
-  $username = "admin";
-  $password = "test";
-  $db = "database";
-
-  $conn = mysqli_connect($hostname,$username,$password,$db);
-  if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-  }
-
-?>
-
-<?php
-$query = mysqli_query($conn, "SELECT titulo, autor, ISBN  FROM libro")
-   or die (mysqli_error($conn));
-?>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>Imagen</th>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Editar / Borrar</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-while ($row = mysqli_fetch_array($query)) {
-  $nombre = "image/" . strtolower($row['titulo'] . ".jpeg");
-  $nombre = str_replace(" ", "-", $nombre);
-  echo 
-   "
-   <tr>
-    <td><img src=$nombre
-    style=width:60px ; height:auto ;></td>
-    <td>{$row['titulo']}</td>
-    <td>{$row['autor']}</td>
-    <td>
-        <div class=button-container>
-            <a class=button href=edit_libro.php?ISBN=" . $row['ISBN'] . ">
-            <img src='image/editar.png' style='height:20px;'></a>
-            <a class=button>
-            <img src='image/borrar.png' style='height:20px;'></a>
-        </div>
-    </td>
-   </tr>";
-
-}
-?>
-
-</tbody>
-</table>
-<div class="button-container">
     <a class="button" href="anadir_libro.php">Añadir libro</a>
+    <a class="button" href="items.php">Catalogo</a>
 </div>
-
 
 </body>
 </html>

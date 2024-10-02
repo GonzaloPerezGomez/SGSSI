@@ -25,8 +25,9 @@ if (isset($_POST['submit'])) {
     if ($conn->query($sql) === TRUE) {
         echo "<script>
 				window.alert('Infromacion actualizada correctamente.');
-				window.location.href = 'index.php';
+				window.location.href = 'items.php';
 			</script>";
+		$conn->close();
 		exit();
 	} else {
         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -56,8 +57,6 @@ else{
 }
 
 $stmt->close();
-$conn->close();
-
 ?>
 
 
@@ -88,12 +87,12 @@ $conn->close();
 		"
 		?>
 		<br>
-		<input type="submit" name="submit" class ="button" value="Guardar">
+		<input type="submit" name="item_modify_submit" class ="button" value="Guardar">
 		
 	</form>
 	
 	<div class="button-container">
-		<a class="button" href="index.php">Cancelar</a>
+		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	
 	<footer>
