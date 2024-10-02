@@ -87,7 +87,7 @@ $stmt->close();
 		"
 		?>
 		<br>
-		<input type="submit" name="item_modify_submit" class ="button" value="Guardar">
+		<input type="submit" name="item_modify_submit" class ="button" value="Guardar" >
 		
 	</form>
 	

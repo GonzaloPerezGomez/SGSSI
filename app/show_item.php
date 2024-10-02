@@ -1,0 +1,74 @@
+<?php
+// Connect to the database
+$servername = "db";
+$username = "admin";
+$password = "test";
+$dbname = "database";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = ? ";
+
+if($stmt = $conn->prepare($query)){     //prepara la consulta
+	$ISBN = $_GET['ISBN'];              //se obtiene el ISBN
+	$stmt->bind_param("s", $ISBN);      //s=string
+	$stmt->execute();                   //se ejecuta la consulta
+	$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
+	if($result->num_rows > 0){          //comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
+		$libro = $result->fetch_assoc();//obtenemos el libro
+	}
+	else{
+		echo "No se ha encontrado ningun libro";
+	}
+}
+else{
+	echo "Conecxion fallida";
+}
+
+$stmt->close();
+?>
+
+
+
+<html>
+<head>
+<title> Información de libro </title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+	
+	
+	<body>
+	<form name="show_item_form" method="POST">
+		<p align="center"> Introduzca la información pedida a continuación:</p>
+		<?php
+        //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
+		echo
+		"
+		Título:<br>
+		<input type= text name= titulo value= " . $libro['titulo'] . " readonly>
+        Autor: <br>
+		<input type= text  name= autor value=  " . $libro['autor'] . " readonly> <br>
+  		Fecha de Publicación:<br>
+  		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . " readonly> <br>
+		ISBN:<br>
+		<input type= text  name= ISBN value= " . $ISBN . " ><br>
+		Nº de Páginas:<br>
+		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . " readonly> <br>
+		"
+		?>
+		
+	</form>
+	
+	<div class="button-container">
+		<a class="button" href="items.php">Volver</a>
+	</div>	
+	
+	<footer>
+        	<p align="center">&copy; 2023 Mi sitio web</p>
+	</footer>
+<html>

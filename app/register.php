@@ -74,7 +74,7 @@ if (isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena"> <br>
 
 		<br>
-		<input type="submit" name="register_submit" class ="button" value="Enviar" onclick="comprobardatos()">
+		<input type="submit" name="register_submit" class ="button" value="Enviar" style="color:black;font-weight:bold;" onclick="comprobardatos()">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>
