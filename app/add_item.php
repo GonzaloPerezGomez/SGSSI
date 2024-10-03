@@ -48,12 +48,13 @@ $conn->close();
 <html>
 <head>
 <title> Añadir libro </title>
+<script src="comprobacionDatosLibro.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<form name="item_add_form" method="post">
+	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()">
     <p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo"> 
