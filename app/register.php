@@ -20,13 +20,14 @@ if (isset($_POST['register_submit'])) {
     $nombre = $_POST['nombre'];
     $apellido= $_POST['apellido'];
     $DNI = $_POST['numeroDNI'];
+    $letraDNI = $_POST['letraDNI'];
     $telefono=$_POST['telefono'];
     $nacimiento=$_POST['fechaNacimiento'];
     $email=$_POST['correo'];
     $usuario=$_POST['nombreUsuario'];
     $contraseña=$_POST['contrasena'];
-    $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,telefono,nacimiento,email,usuario,contrasena)
-    VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
+    $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena)
+    VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
     if ($conn->query($sql) === TRUE) {
 		echo "<script>
 				window.alert('Se ha registrado correctamente :)');
@@ -55,7 +56,7 @@ if (isset($_POST['register_submit'])) {
 	
 	
 	<body>
-	<form name="register_form" method="post">
+	<form name="register_form" method="post" >
 		<p align="center">Introduzca la información pedida a continuación:</p>
 		Nombre completo:<br>
 		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
@@ -74,7 +75,7 @@ if (isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena"> <br>
 
 		<br>
-		<input type="submit" name="register_submit" class ="button" value="Enviar" style="color:black;font-weight:bold;" onclick="comprobardatos()">
+		<input type="submit" name="register_submit" class ="button" value="Enviar" style="color:black;font-weight:bold;" onclick="comprobardatosRegistro()">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>
