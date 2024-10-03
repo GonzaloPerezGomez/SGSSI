@@ -215,8 +215,50 @@ function comprobarCorreo(form){
 
 //------------------------------------------------------------------------------------------------------------------------//
 
+
+//Comprobacion de que no haya otra persona con el mismo usuario
 function comprobarUsuario(form){
 	//hay q comprobar q no haya un usuario en la bd con el mismo nombre de usuario
+	  <?php
+
+// Connect to the database
+$servername = "db";
+$username = "admin";
+$password = "test";
+$dbname = "database";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+	
+}
+
+// Check if the form has been submitted
+if (isset($_POST['login_submit'])) {
+	// Get the name and password from the form
+    $usuario = $_POST['nombreUsuario'];
+    $contraseña=$_POST['contraseña'];
+    $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
+
+$result = $conn->query($sql);
+
+// Check if any attributes were found
+    if ($result->num_rows > 0) {
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
+    else {
+      echo "<script>alert('Usuario o contraseña incorrectos');</script>";
+    }
+}
+
+
+    
+	$conn->close();
+
+
+    ?>
 }
 
 //------------------------------------------------------------------------------------------------------------------------//

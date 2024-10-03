@@ -31,9 +31,9 @@ CREATE TABLE `libro` (
   `idLibro` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `titulo` varchar(20) NOT NULL,
   `autor` varchar(20) NOT NULL,
-  `f_publicacion` date NOT NULL,
+  `f_publicacion` varchar(10) NOT NULL,
   `ISBN` char(13) NOT NULL,
-  `n_paginas` int(11) NOT NULL
+  `n_paginas` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
