@@ -1,7 +1,7 @@
 function comprobardatosRegistro(){
     //comprobamos si todos los campos son validos
     aux=document.register_form;
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
 	return result;
 }
 
@@ -9,7 +9,7 @@ function comprobardatosRegistro(){
 
 function comprobardatosModificar(){
     aux=document.______________________;
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
 }
 
 
@@ -212,4 +212,21 @@ function comprobarCorreo(form){
         return false;}      
         
 }
+
+//------------------------------------------------------------------------------------------------------------------------//
+
+function comprobarUsuario(form){
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------//
+
+function comprobarContrasena(form){
+	var contrasena = form.contrasena.value;
+	if (contrasena.length>0) {return true;}
+	else {window.alert ("Introduzca una contraseña");return false;}
+}
+
+//------------------------------------------------------------------------------------------------------------------------//
+
 
