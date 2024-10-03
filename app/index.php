@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> index </title>
+<title> Pagina principal </title>
 <script src="comprobacionDeDatos.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
