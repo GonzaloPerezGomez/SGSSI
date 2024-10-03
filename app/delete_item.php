@@ -42,11 +42,12 @@ if (isset($_POST['item_delete_submit'])) {
 </head>
 
 <body>
-    <div><h1>¿ESTAS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
+    <div><h1>¿ESTÁS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
 
     <form method="post">
+        <input type="submit" name="item_delete_submit" value='Confirmar' style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+        <br>
         <a type="button" class="button" href="items.php">Cancelar</a>
-        <button type="submit" name="item_delete_submit">Confirmar</button>
     </form>
     
 </body>
