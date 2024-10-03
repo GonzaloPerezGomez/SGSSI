@@ -40,14 +40,15 @@ if (isset($_POST['login_submit'])) {
 	// Get the name and password from the form
     $usuario = $_POST['nombreUsuario'];
     $contraseña=$_POST['contraseña'];
-    $sql = "SELECT id from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
+    $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
 
 $result = $conn->query($sql);
 
 // Check if any attributes were found
-if ($result->num_rows > 0) {
-    echo "<script>window.location.href = 'items.php';</script>";
-    } else {
+    if ($result->num_rows > 0) {
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
+    else {
       echo "<script>alert('Usuario o contraseña incorrectos');</script>";
     }
 }
