@@ -1,24 +1,29 @@
-function comprobardatos(){
+function comprobardatosRegistro(){
     //comprobamos si todos los campos son validos
-	if(comprobarNombreApellido() && comprobarDNI() && comprobarTelefono() && comprobarFecha() &&  comprobarCorreo()){
-	
-	}
+    aux=document.register_form;
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
 }
 
+
+
+function comprobardatosModificar(){
+    aux=document.______________________;
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+}
 
 
 //------------------------------------------------------------------------------------------------------------------------//
 
 
 //Comprobacion del nombre y apellido
-function comprobarNombreApellido(){
+function comprobarNombreApellido(form){
     //obtiene el valor del campo nombre
-	var nombre= document.register_form.nombre.value;
+	var nombre= form.nombre.value;
 	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
 	if(/^[a-zA-Z\s]+$/.test(nombre) && nombre.length!=0){
 	    //si se cumple la condicion comprueba el apellido
 	    //obtiene el valor de campo apellido
-		var apellido= document.register_form.apellido.value;
+		var apellido= form.apellido.value;
 		//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
 		if (/^[a-zA-Z\s]+$/.test(apellido) && apellido.length!=0){
 		    //si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
@@ -39,9 +44,9 @@ function comprobarNombreApellido(){
 
 
 //Comprobacion del DNI introducido
-function comprobarDNI() {
+function comprobarDNI(form) {
 	//Guardamos el valor de DNI introducido por el usuario en una variable
-	var DNI= document.register_form.numeroDNI.value;
+	var DNI= form.numeroDNI.value;
 	//miramos si su longitud es correcta 
 	if (DNI.length==8 && /^[0-9]+$/.test(DNI)){
 		//Obtiene el resto de dividir el numero del DNI con 23
@@ -49,7 +54,7 @@ function comprobarDNI() {
 		//llama a la funcion obtenerLetra que nos devuelve la letra correspondiente al numero del DNI
 		letraEsperada= obtenerLetra(aux);
 		//Guarda el valor de la letra del DNI en otra variable
-		letraIntroducida=document.register_form.letraDNI.value;
+		letraIntroducida=form.letraDNI.value;
 		//mira que las dos letras obtenidas son la iguales(para mira tanto mayuscula como minuscula la letra del usuario la pasamos a minuscula)
 		if (letraIntroducida.toLowerCase()==letraEsperada ){
 			//si son iguales devuelve un true
@@ -101,9 +106,9 @@ function obtenerLetra(num){
 
 
 //Comprobacion del nombre y apellido
-function comprobarTelefono(){
+function comprobarTelefono(form){
     //obtiene el valor del numero de telefono
-	var tel= document.register_form.telefono.value;
+	var tel= form.telefono.value;
 	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
 	if (tel.length==9 && /^[0-9]+$/.test(tel)){
 	    //si cumple las condiciones devuelve true
@@ -120,9 +125,9 @@ function comprobarTelefono(){
 
 
 //Comprobacion de la fecha de nacimiento
-function comprobarFecha(){
+function comprobarFecha(form){
     //obtiene el valor introducido en el registro fechaNacimiento
-    fechaCompleta= document.register_form.fechaNacimiento.value;
+    fechaCompleta= form.fechaNacimiento.value;
     //mira si la longitud del string es de 10= 4(anno)+1(-)+2(mes)+1(-)+2(dia)
     if (fechaCompleta.length=10){
         // si la longitud es correcta dividimos la fecha en base al separador -
@@ -189,11 +194,11 @@ function esBisiesto(anno, dia){
 
 
 //Comprobacion del correo electronico        
-function comprobarCorreo(){
+function comprobarCorreo(form){
     //establece el patron requerido para el correo electronico 
     correoBase = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     //guarda en una variable el valor introducido en el recuadro de correo 
-    var correo= document.register_form.correo.value;
+    var correo= form.correo.value;
     //mira si el valor introdicido sigue el patron del correo electronico( es decir xxxxx@xx.xx)
     if (correoBase.test(correo)){
         //si sigue el patron, devuelve true
