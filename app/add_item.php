@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['item_add_submit'])) {
     // Get the name and password from the form
     $titulo = $_POST['titulo'];
     $autor= $_POST['autor'];
