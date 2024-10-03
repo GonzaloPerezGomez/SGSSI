@@ -11,8 +11,8 @@
 <h1>PÁGINA PRINCIPAL</h1>
 
 <div class="button-container">
-    <a href="login.php" class="button">Sign in</a>
-    <a href="register.php" class="button">Register</a>
+    <a href="login.php" class="button">Iniciar Sesión</a>
+    <a href="register.php" class="button">Registrarse</a>
     <a class="button" href="items.php">Catálogo</a>
 </div>
 
