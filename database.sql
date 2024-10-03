@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `libro` (
+  `idLibro` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `titulo` varchar(20) NOT NULL,
   `autor` varchar(20) NOT NULL,
   `f_publicacion` date NOT NULL,
@@ -49,10 +50,11 @@ INSERT INTO `libro` (`titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VA
 --
 
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `idUsuario` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nombre` text NOT NULL,
   `apellido` text NOT NULL,
   `numeroDNI` text NOT NULL,
+  `letraDNI` text NOT NULL,
   `telefono` text,
   `nacimiento` text,
   `email` text NOT NULL,
@@ -64,9 +66,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nombre`, `contraseña`) VALUES
-(1, 'mikel', ''),
-(2, 'aitor', '');
+INSERT INTO `usuarios` (`nombre`, `apellido`, `numeroDNI`, `letraDNI`, `telefono`, `nacimiento`, `email`, `usuario`, `contrasena`) VALUES ('admin', 'admin', '12345678', 'z', '123456789', '1800-01-01', 'admin@gmail.com', 'admin', '1234');
+
 
 --
 -- Índices para tablas volcadas
@@ -76,13 +77,13 @@ INSERT INTO `usuarios` (`id`, `nombre`, `contraseña`) VALUES
 -- Indices de la tabla `libro`
 --
 ALTER TABLE `libro`
-  ADD PRIMARY KEY (`ISBN`);
+  ADD PRIMARY KEY (`idLibro`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`idUsuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
