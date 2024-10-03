@@ -1,7 +1,8 @@
 function comprobardatosRegistro(){
     //comprobamos si todos los campos son validos
     aux=document.register_form;
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+	return result;
 }
 
 

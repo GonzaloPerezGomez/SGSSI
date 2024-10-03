@@ -56,7 +56,7 @@ if (isset($_POST['register_submit'])) {
 	
 	
 	<body>
-	<form name="register_form" method="post" >
+	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
 		Nombre completo:<br>
 		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
@@ -75,7 +75,7 @@ if (isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena"> <br>
 
 		<br>
-		<input type="submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;" onclick="comprobardatosRegistro()">
+		<input type="submit" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>
