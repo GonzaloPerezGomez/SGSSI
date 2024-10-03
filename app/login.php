@@ -15,7 +15,7 @@
         <section>
             <h2>Bienvenido</h2>  
 
-            <p align="center">Este es el contenido principal de mi página.</p>
+            <!---<p align="center">Este es el contenido principal de mi página.</p>--->
         </section>
     </main>
 
@@ -67,7 +67,7 @@ if ($result->num_rows > 0) {
   	<br>
   
 	<br>
-	<input type="submit" name="login_submit" value="Acceder">
+	<input type="submit" name="login_submit" value="Acceder" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
     
 </form>
 
