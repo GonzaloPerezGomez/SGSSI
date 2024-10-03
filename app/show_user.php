@@ -19,7 +19,7 @@ $query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,us
 
 if($stmt = $conn->prepare($query)){     //prepara la consulta
 	$userId = $_GET['user'];              //se obtiene el user
-	$stmt->bind_param("i", $userId);      //s=string
+	//$stmt->bind_param("i", $userId);      //s=string
 	$stmt->execute();                   //se ejecuta la consulta
 	$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
 	if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
