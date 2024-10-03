@@ -70,9 +70,9 @@ if (isset($_POST['register_submit'])) {
 		Email:<br>
 		<input type="text" name="correo" placeholder="example@xxx.yyy" > <br>
 		Nombre de usuario<br>
-		<input type="text" name="nombreUsuario"><br>
+		<input type="text" name="nombreUsuario" required><br>
 		Contraseña:<br>
-		<input type="text" name="contrasena"> <br>
+		<input type="text" name="contrasena" required> <br>
 
 		<br>
 		<input type="submit" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
