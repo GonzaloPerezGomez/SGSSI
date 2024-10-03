@@ -13,24 +13,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check connection
-if ($conn->connect_error) {
-    echo "aaaaaaa";
-    die("Connection failed: " . $conn->connect_error);
-}
+$ISBN = $_GET['ISBN'];
 
-if (isset($_POST['submit'])) {
-    // Get the name and password from the form
-    $titulo = $_POST['titulo'];
-    $autor= $_POST['autor'];
-    $f_publicacion = $_POST['f_publicacion'];
-    $ISBN=$_POST['ISBN'];
-    $n_paginas=$_POST['n_paginas'];
-    $sql = "UPDATE libro SET titulo='$titulo', autor='$autor' , f_publicacion='$f_publicacion' ,
-    ISBN='$ISBN' , n_paginas='$n_paginas' WHERE ISBN = '$ISBN'";
+if (isset($_POST['item_delete_submit'])) {
+    $sql = "DELETE FROM libro WHERE ISBN=" . $ISBN ;
     if ($conn->query($sql) === TRUE) {
         echo "<script>
-				window.alert('Infromacion actualizada correctamente.');
+				window.alert('Libro eliminado correctamente.');
 				window.location.href = 'items.php';
 			</script>";
 		$conn->close();
@@ -40,10 +29,10 @@ if (isset($_POST['submit'])) {
       }
   
       // Prepare and execute the SQL statement to insert the data
-     
+    $conn->close();
 }
 
-
+?>
 
 <html>
 <head>
@@ -55,10 +44,10 @@ if (isset($_POST['submit'])) {
 <body>
     <div><h1>¿ESTAS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
 
-    <div>
+    <form method="post">
         <a type="button" class="button" href="items.php">Cancelar</a>
-        <input type="submit" name="item_add_submit" class ="button" value="Confirmar">
-    </div>
+        <button type="submit" name="item_delete_submit">Confirmar</button>
+    </form>
     
 </body>
 </html>

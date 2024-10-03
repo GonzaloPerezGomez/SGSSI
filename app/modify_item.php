@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['item_modify_submit'])) {
     // Get the name and password from the form
     $titulo = $_POST['titulo'];
     $autor= $_POST['autor'];
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
       }
   
       // Prepare and execute the SQL statement to insert the data
-     
+    $conn->close();
 }
 
 
@@ -53,10 +53,9 @@ if($stmt = $conn->prepare($query)){
 	}
 }
 else{
-	echo "Conecxion fallida";
+	echo "Conexion fallida";
 }
 
-$stmt->close();
 ?>
 
 
@@ -72,12 +71,12 @@ $stmt->close();
 	<form name="item_modify_form" method="POST">
 		<p align="center"> Introduzca la información pedida a continuación:</p>
 		<?php
-		echo
+		echo 
 		"
 		Título:<br>
-		<input type= text name= titulo value= " . $libro['titulo'] . "> 
+		<input type= text name= titulo value= '{$libro['titulo']}'>
         Autor: <br>
-		<input type= text  name= autor value=  " . $libro['autor'] . "> <br>
+		<input type= text  name= autor value=  '{$libro['autor']}'> <br>
   		Fecha de Publicación:<br>
   		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . "> <br>
 		ISBN:<br>
