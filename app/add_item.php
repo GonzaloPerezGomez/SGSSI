@@ -77,9 +77,8 @@ $conn->close();
 		<input type="text" name="n_paginas" required> <br>
 		Imagen (.jpeg):<br>
 		<input type="file" name="imagen" accept=".jpeg" required> <br>
-	
 		<br>
-		<input type="submit" name="item_add_submit" class ="button" value="Añadir">
+		<input type="submit" name="item_add_submit" class ="button" value="Añadir" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 	
 	<div class="button-container">

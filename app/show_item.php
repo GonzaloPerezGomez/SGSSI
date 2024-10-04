@@ -30,7 +30,11 @@ else{
 	echo "Conecxion fallida";
 }
 
+$nombimagen = "image/" . strtolower($libro['titulo'] . ".jpeg");
+$nombimagen = str_replace(" ", "-", $nombimagen);
+
 $stmt->close();
+
 ?>
 
 
@@ -59,6 +63,8 @@ $stmt->close();
 		<input type= text  name= ISBN value= " . $ISBN . " ><br>
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . " readonly> <br>
+		Imagen:<br>
+		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
 		"
 		?>
 		

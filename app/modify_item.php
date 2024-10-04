@@ -56,6 +56,11 @@ else{
 	echo "Conexion fallida";
 }
 
+$nombimagen = "image/" . strtolower($libro['titulo'] . ".jpeg");
+$nombimagen = str_replace(" ", "-", $nombimagen);
+
+$stmt->close();
+
 ?>
 
 
@@ -84,6 +89,10 @@ else{
 		<input type= text  name= ISBN value= " . $libro['ISBN'] . " ><br>
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . "> <br>
+		Imagen:<br>
+		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
+		Cambiar imagen (.jpeg):<br>
+		<input type='file' name='imagen' accept='.jpeg'> <br>
 		"
 		?>
 		<br>
