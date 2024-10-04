@@ -80,7 +80,7 @@ if (isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena" required> <br>
 
 		<br>
-		<input type="submit" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" value="Registrarme" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 		
 	<a href="index.php" class="button">Volver a inicio</a>

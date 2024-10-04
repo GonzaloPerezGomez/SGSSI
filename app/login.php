@@ -1,3 +1,7 @@
+<?php  session_start();
+
+?>
+
 <html>
 <head>
 <title> login </title> 
@@ -46,6 +50,8 @@ $result = $conn->query($sql);
 
 // Check if any attributes were found
     if ($result->num_rows > 0) {
+        $returnedValues = $result->fetch_assoc();
+        $_SESSION['user_id'] = $returnedValues['idUsuario'];
         echo "<script>window.location.href = 'index.php';</script>";
     }
     else {
