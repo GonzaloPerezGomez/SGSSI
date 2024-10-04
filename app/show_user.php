@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Establish a connection to the MySQL database
 $servername = "db";
 $username = "admin";
@@ -13,8 +13,7 @@ if ($conn->connect_error) {
 
 }
 
-//$userId = $_GET['user'];
-$userId=1;
+$userId=$_SESSION['user_id'];
 
 $query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena FROM usuarios WHERE idUsuario = " . $userId;
 
@@ -49,6 +48,9 @@ $conn->close();
 	<form name="show_item_form" method="POST">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
+		
+		if (isset($_SESSION['user_id'])) {
+
 		echo
 		"
 		Nombre completo:<br>
@@ -65,16 +67,18 @@ $conn->close();
 		<input type= text  name= email value= " . $infousuario['email'] . " readonly> <br>
         Usuario:<br>
 		<input type= text  name= usuario value= " . $infousuario['usuario'] . " readonly> <br>
-        Contraseña: (IGUAL ES MEJOR NO ENSEÑAR LA CONTRASEÑA)<br>
-		<input type= text  name= contrasena value= " . $infousuario['contrasena'] . " readonly> <br>
-        
-		"
+		";
+		}
+		else {
+			echo "Not logged in";
+		}
 		?>
 		
 	</form>
 	
 	<div class="button-container">
 		<a class="button" href="index.php">Volver</a>
+		<a class="button" href="modify_user.php">Editar Usuario</a>
 	</div>	
 	
 	<footer>
