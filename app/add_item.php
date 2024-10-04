@@ -16,11 +16,16 @@ if ($conn->connect_error) {
 if (isset($_POST['item_add_submit'])) {
     // Get the name and password from the form
     $titulo = $_POST['titulo'];
+    echo 'titulo';
     $autor= $_POST['autor'];
+    echo 'autor';
     $f_publicacion = $_POST['f_publicacion'];
+    echo 'f_publicacion';
     $ISBN=$_POST['ISBN'];
+    echo 'ISBN';
     $n_paginas=$_POST['n_paginas'];
-	$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
+    echo 'n_paginas';
+    $sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
     VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
     if ($conn->query($sql) === TRUE) {
         echo "<script>
@@ -43,12 +48,13 @@ $conn->close();
 <html>
 <head>
 <title> Añadir libro </title>
+<script src="comprobacionDatosLibro.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<form name="item_add_form" method="post">
+	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()">
     <p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo"> 

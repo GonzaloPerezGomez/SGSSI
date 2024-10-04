@@ -63,12 +63,13 @@ else{
 <html>
 <head>
 <title> Editar libro </title>
+<script src="comprobacionDatosLibro.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<form name="item_modify_form" method="POST">
+	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
 		<p align="center"> Introduzca la información pedida a continuación:</p>
 		<?php
 		echo 

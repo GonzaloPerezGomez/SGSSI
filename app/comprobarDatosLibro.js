@@ -1,15 +1,15 @@
-function comprobardatosRegistro(){
+function comprobardatosAñadir(){
     //comprobamos si todos los campos son validos
-    aux=document.register_form;
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
+    aux=document.item_add_form;
+	result = (comprobarTitulo(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
 	return result;
 }
 
 
 
 function comprobardatosModificar(){
-    aux=document.______________________;
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
+    aux=document.item_modify_form;
+	return (comprobarTitulo(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
 }
 
 
@@ -17,26 +17,16 @@ function comprobardatosModificar(){
 
 
 //Comprobacion del nombre y apellido
-function comprobarNombreApellido(form){
+function comprobarTitulo(form){
     //obtiene el valor del campo nombre
-	var nombre= form.nombre.value;
+	var titulo= form.titulo.value;
 	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
-	if(/^[a-zA-Z\s]+$/.test(nombre) && nombre.length!=0){
-	    //si se cumple la condicion comprueba el apellido
-	    //obtiene el valor de campo apellido
-		var apellido= form.apellido.value;
-		//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
-		if (/^[a-zA-Z\s]+$/.test(apellido) && apellido.length!=0){
-		    //si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
-			return true;}
-		else{
-		    //si no se cumple, lo indica en una ventana de alerta
-			window.alert ("El apellido no es correcto");
-			//devuelve false
-			return false;}}
+	if(/^[a-zA-Z0-9\s]+$/.test(titulo) && titulo.length!=0){
+		//si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
+		return true;}
 	else{
-	     //si no se cumple, lo indica en una ventana de alerta
-		window.alert ("El nombre no es correcto");
+		//si no se cumple, lo indica en una ventana de alerta
+		window.alert ("El titulo no sigue el formato requerido");
 		//devolvemos false
 		return false;}}
 
@@ -45,11 +35,11 @@ function comprobarNombreApellido(form){
 
 
 //Comprobacion del DNI introducido
-function comprobarDNI(form) {
+function comprobarAutor(form) {
 	//Guardamos el valor de DNI introducido por el usuario en una variable
-	var DNI= form.numeroDNI.value;
+	var DNI= form.autor.value;
 	//miramos si su longitud es correcta 
-	if (DNI.length==8 && /^[0-9]+$/.test(DNI)){
+	if (DNI.length!=0 && /^[0-9]+$/.test(DNI)){
 		//Obtiene el resto de dividir el numero del DNI con 23
 		aux=DNI % 23;
 		//llama a la funcion obtenerLetra que nos devuelve la letra correspondiente al numero del DNI
@@ -212,55 +202,3 @@ function comprobarCorreo(form){
         return false;}      
         
 }
-
-//------------------------------------------------------------------------------------------------------------------------//
-
-
-//Comprobacion de que no haya otra persona con el mismo usuario
-function comprobarUsuario(form){
-	//hay q comprobar q no haya un usuario en la bd con el mismo nombre de usuario
-	  <?php
-
-// Connect to the database
-$servername = "db";
-$username = "admin";
-$password = "test";
-$dbname = "database";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-	
-}
-
-// Check if the form has been submitted
-if (isset($_POST['login_submit'])) {
-	// Get the name and password from the form
-    $usuario = $_POST['nombreUsuario'];
-    $contraseña=$_POST['contraseña'];
-    $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
-
-$result = $conn->query($sql);
-
-// Check if any attributes were found
-    if ($result->num_rows > 0) {
-        echo "<script>window.location.href = 'index.php';</script>";
-    }
-    else {
-      echo "<script>alert('Usuario o contraseña incorrectos');</script>";
-    }
-}
-
-
-    
-	$conn->close();
-
-
-    ?>
-}
-
-//------------------------------------------------------------------------------------------------------------------------//
-
-
