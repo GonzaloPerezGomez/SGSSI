@@ -1,4 +1,5 @@
 <?php
+
 // Establish a connection to the MySQL database
 $servername = "db";
 $username = "admin";
