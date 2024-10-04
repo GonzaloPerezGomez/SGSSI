@@ -86,8 +86,8 @@ $conn->close();
 	
 	<div class="button-container">
 		<a class="button" href="index.php">Volver</a>
-		<a class="button" href="modify_user.php">Editar Usuario</a>
-		<a class="button" href="show_user.php?action=logout">salir</a>
+		<a class="button" href="modify_user.php">Editar Datos</a>
+		<a class="button" href="show_user.php?action=logout">Cerrar Sesión</a>
 	</div>	
 	
 	<footer>
