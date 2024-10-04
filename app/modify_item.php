@@ -63,7 +63,7 @@ else{
 <html>
 <head>
 <title> Editar libro </title>
-<script src="comprobacionDatosLibro.js"></script>
+<script src="comprobarDatosLibro.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	

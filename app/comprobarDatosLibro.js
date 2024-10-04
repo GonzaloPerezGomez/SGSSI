@@ -1,7 +1,7 @@
-function comprobardatosAñadir(){
+function comprobardatosAnnadir(){
     //comprobamos si todos los campos son validos
     aux=document.item_add_form;
-	result = (comprobarTitulo(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
+	result = (comprobarTitulo(aux) && comprobarAutor(aux) && comprobarFecha(aux) && comprobarISBN(aux) && comprobarNumPaginas(aux));
 	return result;
 }
 
@@ -9,18 +9,18 @@ function comprobardatosAñadir(){
 
 function comprobardatosModificar(){
     aux=document.item_modify_form;
-	return (comprobarTitulo(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) && comprobarUsuario(aux));
+	return (comprobarTitulo(aux) && comprobarAutor(aux) && comprobarFecha(aux) && comprobarISBN(aux) && comprobarNumPaginas(aux));
 }
 
 
 //------------------------------------------------------------------------------------------------------------------------//
 
 
-//Comprobacion del nombre y apellido
+//Comprobacion del titulo del libro
 function comprobarTitulo(form){
     //obtiene el valor del campo nombre
 	var titulo= form.titulo.value;
-	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
+	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras o numeros
 	if(/^[a-zA-Z0-9\s]+$/.test(titulo) && titulo.length!=0){
 		//si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
 		return true;}
@@ -37,58 +37,15 @@ function comprobarTitulo(form){
 //Comprobacion del DNI introducido
 function comprobarAutor(form) {
 	//Guardamos el valor de DNI introducido por el usuario en una variable
-	var DNI= form.autor.value;
-	//miramos si su longitud es correcta 
-	if (DNI.length!=0 && /^[0-9]+$/.test(DNI)){
-		//Obtiene el resto de dividir el numero del DNI con 23
-		aux=DNI % 23;
-		//llama a la funcion obtenerLetra que nos devuelve la letra correspondiente al numero del DNI
-		letraEsperada= obtenerLetra(aux);
-		//Guarda el valor de la letra del DNI en otra variable
-		letraIntroducida=form.letraDNI.value;
-		//mira que las dos letras obtenidas son la iguales(para mira tanto mayuscula como minuscula la letra del usuario la pasamos a minuscula)
-		if (letraIntroducida.toLowerCase()==letraEsperada ){
-			//si son iguales devuelve un true
-			return true; }
-		else{
-			//si no son iguales indica fallo en la letra del DNI
-			window.alert ("La letra del DNI no es correcta"); 
-			return false;}}	
+	var autor = form.autor.value;
+	//miramos si su longitud es superior a 0 y que el nombre este compuesto unicamente por letras y separaciones
+	if (autor.length!=0 && /^[a-zA-Z\s]+$/.test(autor)){
+		//cumple las condiciones devuelve true
+		return true; }
 	else{
-		//si no son tiene la longitud esperada indica fallo en el numero del DNI
-		window.alert ("El numero del DNI no es correcto");
-		return false;}	
-	
-}
-
-function obtenerLetra(num){
-	//a partir del numero que llega como parametro salta al caso correspondiente
-	switch(num){
-		case 0: return 't';
-		case 1: return 'r';
-		case 2: return 'w';
-		case 3: return 'a';
-		case 4: return 'g';
-		case 5: return 'm';
-		case 6: return 'y';
-		case 7: return 'f';
-		case 8: return 'p';
-		case 9: return 'd';
-		case 10: return 'x';
-		case 11: return 'b';
-		case 12: return 'n';
-		case 13: return 'j';
-		case 14: return 'z';
-		case 15: return 's';
-		case 16: return 'q';
-		case 17: return 'v';
-		case 18: return 'h';
-		case 19: return 'l';
-		case 20: return 'c';
-		case 21: return 'k';
-		case 22: return 'e';
-	}
-}
+		//si no cumple las condiciones devuelve false
+		window.alert ("El formato del nombre del autor no es correcto"); 
+		return false;}}	
 
 
 
@@ -96,29 +53,10 @@ function obtenerLetra(num){
 //------------------------------------------------------------------------------------------------------------------------//
 
 
-//Comprobacion del nombre y apellido
-function comprobarTelefono(form){
-    //obtiene el valor del numero de telefono
-	var tel= form.telefono.value;
-	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
-	if (tel.length==9 && /^[0-9]+$/.test(tel)){
-	    //si cumple las condiciones devuelve true
-		return true;}
-	else{
-	    //si no cumple alerta del fallo en el telefono
-		window.alert ("El telefono no es correcto");
-		//devuelve false
-		return false;}}
-
-
-
-//------------------------------------------------------------------------------------------------------------------------//
-
-
-//Comprobacion de la fecha de nacimiento
+//Comprobacion de la fecha de lanzamiento del libro
 function comprobarFecha(form){
     //obtiene el valor introducido en el registro fechaNacimiento
-    fechaCompleta= form.fechaNacimiento.value;
+    fechaCompleta= form.f_publicacion.value;
     //mira si la longitud del string es de 10= 4(anno)+1(-)+2(mes)+1(-)+2(dia)
     if (fechaCompleta.length=10){
         // si la longitud es correcta dividimos la fecha en base al separador -
@@ -178,27 +116,42 @@ function esBisiesto(anno, dia){
         //devuelve el resulatado de la expresion dia<=28, es decir si dia es > devuelve false y al contrario
         return dia<=28;}}
         
-        
+  //------------------------------------------------------------------------------------------------------------------------//
+
+
+//Comprobacion del nombre y apellido
+function comprobarISBN(form){
+    //obtiene el valor del numero de telefono
+	var ISBN= form.ISBN.value;
+	//mira si la longitud del valor es igual a 13 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
+	if (/^\d{13}$/.test(ISBN)){
+	    //si cumple las condiciones devuelve true
+		return true;}
+	else{
+	    //si no cumple alerta del fallo en el telefono
+		window.alert ("El numero ISBN tienen que ser 13 numeros");
+		//devuelve false
+		return false;}}
+
+
+      
         
         
 //------------------------------------------------------------------------------------------------------------------------//
 
 
 //Comprobacion del correo electronico        
-function comprobarCorreo(form){
-    //establece el patron requerido para el correo electronico 
-    correoBase = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-    //guarda en una variable el valor introducido en el recuadro de correo 
-    var correo= form.correo.value;
-    //mira si el valor introdicido sigue el patron del correo electronico( es decir xxxxx@xx.xx)
-    if (correoBase.test(correo)){
-        //si sigue el patron, devuelve true
-        return true;}
-       
-    else{
-        //si no cumple el patron avisa del fallo de formato en el correo
-        window.alert ("El correo electronico no es correcto");
-        //devuelve false
-        return false;}      
-        
-}
+function comprobarNumPaginas(form){
+    //obtiene el valor del numero de telefono
+	var numPaginas= form.n_paginas.value;
+	//mira si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
+	if (/^[0-9]+$/.test(numPaginas)){
+	    //si cumple las condiciones devuelve true
+		return true;}
+	else{
+	    //si no cumple alerta del fallo en el telefono
+		window.alert ("El numero numero de paginas es un numero");
+		//devuelve false
+		return false;}}
+
+

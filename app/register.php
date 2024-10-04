@@ -26,24 +26,29 @@ if (isset($_POST['register_submit'])) {
     $email=$_POST['correo'];
     $usuario=$_POST['nombreUsuario'];
     $contraseña=$_POST['contrasena'];
-    $sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena)
-    VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
-    if ($conn->query($sql) === TRUE) {
-		echo "<script>
-				window.alert('Se ha registrado correctamente :)');
-				window.location.href = 'login.php';
+
+	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
+	$result = $conn->query($sql);
+	if ($result ->num_rows > 0){
+		echo "<script> window.alert('Usuario repetido'); </script>";}
+	else{
+		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
+    	if ($conn->query($sql) === TRUE) {
+			echo "<script>
+			window.alert('Se ha registrado correctamente :)');
+			window.location.href = 'login.php';
 			</script>";
-		$conn->close();
-		exit();
-    } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-    }
+			$conn->close();
+			exit();} 
+		else {
+    		echo "Error: " . $sql . "<br>" . $conn->error;
+    	}
 
     // Prepare and execute the SQL statement to insert the data
-   // Close the database connection
+	// Close the database connection
 	$conn->close();
 }
-
+}
 
 ?>
 
