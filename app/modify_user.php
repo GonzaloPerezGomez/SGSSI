@@ -51,7 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
     // Ejecutar la consulta
     if ($stmt->execute()) {
-        echo "Cambios guardados correctamente.";
+		echo "<script>
+		window.alert('Cambios guardados correctamente.');
+		window.location.href = 'show_user.php';
+		</script>";
     } else {
         echo "Error al guardar los cambios: " . $stmt->error;
     }
@@ -67,12 +70,13 @@ $conn->close();
 <html>
 <head>
 <title> Información de libro </title>
+<script src="comprobacionDeDatos.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<form name="show_item_form" method="POST">
+	<form name="user_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
         if (isset($_SESSION['user_id'])) {
@@ -100,9 +104,12 @@ $conn->close();
         }
 		?>
 		<input type="submit" value="Guardar cambios"name="modify_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
-        
 	</form>
 
+	<div class="button-container">
+		
+		<a class="button" href="show_user.php">volver</a>
+	</div>	
 	
 	<footer>
         	<p align="center">&copy; 2023 Mi sitio web</p>

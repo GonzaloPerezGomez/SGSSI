@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Connect to the database
 $servername = "db";
 $username = "admin";
@@ -34,9 +35,13 @@ if (isset($_POST['register_submit'])) {
 	else{
 		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
     	if ($conn->query($sql) === TRUE) {
+			$sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
+			$result = $conn->query($sql);
+			$returnedValues = $result->fetch_assoc();
+			$_SESSION['user_id'] = $returnedValues['idUsuario'];
 			echo "<script>
 			window.alert('Se ha registrado correctamente :)');
-			window.location.href = 'login.php';
+			window.location.href = 'index.php';
 			</script>";
 			$conn->close();
 			exit();} 
