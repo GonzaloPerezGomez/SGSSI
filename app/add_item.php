@@ -16,26 +16,35 @@ if ($conn->connect_error) {
 if (isset($_POST['item_add_submit'])) {
     // Get the name and password from the form
     $titulo = $_POST['titulo'];
-    echo 'titulo';
     $autor= $_POST['autor'];
-    echo 'autor';
     $f_publicacion = $_POST['f_publicacion'];
-    echo 'f_publicacion';
     $ISBN=$_POST['ISBN'];
-    echo 'ISBN';
     $n_paginas=$_POST['n_paginas'];
-    echo 'n_paginas';
-    $sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
-    VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>
-				window.alert('Infromacion actualizada correctamente.');
-				window.location.href = 'items.php';
-			</script>";
-		exit();
-	} else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-      }
+	
+	$sql = "SELECT ISBN from libro where ISBN = '" . $ISBN . "'";
+	$result = $conn->query($sql);
+	if ($result ->num_rows > 0){
+		echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
+	else{
+		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
+		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
+		
+		// Procesar la imagen                    NO FUNCIONA, OSEA NO SE GUARDA LA IMAGEN EN LA CARPETA
+        $target_dir = __DIR__ . "image/";
+        $target_file = $target_dir . basename($_FILES['imagen']);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
+
+		if ($conn->query($sql) === TRUE) {
+			echo "<script>
+					window.alert('Infromacion actualizada correctamente.');
+					window.location.href = 'items.php';
+				</script>";
+			exit();
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+	}
 }
 
 
@@ -57,17 +66,17 @@ $conn->close();
 	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()">
     <p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
-		<input type="text" name="titulo"> 
+		<input type="text" name="titulo" required> 
         Autor: <br>
-		<input type="text" name="autor"> <br>
+		<input type="text" name="autor" required> <br>
   		Fecha de Publicación:<br>
-  		<input type="text" name="f_publicacion" placeholder="AAAA-MM-DD"> <br>
+  		<input type="text" name="f_publicacion" placeholder="AAAA-MM-DD" required> <br>
 		ISBN:<br>
-		<input type="text" name="ISBN"><br>
+		<input type="text" name="ISBN" required><br>
 		Nº de Páginas:<br>
-		<input type="text" name="n_paginas"> <br>
+		<input type="text" name="n_paginas" required> <br>
 		Imagen (.jpeg):<br>
-		<input type="file" name="imagen" accept=".jpeg"> <br>
+		<input type="file" name="imagen" accept=".jpeg" required> <br>
 	
 		<br>
 		<input type="submit" name="item_add_submit" class ="button" value="Añadir">

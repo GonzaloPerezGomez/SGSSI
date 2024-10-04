@@ -107,18 +107,20 @@ function obtenerLetra(num){
 
 
 //Comprobacion del nombre y apellido
-function comprobarTelefono(form){
+function comprobarTelefono(form){                             ////NO FUNCIONA, NO ENTIENDO POR QUÉ
     //obtiene el valor del numero de telefono
 	var tel= form.telefono.value;
 	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
-	if (tel.length==9 && /^[0-9]+$/.test(tel)){
+	if (/^\d{9}$/.test(tel)){
 	    //si cumple las condiciones devuelve true
 		return true;}
 	else{
 	    //si no cumple alerta del fallo en el telefono
-		window.alert ("El telefono no es correcto");
+		window.alert ("El teléfono no es correcto. Debe tener 9 dígitos");
 		//devuelve false
-		return false;}}
+		return false;
+	}
+}
 
 
 

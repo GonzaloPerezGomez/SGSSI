@@ -78,7 +78,7 @@ function comprobarFecha(form){
                 //si la fecha es valida e inferior a la actual devuelve un true
                 return true;}}}
     //si el programa no ha terminado, es decir, no se han cumplido todos los terminos de validacion salta una alarma de alerta
-    window.alert ("La fecha de nacimiento no es valida");
+    window.alert ("La fecha de publicación no es valida");
     //devuelve un false
     return false;}
     
@@ -150,7 +150,7 @@ function comprobarNumPaginas(form){
 		return true;}
 	else{
 	    //si no cumple alerta del fallo en el telefono
-		window.alert ("El numero numero de paginas es un numero");
+		window.alert ("El numero de paginas es un numero");
 		//devuelve false
 		return false;}}
 
