@@ -28,7 +28,7 @@
 ?>
 
 <?php
-$query = mysqli_query($conn, "SELECT titulo, autor, ISBN  FROM libro")
+$query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
    or die (mysqli_error($conn));
 ?>
 
@@ -58,7 +58,7 @@ while ($row = mysqli_fetch_array($query)) {
     <td>{$row['autor']}</td>
     <td>
         <div class=button-container>
-            <a class=button href=modify_item.php?ISBN=" . $row['ISBN'] . ">
+            <a class=button href=modify_item.php?idLibro=" . $row['idLibro'] . ">
             <img src='image/editar.png' style='height:20px;'></a>
             <a class=button href=delete_item.php?ISBN=" . $row['ISBN'] . ">
             <img src='image/borrar.png' style='height:20px;'></a>

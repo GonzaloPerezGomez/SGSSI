@@ -20,8 +20,8 @@ if (isset($_POST['item_modify_submit'])) {
     $f_publicacion = $_POST['f_publicacion'];
     $ISBN=$_POST['ISBN'];
     $n_paginas=$_POST['n_paginas'];
-    $sql = "UPDATE libro SET titulo='$titulo', autor='$autor' , f_publicacion='$f_publicacion' ,
-    ISBN='$ISBN' , n_paginas='$n_paginas' WHERE ISBN = '$ISBN'";
+	$idLibro = $_GET['idLibro'];
+    $sql = "UPDATE libro SET titulo='$titulo', autor='$autor' , f_publicacion='$f_publicacion' , ISBN='$ISBN' , n_paginas='$n_paginas' WHERE idLibro = '$idLibro'";
     if ($conn->query($sql) === TRUE) {
         echo "<script>
 				window.alert('Infromacion actualizada correctamente.');
@@ -38,11 +38,11 @@ if (isset($_POST['item_modify_submit'])) {
 }
 
 
-$query = "SELECT titulo, autor, f_publicacion, n_paginas FROM libro WHERE ISBN = ? ";
+$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ? ";
 
 if($stmt = $conn->prepare($query)){
-	$ISBN = $_GET['ISBN'];
-	$stmt->bind_param("s", $ISBN);
+	$idLibro = $_GET['idLibro'];
+	$stmt->bind_param("i", $idLibro);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	if($result->num_rows > 0){
@@ -81,7 +81,7 @@ else{
   		Fecha de Publicación:<br>
   		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . "> <br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= " . $ISBN . " ><br>
+		<input type= text  name= ISBN value= " . $libro['ISBN'] . " ><br>
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . "> <br>
 		"

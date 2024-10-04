@@ -64,16 +64,15 @@ if (isset($_POST['register_submit'])) {
 	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
 		Nombre completo:<br>
-		<input type="text" name="nombre" placeholder="Nombre">  <input type="text" name="apellido" placeholder="Apellido"><br>
+		<input type="text" name="nombre" placeholder="Nombre" required>  <input type="text" name="apellido" placeholder="Apellido" required><br>
 		DNI: <br>
-		<input type="text" name="numeroDNI" placeholder="1234567"> <input type="text" name="letraDNI" placeholder="Letra DNI"> <br>
-  	
+		<input type="text" name="numeroDNI" placeholder="12345678" required> <input type="text" name="letraDNI" placeholder="Letra DNI" required> <br>
   		Teléfono:<br>
-  		<input type="text" name="telefono" placeholder="123456789"> <br>
+  		<input type="text" name="telefono" placeholder="123456789"><br>
 		Fecha de Nacimiento:<br>
 		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"/><br>
 		Email:<br>
-		<input type="text" name="correo" placeholder="example@xxx.yyy" > <br>
+		<input type="text" name="correo" placeholder="example@xxx.yyy" required> <br>
 		Nombre de usuario<br>
 		<input type="text" name="nombreUsuario" required><br>
 		Contraseña:<br>
