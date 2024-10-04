@@ -8,7 +8,7 @@ function comprobardatosRegistro(){
 
 
 function comprobardatosModificar(){
-    aux=document.______________________;
+    aux=document.user_modify_form;
 	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) );
 }
 
@@ -110,8 +110,9 @@ function obtenerLetra(num){
 function comprobarTelefono(form){                             ////NO FUNCIONA, NO ENTIENDO POR QUÉ
     //obtiene el valor del numero de telefono
 	var tel= form.telefono.value;
+	console.log(tel);
 	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
-	if (/^\d{9}$/.test(tel)){
+	if (/^\d{9}$/.test(tel) && tel.length!=0){
 	    //si cumple las condiciones devuelve true
 		return true;}
 	else{

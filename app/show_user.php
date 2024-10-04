@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_destroy();
+
+    header("Location: index.php"); 
+    exit();}
+
 // Establish a connection to the MySQL database
 $servername = "db";
 $username = "admin";
@@ -36,6 +42,8 @@ else{
 // Close the statement and the connection
 $conn->close();
 ?>
+
+
 
 <html>
 <head>
@@ -79,6 +87,7 @@ $conn->close();
 	<div class="button-container">
 		<a class="button" href="index.php">Volver</a>
 		<a class="button" href="modify_user.php">Editar Usuario</a>
+		<a class="button" href="show_user.php?action=logout">salir</a>
 	</div>	
 	
 	<footer>
