@@ -39,15 +39,16 @@ else{
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
-    $id_usuario = $_POST['idUsuario'];  
-
+    $id_usuario = $_POST['idUsuario'];
     $nuevo_nombre = $_POST['nombre'];
     $nuevo_apellido = $_POST['apellido'];
+	$nuevo_telefono = $_POST['telefono'];
+	$nueva_fecha = $_POST['nacimiento'];
     $nuevo_email = $_POST['email'];
-    // ... otros campos a actualizar
+	$nuevo_usuario = $_POST['usuario'];
 
     // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-    $sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido."', email='" .$nuevo_email ."' WHERE idUsuario= " . $_SESSION['user_id'];
+    $sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido ."', telefono='" . $nuevo_telefono ."', nacimiento='" . $nueva_fecha ."', email='" .$nuevo_email ."', usuario='" . $nuevo_usuario."' WHERE idUsuario= " . $_SESSION['user_id'];
     $stmt = $conn->prepare($sql);
     // Ejecutar la consulta
     if ($stmt->execute()) {
