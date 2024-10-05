@@ -58,7 +58,7 @@ function comprobarFecha(form){
     //obtiene el valor introducido en el registro fechaNacimiento
     fechaCompleta= form.f_publicacion.value;
     //mira si la longitud del string es de 10= 4(anno)+1(-)+2(mes)+1(-)+2(dia)
-    if (fechaCompleta.length=10){
+    if (fechaCompleta.length==10){
         // si la longitud es correcta dividimos la fecha en base al separador -
         fecha= fechaCompleta.split('-');
         //mira si las longitudes de los valores año, mes y dia son correctos 4,2,2

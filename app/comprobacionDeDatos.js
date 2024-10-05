@@ -1,6 +1,6 @@
 function comprobardatosRegistro(){
     //comprobamos si todos los campos son validos
-    aux=document.register_form;
+    var aux = document.forms['register_form'];
 	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
 	return result;
 }
@@ -8,7 +8,7 @@ function comprobardatosRegistro(){
 
 
 function comprobardatosModificar(){
-    aux=document.user_modify_form;
+    var aux = document.forms['user_modify_form'];
 	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) );
 }
 
@@ -110,7 +110,6 @@ function obtenerLetra(num){
 function comprobarTelefono(form){                             ////NO FUNCIONA, NO ENTIENDO POR QUÉ
     //obtiene el valor del numero de telefono
 	var tel= form.telefono.value;
-	console.log(tel);
 	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)
 	if (/^\d{9}$/.test(tel) && tel.length!=0){
 	    //si cumple las condiciones devuelve true
@@ -131,9 +130,9 @@ function comprobarTelefono(form){                             ////NO FUNCIONA, N
 //Comprobacion de la fecha de nacimiento
 function comprobarFecha(form){
     //obtiene el valor introducido en el registro fechaNacimiento
-    fechaCompleta= form.fechaNacimiento.value;
+    fechaCompleta= form.nacimiento.value;
     //mira si la longitud del string es de 10= 4(anno)+1(-)+2(mes)+1(-)+2(dia)
-    if (fechaCompleta.length=10){
+    if (fechaCompleta.length==10){
         // si la longitud es correcta dividimos la fecha en base al separador -
         fecha= fechaCompleta.split('-');
         //mira si las longitudes de los valores año, mes y dia son correctos 4,2,2
@@ -206,8 +205,7 @@ function comprobarCorreo(form){
     //mira si el valor introdicido sigue el patron del correo electronico( es decir xxxxx@xx.xx)
     if (correoBase.test(correo)){
         //si sigue el patron, devuelve true
-        return true;}
-       
+        return true;}  
     else{
         //si no cumple el patron avisa del fallo de formato en el correo
         window.alert ("El correo electronico no es correcto");

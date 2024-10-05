@@ -95,7 +95,7 @@ $conn->close();
         Fecha de Nacimiento:<br>
 		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " > <br>
         Email:<br>
-		<input type= text  name= email value= " . $infousuario['email'] . " > <br>
+		<input type= text  name= correo value= " . $infousuario['email'] . " > <br>
         Usuario:<br>
 		<input type= text  name= usuario value= " . $infousuario['usuario'] . "  <br>
 		";
