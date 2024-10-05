@@ -9,7 +9,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
 }
 
@@ -28,11 +27,9 @@ if (isset($_POST['item_add_submit'])) {
 	else{
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
-		
-		// Procesar la imagen                    NO FUNCIONA, OSEA NO SE GUARDA LA IMAGEN EN LA CARPETA
-        $target_dir = __DIR__ . "image/";
-        $target_file = $target_dir . basename($_FILES['imagen']);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+		// Procesar la imagen        
+        $target_dir = "/var/www/imagen/";
+        $target_file = $target_dir . strtolower($titulo) . ".jpeg";
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		if ($conn->query($sql) === TRUE) {
@@ -63,7 +60,7 @@ $conn->close();
 	
 	
 	<body>
-	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()">
+	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
     <p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo" required> 
