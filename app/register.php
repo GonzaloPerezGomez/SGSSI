@@ -75,7 +75,7 @@ if (isset($_POST['register_submit'])) {
   		Teléfono:<br>
   		<input type="text" name="telefono" placeholder="123456789"><br>
 		Fecha de Nacimiento:<br>
-		<input type="text" name="fechaNacimiento" placeholder="AAAA-MM-DD"/><br>
+		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD"/><br>
 		Email:<br>
 		<input type="text" name="correo" placeholder="example@xxx.yyy" required> <br>
 		Nombre de usuario<br>
