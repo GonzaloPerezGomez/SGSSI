@@ -47,19 +47,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nuevo_email = $_POST['email'];
 	$nuevo_usuario = $_POST['usuario'];
 
-    // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-    $sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido ."', telefono='" . $nuevo_telefono ."', nacimiento='" . $nueva_fecha ."', email='" .$nuevo_email ."', usuario='" . $nuevo_usuario."' WHERE idUsuario= " . $_SESSION['user_id'];
-    $stmt = $conn->prepare($sql);
-    // Ejecutar la consulta
-    if ($stmt->execute()) {
-		echo "<script>
-		window.alert('Cambios guardados correctamente.');
-		window.location.href = 'show_user.php';
-		</script>";
-    } else {
-        echo "Error al guardar los cambios: " . $stmt->error;
-    }
+	$sql = "SELECT usuario from usuarios where usuario = '" . $nuevo_usuario . "'";
+	$result = $conn->query($sql);
+	if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
+		echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
+	else{
 
+		// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
+		$sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido ."', telefono='" . $nuevo_telefono ."', nacimiento='" . $nueva_fecha ."', email='" .$nuevo_email ."', usuario='" . $nuevo_usuario."' WHERE idUsuario= " . $_SESSION['user_id'];
+		$stmt = $conn->prepare($sql);
+		// Ejecutar la consulta
+		if ($stmt->execute()) {
+			echo "<script>
+			window.alert('Cambios guardados correctamente.');
+			window.location.href = 'show_user.php';
+			</script>";
+		} else {
+			echo "Error al guardar los cambios: " . $stmt->error;
+		}
+	}
     $stmt->close();
 }
 
@@ -95,7 +101,7 @@ $conn->close();
         Fecha de Nacimiento:<br>
 		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " > <br>
         Email:<br>
-		<input type= text  name= correo value= " . $infousuario['email'] . " > <br>
+		<input type= text  name= email value= " . $infousuario['email'] . " > <br>
         Usuario:<br>
 		<input type= text  name= usuario value= " . $infousuario['usuario'] . "  <br>
 		";
