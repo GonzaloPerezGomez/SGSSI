@@ -58,6 +58,8 @@ $conn->close();
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
 		
 		if (isset($_SESSION['user_id'])) {
+			$telefono = $infousuario['telefono'] ?? '';			//como el telefono y la fecha de nacimiento no son datos obligatorios, en caso de no tener datos
+            $nacimiento = $infousuario['nacimiento'] ?? '';		//les damos ' ' para que no aparezca "readonly" en el formulario
 
 		echo
 		"
@@ -66,11 +68,11 @@ $conn->close();
 		<input type= text  name= apellido value=  " . $infousuario['apellido'] . " readonly> <br>
   		DNI:<br>
   		<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . " readonly> <br>
-		<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . " ><br>
+		<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . " readonly><br>
 		Teléfono:<br>
-		<input type= text  name= telefono value= " . $infousuario['telefono'] . " readonly> <br>
+		<input type= text  name= telefono value='$telefono' readonly> <br>
         Fecha de Nacimiento:<br>
-		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " readonly> <br>
+		<input type= text  name= nacimiento value='$nacimiento' readonly> <br>
         Email:<br>
 		<input type= text  name= email value= " . $infousuario['email'] . " readonly> <br>
         Usuario:<br>

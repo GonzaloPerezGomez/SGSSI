@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
         <a class="button" href="items.php">Catálogo</a>
         <a class="button" href=show_user.php>
         <img src="image/user.png" style="height:20px;"></a>
-    </div>}';}
+    </div>';}
 else {
     echo
     '
