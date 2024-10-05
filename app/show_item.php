@@ -30,7 +30,7 @@ else{
 	echo "Conecxion fallida";
 }
 
-$nombimagen = "image/" . strtolower($libro['titulo'] . ".jpeg");
+$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg");
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $stmt->close();

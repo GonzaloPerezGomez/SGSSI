@@ -44,7 +44,7 @@ $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
     <tbody>
     <?php
 while ($row = mysqli_fetch_array($query)) {
-  $nombre = "image/" . strtolower($row['titulo'] . ".jpeg");
+  $nombre = "libros/" . strtolower($row['titulo'] . ".jpeg");
   $nombre = str_replace(" ", "-", $nombre);
   echo 
    "
