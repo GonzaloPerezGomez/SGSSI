@@ -23,7 +23,7 @@ if (isset($_POST['register_submit'])) {
     $DNI = $_POST['numeroDNI'];
     $letraDNI = $_POST['letraDNI'];
     $telefono=$_POST['telefono'];
-    $nacimiento=$_POST['fechaNacimiento'];
+    $nacimiento=$_POST['nacimiento'];
     $email=$_POST['correo'];
     $usuario=$_POST['nombreUsuario'];
     $contraseña=$_POST['contrasena'];
@@ -31,7 +31,7 @@ if (isset($_POST['register_submit'])) {
 	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
 	$result = $conn->query($sql);
 	if ($result ->num_rows > 0){
-		echo "<script> window.alert('Usuario repetido'); </script>";}
+		echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 	else{
 		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
     	if ($conn->query($sql) === TRUE) {
@@ -73,9 +73,9 @@ if (isset($_POST['register_submit'])) {
 		DNI: <br>
 		<input type="text" name="numeroDNI" placeholder="12345678" required> <input type="text" name="letraDNI" placeholder="Letra DNI" required> <br>
   		Teléfono:<br>
-  		<input type="text" name="telefono" placeholder="123456789"><br>
+  		<input type="text" name="telefono" placeholder="123456789"required><br>
 		Fecha de Nacimiento:<br>
-		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD"/><br>
+		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD"required/><br>
 		Email:<br>
 		<input type="text" name="correo" placeholder="example@xxx.yyy" required> <br>
 		Nombre de usuario<br>
