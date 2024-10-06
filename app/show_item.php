@@ -32,7 +32,6 @@ else{
 
 $nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg");
 $nombimagen = str_replace(" ", "-", $nombimagen);
-echo "$nombimagen";
 
 $stmt->close();
 
