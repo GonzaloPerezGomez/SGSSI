@@ -29,7 +29,8 @@ if (isset($_POST['item_add_submit'])) {
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
 		// Procesar la imagen        
         $target_dir = "/var/www/imagen/";
-        $target_file = $target_dir . strtolower($titulo) . ".jpeg";
+		$tit = str_replace(" ", "-", $titulo);
+        $target_file = $target_dir . strtolower($tit) . ".jpeg";
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		if ($conn->query($sql) === TRUE) {
