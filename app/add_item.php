@@ -28,8 +28,8 @@ if (isset($_POST['item_add_submit'])) {
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
 		// Procesar la imagen        
-        $target_dir = "/var/www/imagen/";
-        $target_file = $target_dir . strtolower($titulo) . ".jpeg";
+    $target_dir = "/var/www/imagen/";
+    $target_file = $target_dir . strtolower($titulo) . ".jpeg";
 		$target_file = str_replace(" ", "-", $target_file);
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
