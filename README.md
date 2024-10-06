@@ -4,10 +4,10 @@ Linux + Apache + MariaDB (MySQL) + PHP 7.2 on Docker Compose. Mod_rewrite enable
 docker-compose version 1.29.2
 
 ## Integrantes
-Lucía Gutiérrez Diez
-Carolina Estefanía Jiménez Godoy
-Gonzalo Pérez Gómez
-Iratxe Urrutia Sordo
+Lucía Gutiérrez Diez,
+Carolina Estefanía Jiménez Godoy,
+Gonzalo Pérez Gómez y
+Iratxe Urrutia Sordo.
 (Silvia Giselle Ramos Quispe ya no forma parte del grupo)
 
 ## Instrucciones
