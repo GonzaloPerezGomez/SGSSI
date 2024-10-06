@@ -7,7 +7,7 @@ docker-compose version 1.29.2
 ## Integrantes
 Lucía Gutiérrez Diez,
 Carolina Estefanía Jiménez Godoy,
-Gonzalo Pérez Gómez y
+Gonzalo Pérez Gómez e
 Iratxe Urrutia Sordo.
 (Silvia Giselle Ramos Quispe ya no forma parte del grupo)
 
