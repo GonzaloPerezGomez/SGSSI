@@ -76,9 +76,6 @@ $result = $conn->query($sql);
 
 <a href="index.php" class="button">Volver a inicio</a>
 	
-<footer>
-        <p align="center">&copy; 2023 Mi sitio web</p>
-</footer>
  
 </body>
 <html>

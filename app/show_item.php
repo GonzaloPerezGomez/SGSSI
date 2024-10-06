@@ -74,7 +74,4 @@ $stmt->close();
 		<a class="button" href="items.php">Volver</a>
 	</div>	
 	
-	<footer>
-        	<p align="center">&copy; 2023 Mi sitio web</p>
-	</footer>
 <html>

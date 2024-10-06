@@ -118,7 +118,4 @@ $conn->close();
 		<a class="button" href="show_user.php">volver</a>
 	</div>	
 	
-	<footer>
-        	<p align="center">&copy; 2023 Mi sitio web</p>
-	</footer>
 <html>

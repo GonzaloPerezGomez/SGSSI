@@ -102,7 +102,4 @@ $stmt->close();
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	
-	<footer>
-        	<p align="center">&copy; 2023 Mi sitio web</p>
-	</footer>
 <html>
