@@ -32,6 +32,7 @@ else{
 
 $nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg");
 $nombimagen = str_replace(" ", "-", $nombimagen);
+echo "$nombimagen";
 
 $stmt->close();
 
@@ -54,9 +55,9 @@ $stmt->close();
 		echo
 		"
 		Título:<br>
-		<input type= text name= titulo value= " . $libro['titulo'] . " readonly>
+		<input type= text name= titulo value= '{$libro['titulo']}' readonly>
         Autor: <br>
-		<input type= text  name= autor value=  " . $libro['autor'] . " readonly> <br>
+		<input type= text  name= autor value=  '{$libro['autor']}' readonly> <br>
   		Fecha de Publicación:<br>
   		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . " readonly> <br>
 		ISBN:<br>
