@@ -1,5 +1,5 @@
 <?php
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -7,7 +7,7 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -30,7 +30,7 @@ else{
 	echo "Conecxion fallida";
 }
 
-$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg");
+$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $stmt->close();

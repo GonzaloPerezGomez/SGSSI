@@ -1,5 +1,5 @@
 <?php
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -7,7 +7,7 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
@@ -27,8 +27,6 @@ if (isset($_POST['item_delete_submit'])) {
 	} else {
         echo "Error: " . $sql . "<br>" . $conn->error;
       }
-  
-      // Prepare and execute the SQL statement to insert the data
     $conn->close();
 }
 

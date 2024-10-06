@@ -6,14 +6,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     header("Location: index.php"); 
     exit();}
 
-// Establish a connection to the MySQL database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
 $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
+//comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);  
 
@@ -39,7 +39,7 @@ else{
 	echo "Conecxion fallida";
 }
 
-// Close the statement and the connection
+// cerrar conexión
 $conn->close();
 ?>
 
@@ -47,7 +47,7 @@ $conn->close();
 
 <html>
 <head>
-<title> Información de libro </title>
+<title> Información de usuario </title>
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
@@ -58,9 +58,6 @@ $conn->close();
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
 		
 		if (isset($_SESSION['user_id'])) {
-			$telefono = $infousuario['telefono'] ?? '';			//como el telefono y la fecha de nacimiento no son datos obligatorios, en caso de no tener datos
-            $nacimiento = $infousuario['nacimiento'] ?? '';		//les damos ' ' para que no aparezca "readonly" en el formulario
-
 		echo
 		"
 		Nombre completo:<br>

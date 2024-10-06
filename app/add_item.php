@@ -1,5 +1,5 @@
 <?php
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -7,13 +7,13 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 if (isset($_POST['item_add_submit'])) {
-    // Get the name and password from the form
+    // guardar la info del formulario
     $titulo = $_POST['titulo'];
     $autor= $_POST['autor'];
     $f_publicacion = $_POST['f_publicacion'];
@@ -22,7 +22,7 @@ if (isset($_POST['item_add_submit'])) {
 	
 	$sql = "SELECT ISBN from libro where ISBN = '" . $ISBN . "'";
 	$result = $conn->query($sql);
-	if ($result ->num_rows > 0){
+	if ($result ->num_rows > 0){ //si el select nos devuelve un valor, es que hay otro libro en la bd con ese isbn
 		echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
 	else{
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
@@ -30,7 +30,7 @@ if (isset($_POST['item_add_submit'])) {
 		// Procesar la imagen        
         $target_dir = "/var/www/imagen/";
         $target_file = $target_dir . strtolower($titulo) . ".jpeg";
-		$target_file = str_replace(" ", "-", $target_file);
+		$target_file = str_replace(" ", "-", $target_file); //reemplazamos los espacios con -
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		if ($conn->query($sql) === TRUE) {
@@ -46,7 +46,7 @@ if (isset($_POST['item_add_submit'])) {
 }
 
 
-$conn->close();
+$conn->close(); //cerrar conexión
 
 ?>
 

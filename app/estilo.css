@@ -32,16 +32,6 @@ h2, h3 {
     text-align: center;
 }
 
-/* Enlaces */
-a {
-    color: var(--color-enlace);
-    text-decoration: none;
-}
-
-a:hover {
-    /*text-decoration: underline; /*cuando el ratón está encima se subraya*/
-}
-
 /* Botones */
 .button {
     background-color: var(--color-boton);

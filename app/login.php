@@ -9,21 +9,19 @@
 	
 <body>
  <header>
-        <h1>Mi sitio web</h1>
+        <h1>Bienvenido</h1>
        
     </header>
 
     <main>
         <section>
-            <h2>Bienvenido</h2>  
-
-            <!---<p align="center">Este es el contenido principal de mi página.</p>--->
+            <h2>Iniciar sesión</h2>  
         </section>
     </main>
 
     <?php
 
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -31,22 +29,22 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 	
 }
 
-// Check if the form has been submitted
+// comprobar si el formulario ha sido enviado
 if (isset($_POST['login_submit'])) {
-	// Get the name and password from the form
+	// obtener el usuario y contraseña del formulario
     $usuario = $_POST['nombreUsuario'];
     $contraseña=$_POST['contraseña'];
     $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
 
 $result = $conn->query($sql);
 
-// Check if any attributes were found
+// comprobar si la consulta ha devuelto algo
     if ($result->num_rows > 0) {
         $returnedValues = $result->fetch_assoc();
         $_SESSION['user_id'] = $returnedValues['idUsuario'];
