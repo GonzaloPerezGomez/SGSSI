@@ -1,6 +1,7 @@
 
 # Docker LAMP
 Linux + Apache + MariaDB (MySQL) + PHP 7.2 on Docker Compose. Mod_rewrite enabled by default.
+#
 docker-compose version 1.29.2
 
 ## Integrantes
