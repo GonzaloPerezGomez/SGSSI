@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db:3306
--- Tiempo de generación: 06-10-2024 a las 14:42:49
+-- Tiempo de generación: 06-10-2024 a las 17:36:43
 -- Versión del servidor: 10.8.2-MariaDB-1:10.8.2+maria~focal
 -- Versión de PHP: 8.2.8
 
@@ -41,9 +41,7 @@ CREATE TABLE `libro` (
 --
 
 INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VALUES
-(1, 'Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '123456789123', '500'),
-(8, 'Los Juegos del Hambre', 'Suzanne Collins', '2008-09-14', '9788413144856', '400'),
-(9, 'El Asesinato de Roger Ackroyd', 'Agatha Christie', '1926-06-12', '9788467052978', '272');
+(1, 'Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '123456789123', '500');
 
 -- --------------------------------------------------------
 
