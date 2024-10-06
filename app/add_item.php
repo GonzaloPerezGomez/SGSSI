@@ -30,6 +30,7 @@ if (isset($_POST['item_add_submit'])) {
 		// Procesar la imagen        
         $target_dir = "/var/www/imagen/";
         $target_file = $target_dir . strtolower($titulo) . ".jpeg";
+		$target_file = str_replace(" ", "-", $target_file);
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		if ($conn->query($sql) === TRUE) {
