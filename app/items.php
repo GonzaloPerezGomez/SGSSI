@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> catalogo </title>
+<title> Catálogo </title>
 <link rel="stylesheet" href="estilo.css">
 </head>
 
@@ -14,13 +14,14 @@
 </div>
 
 <?php
-  // phpinfo();
+  // conexión a la base de datos
   $hostname = "db";
   $username = "admin";
   $password = "test";
   $db = "database";
 
   $conn = mysqli_connect($hostname,$username,$password,$db);
+  // comprobar conexión
   if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
   }
@@ -44,7 +45,7 @@ $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
     <tbody>
     <?php
 while ($row = mysqli_fetch_array($query)) {
-  $nombre = "libros/" . strtolower($row['titulo'] . ".jpeg");
+  $nombre = "libros/" . strtolower($row['titulo'] . ".jpeg"); //imagen
   $nombre = str_replace(" ", "-", $nombre);
   echo 
    "

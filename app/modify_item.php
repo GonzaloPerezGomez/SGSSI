@@ -1,5 +1,5 @@
 <?php
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -7,14 +7,14 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
 }
 
 if (isset($_POST['item_modify_submit'])) {
-    // Get the name and password from the form
+    // guardar la info del formulario
     $titulo = $_POST['titulo'];
     $autor= $_POST['autor'];
     $f_publicacion = $_POST['f_publicacion'];
@@ -32,8 +32,6 @@ if (isset($_POST['item_modify_submit'])) {
 	} else {
         echo "Error: " . $sql . "<br>" . $conn->error;
       }
-  
-      // Prepare and execute the SQL statement to insert the data
     $conn->close();
 }
 
@@ -56,7 +54,7 @@ else{
 	echo "Conexion fallida";
 }
 
-$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg");
+$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $stmt->close();

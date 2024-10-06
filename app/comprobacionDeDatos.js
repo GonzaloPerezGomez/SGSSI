@@ -107,7 +107,7 @@ function obtenerLetra(num){
 
 
 //Comprobacion del nombre y apellido
-function comprobarTelefono(form){                             ////NO FUNCIONA, NO ENTIENDO POR QUÉ
+function comprobarTelefono(form){
     //obtiene el valor del numero de telefono
 	var tel= form.telefono.value;
 	//mira si la longitud del valor es diferente a 9 y si son todo numeros(con el patron /[0-9]+$/ indicamso solo numeros)

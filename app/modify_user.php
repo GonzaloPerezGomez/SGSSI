@@ -2,14 +2,14 @@
 
 session_start();
 
-// Establish a connection to the MySQL database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
 $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
+//comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);  
 
@@ -69,14 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
-// Close the statement and the connection
+// cerrar conexión
 $conn->close();
 }
 ?>
 
 <html>
 <head>
-<title> Información de libro </title>
+<title> Modificar Datos </title>
 <script src="comprobacionDeDatos.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>

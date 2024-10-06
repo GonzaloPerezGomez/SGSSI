@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Connect to the database
+// conexión a la base de datos
 $servername = "db";
 $username = "admin";
 $password = "test";
@@ -8,16 +8,16 @@ $dbname = "database";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+// comprobar conexión
 if ($conn->connect_error) {
     echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
 	
 }
 
-// Check if the form has been submitted
+// comprobar si se ha enviado el formulario
 if (isset($_POST['register_submit'])) {
-	// Get the name and password from the form
+	// guardar la info del formulario
     $nombre = $_POST['nombre'];
     $apellido= $_POST['apellido'];
     $DNI = $_POST['numeroDNI'];
@@ -30,7 +30,7 @@ if (isset($_POST['register_submit'])) {
 
 	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
 	$result = $conn->query($sql);
-	if ($result ->num_rows > 0){
+	if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
 		echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 	else{
 		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
@@ -49,8 +49,6 @@ if (isset($_POST['register_submit'])) {
     		echo "Error: " . $sql . "<br>" . $conn->error;
     	}
 
-    // Prepare and execute the SQL statement to insert the data
-	// Close the database connection
 	$conn->close();
 }
 }

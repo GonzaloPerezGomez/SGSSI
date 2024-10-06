@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Pagina principal </title>
+<title> Página principal </title>
 <script src="comprobacionDeDatos.js"></script>
 <link rel="stylesheet" href="estilo.css">
 </head>
@@ -12,7 +12,7 @@
 <h1>PÁGINA PRINCIPAL</h1>
 
 <?php
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) { //si ha iniciado sesión
     echo
     '
     <div class="button-container">
@@ -20,7 +20,7 @@ if (isset($_SESSION['user_id'])) {
         <a class="button" href=show_user.php>
         <img src="image/user.png" style="height:20px;"></a>
     </div>';}
-else {
+else {                              //si no ha iniciado sesión
     echo
     '
 	<div class="button-container">
