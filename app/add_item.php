@@ -1,13 +1,13 @@
 <?php
 // conexión a la base de datos
 
-//guardamos el nombre del servidor a conectar
+//guarda el nombre del servidor a conectar
 $servername = "db";
-//guardamos el nombre del usuario necesario para acceder al servidor
+//guarda el nombre del usuario necesario para acceder al servidor
 $username = "admin";
-//guardamos la contraseña del usuario en una variable
+//guarda la contraseña del usuario en una variable
 $password = "test";
-//guardamos el nombre del de la base de datos a la que queremos acceder
+//guarda el nombre del de la base de datos a la que quere acceder
 $dbname = "database";
 
 //se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
@@ -34,23 +34,23 @@ if (isset($_POST['item_add_submit'])) {
     //guarda el número de páginas del libro
     $n_paginas=$_POST['n_paginas'];
 	
-	//guardamos la instruccion de SQL que queremos utilizar en este caso un select
+	//guardala instruccion de SQL que quere utilizar en este caso un select
 	$sql = "SELECT ISBN from libro where ISBN = '" . $ISBN . "'";
-	//realizamos el comando en la base de datos y almacenamos el resultado en una variable
+	//realizamos el comando en la base de datos y almacena el resultado en una variable
 	$result = $conn->query($sql);
 
 	//si el select nos devuelve un valor mayor que 0,(hay otro libro en la bd con ese isbn)
 	if ($result ->num_rows > 0){ 
-		//imprimimos por pantalla un mensaje indicando que ya existe un libro con ese ISBN
+		//imprimi por pantalla un mensaje indicando que ya existe un libro con ese ISBN
 		echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
 	else{
-		//como no hay problemas preparamos la insercion del nuevo libro con el comando de SQL insert into
+		//como no hay problemas prepara la insercion del nuevo libro con el comando de SQL insert into
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
 		// Procesar la imagen        
         $target_dir = "/var/www/imagen/";
         $target_file = $target_dir . strtolower($titulo) . ".jpeg";
-		$target_file = str_replace(" ", "-", $target_file); //reemplazamos los espacios con -
+		$target_file = str_replace(" ", "-", $target_file); //reemplaza los espacios con -
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		//si al realizar el insert into en sql el resultado es true(se ha realizado la introduccion)
@@ -66,7 +66,7 @@ if (isset($_POST['item_add_submit'])) {
 		} 
 		//si no 
 		else {
-			//indicamos el error al introducir el nuevo libro
+			//indica el error al introducir el nuevo libro
 			echo "Error: " . $sql . "<br>" . $conn->error;
 		}
 	}

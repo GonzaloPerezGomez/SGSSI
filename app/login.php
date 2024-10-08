@@ -25,13 +25,13 @@ session_start();?>
     <?php
 
     // conexión a la base de datos
-    //guardamos el nombre del servidor a conectar
+    //guarda el nombre del servidor a conectar
     $servername = "db";
-    //guardamos el nombre del usuario necesario para acceder al servidor
+    //guarda el nombre del usuario necesario para acceder al servidor
     $username = "admin";
-    //guardamos la contraseña del usuario en una variable
+    //guarda la contraseña del usuario en una variable
     $password = "test";
-    //guardamos el nombre del de la base de datos a la que queremos acceder
+    //guarda el nombre del de la base de datos a la que quere acceder
     $dbname = "database";
 
     //se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
@@ -51,9 +51,9 @@ session_start();?>
         // obtener el usuario y contraseña del formulario y meterlos en una variable
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
-        //guardamos la instruccion de SQL que queremos utilizar en este caso un select
+        //guarda la instruccion de SQL que quere utilizar en este caso un select
         $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
-        //realizamos el select en la base de datos y guardamos el resultado en una variable
+        //realiza el select en la base de datos y guarda el resultado en una variable
         $result = $conn->query($sql);
 
         // comprobar si la consulta ha devuelto algo
