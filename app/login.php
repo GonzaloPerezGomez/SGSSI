@@ -1,8 +1,11 @@
-<?php  session_start();?>
+<?php  
+//funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
+session_start();?>
 
 <html>
 <head>
 <title> login </title> 
+<! -- indica desde que script modela la pagina web -- > 
 <link rel="stylesheet" href="estilo.css">
  </head>
 	
