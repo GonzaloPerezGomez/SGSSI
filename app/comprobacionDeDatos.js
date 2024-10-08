@@ -1,7 +1,7 @@
 function comprobardatosRegistro(){
-    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
+    //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 
-    //comprobamos si todos los campos son validos
+    //comprueba si todos los campos son validos
 	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 	return result;
 }
@@ -9,9 +9,9 @@ function comprobardatosRegistro(){
 
 
 function comprobardatosModificar(){
-    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
+    //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['user_modify_form'];
-    //comprobamos si todos los campos son validos
+    //comprueba si todos los campos son validos
 	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 }
 
@@ -40,7 +40,7 @@ function comprobarNombreApellido(form){
 	else{
 	     //si no se cumple, lo indica en una ventana de alerta
 		window.alert ("El nombre no es correcto");
-		//devolvemos false
+		//devuelve false
 		return false;}}
 
 	
@@ -49,9 +49,9 @@ function comprobarNombreApellido(form){
 
 //Comprobacion del DNI introducido
 function comprobarDNI(form) {
-	//Guardamos el valor de DNI introducido por el usuario en una variable
+	//Guarda el valor de DNI introducido por el usuario en una variable
 	var DNI= form.numeroDNI.value;
-	//miramos si su longitud es correcta 
+	//mira si su longitud es correcta 
 	if (DNI.length==8 && /^[0-9]+$/.test(DNI)){
 		//Obtiene el resto de dividir el numero del DNI con 23
 		aux=DNI % 23;
