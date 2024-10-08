@@ -24,7 +24,7 @@ if (isset($_POST['register_submit'])) {
     $letraDNI = $_POST['letraDNI'];
     $telefono=$_POST['telefono'];
     $nacimiento=$_POST['nacimiento'];
-    $email=$_POST['correo'];
+    $email=$_POST['email'];
     $usuario=$_POST['nombreUsuario'];
     $contraseña=$_POST['contrasena'];
 
@@ -75,7 +75,7 @@ if (isset($_POST['register_submit'])) {
 		Fecha de Nacimiento:<br>
 		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD"required/><br>
 		Email:<br>
-		<input type="text" name="correo" placeholder="example@xxx.yyy" required> <br>
+		<input type="text" name="email" placeholder="example@xxx.yyy" required> <br>
 		Nombre de usuario<br>
 		<input type="text" name="nombreUsuario" required><br>
 		Contraseña:<br>

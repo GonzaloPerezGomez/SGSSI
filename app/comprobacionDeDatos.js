@@ -1,7 +1,7 @@
 function comprobardatosRegistro(){
     //comprobamos si todos los campos son validos
     var aux = document.forms['register_form'];
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 	return result;
 }
 
@@ -9,7 +9,7 @@ function comprobardatosRegistro(){
 
 function comprobardatosModificar(){
     var aux = document.forms['user_modify_form'];
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) &&  comprobarCorreo(aux) );
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 }
 
 
@@ -201,14 +201,14 @@ function comprobarCorreo(form){
     //establece el patron requerido para el correo electronico 
     correoBase = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     //guarda en una variable el valor introducido en el recuadro de correo 
-    var correo= form.correo.value;
+    var correo= form.email.value;
     //mira si el valor introdicido sigue el patron del correo electronico( es decir xxxxx@xx.xx)
     if (correoBase.test(correo)){
         //si sigue el patron, devuelve true
         return true;}  
     else{
         //si no cumple el patron avisa del fallo de formato en el correo
-        window.alert ("El correo electronico no es correcto");
+        window.alert ("El correo electrónico no es correcto");
         //devuelve false
         return false;}      
         
