@@ -1,6 +1,7 @@
 function comprobardatosRegistro(){
+    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
+    var aux = document.forms['register_form']; 
     //comprobamos si todos los campos son validos
-    var aux = document.forms['register_form'];
 	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 	return result;
 }
@@ -8,7 +9,9 @@ function comprobardatosRegistro(){
 
 
 function comprobardatosModificar(){
+    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['user_modify_form'];
+    //comprobamos si todos los campos son validos
 	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
 }
 
