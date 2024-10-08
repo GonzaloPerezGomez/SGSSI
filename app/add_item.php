@@ -91,7 +91,7 @@ $conn->close();
 	
 	
 	<body>
-	<! -- cream un formulario con el nombre item_add_form que realizará un metodo post en base al resultado del metodo omprobardatosAnnadir -- > 
+	<! -- crea un formulario con el nombre item_add_form que realizará un metodo post en base al resultado del metodo comprobardatosAnnadir -- > 
 	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
     <! -- centra el parrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) -- > 
 	<p align="center">Introduzca la información pedida a continuación:</p>
