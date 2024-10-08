@@ -36,7 +36,7 @@ if($stmt = $conn->prepare($query)){     //prepara la consulta
 	}
 }
 else{
-	echo "Conecxion fallida";
+	echo "Conexión fallida";
 }
 
 // cerrar conexión
@@ -67,9 +67,9 @@ $conn->close();
   		<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . " readonly> <br>
 		<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . " readonly><br>
 		Teléfono:<br>
-		<input type= text  name= telefono value='$telefono' readonly> <br>
+		<input type= text  name= telefono value=" . $infousuario['telefono'] . " readonly> <br>
         Fecha de Nacimiento:<br>
-		<input type= text  name= nacimiento value='$nacimiento' readonly> <br>
+		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " readonly> <br>
         Email:<br>
 		<input type= text  name= email value= " . $infousuario['email'] . " readonly> <br>
         Usuario:<br>
@@ -80,6 +80,9 @@ $conn->close();
 			echo "Not logged in";
 		}
 		?>
+		<br>
+		<a class="button" href="modify_password.php">Cambiar contraseña</a>
+		
 		
 	</form>
 	
