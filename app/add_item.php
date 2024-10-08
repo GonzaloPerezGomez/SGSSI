@@ -7,7 +7,7 @@ $servername = "db";
 $username = "admin";
 //guarda la contraseña del usuario en una variable
 $password = "test";
-//guarda el nombre del de la base de datos a la que quere acceder
+//guarda el nombre del de la base de datos a la que quiere acceder
 $dbname = "database";
 
 //se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
@@ -23,28 +23,29 @@ if ($conn->connect_error) {
 //si se ha pulsado el botón que llama a item_add_submit
 if (isset($_POST['item_add_submit'])) {
     // guardar la información del formulario
-    //guarda el titulo del libro
+    //guarda el título del libro
     $titulo = $_POST['titulo'];
     //guarda el autor del libro
     $autor= $_POST['autor'];
-    //guarda la fecha de publicacion del libro
+    //guarda la fecha de publicación del libro
     $f_publicacion = $_POST['f_publicacion'];
     //guarda el ISBN del libro
     $ISBN=$_POST['ISBN'];
     //guarda el número de páginas del libro
     $n_paginas=$_POST['n_paginas'];
 	
-	//guardala instruccion de SQL que quere utilizar en este caso un select
+	//guarda la instrucción de SQL que quire utilizar, en este caso un select
 	$sql = "SELECT ISBN from libro where ISBN = '" . $ISBN . "'";
-	//realizamos el comando en la base de datos y almacena el resultado en una variable
+	//realiza el comando en la base de datos y almacena el resultado en una variable
 	$result = $conn->query($sql);
 
 	//si el select nos devuelve un valor mayor que 0,(hay otro libro en la bd con ese isbn)
 	if ($result ->num_rows > 0){ 
-		//imprimi por pantalla un mensaje indicando que ya existe un libro con ese ISBN
+		//imprime por pantalla un mensaje indicando que ya existe un libro con ese ISBN
 		echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
+	//si no
 	else{
-		//como no hay problemas prepara la insercion del nuevo libro con el comando de SQL insert into
+		//prepara la inserción del nuevo libro con el comando de SQL insert into
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
 		// Procesar la imagen        
@@ -53,9 +54,9 @@ if (isset($_POST['item_add_submit'])) {
 		$target_file = str_replace(" ", "-", $target_file); //reemplaza los espacios con -
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
-		//si al realizar el insert into en sql el resultado es true(se ha realizado la introduccion)
+		//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
 		if ($conn->query($sql) === TRUE) {
-			//pone por pantalla
+			//pone por pantalla:
 			echo "<script>
 					//un aviso de que el libro se ha añadido correctamente 
 					window.alert('Infromacion actualizada correctamente.');
@@ -81,19 +82,19 @@ $conn->close();
 
 <html>
 <head>
-<! -- titulo que se pondra en la pagina -- > 
+<! -- título que se pondrá en la página -- > 
 <title> Añadir libro </title>
-<! -- indica desde que script realizara las comprobaciones -- > 
+<! -- indica desde que script realizará las comprobaciones -- > 
 <script src="comprobarDatosLibro.js"></script>
-<! -- indica desde que script modela la pagina web-- > 
+<! -- indica desde que script modela la página web-- > 
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<! -- crea un formulario con el nombre item_add_form que realizará un metodo post en base al resultado del metodo comprobardatosAnnadir -- > 
+	<! -- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosAnnadir -- > 
 	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
-    <! -- centra el parrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) -- > 
+    <! -- centra el párrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) -- > 
 	<p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo" required> 
@@ -109,13 +110,13 @@ $conn->close();
 		<input type="file" name="imagen" accept=".jpeg" required> <br>
 		<br>
 
-		<! -- se trata de un boton del tipo submit, que tras pulsar, el sistema comienza con las comprobaciones para introducir el libro en la base de datos-- > 
+		<! -- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para introducir el libro en la base de datos-- > 
 		<input type="submit" name="item_add_submit" class ="button" value="Añadir" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 
 	<! -- contenedor de botones-- > 
 	<div class="button-container">
-	<! -- botton normal que al puksar no lleva a la pagina tems.php -- > 
+	<! -- botón normal que al pulsar redirige página a items.php -- > 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	

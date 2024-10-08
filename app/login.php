@@ -31,17 +31,17 @@ session_start();?>
     $username = "admin";
     //guarda la contraseña del usuario en una variable
     $password = "test";
-    //guarda el nombre del de la base de datos a la que quere acceder
+    //guarda el nombre del de la base de datos a la que quiere acceder
     $dbname = "database";
 
-    //se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
+    //se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // comprobar conexión
 
     // si la variable que guarda la conexión es un error 
     if ($conn->connect_error) {
-        //para el proceso(die) e indica por pantalla la causa del fallo de conexión 
+        //detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
         die("Connection failed: " . $conn->connect_error);
         
     }
@@ -51,7 +51,7 @@ session_start();?>
         // obtener el usuario y contraseña del formulario y meterlos en una variable
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
-        //guarda la instruccion de SQL que quere utilizar en este caso un select
+        //guarda la instrucción de SQL que quere utilizar, en este caso un select
         $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
         //realiza el select en la base de datos y guarda el resultado en una variable
         $result = $conn->query($sql);
@@ -67,7 +67,7 @@ session_start();?>
         }
         //si no
         else {
-            //imprime por pantalla un mensaje que indica que la contraseña o contraseña no es correcta
+            //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
             echo "<script>alert('Usuario o contraseña incorrectos');</script>";
         }
     }
