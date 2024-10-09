@@ -10,9 +10,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // comprobar conexión
 if ($conn->connect_error) {
-    echo "aaaaaaa";
     die("Connection failed: " . $conn->connect_error);
-	
 }
 
 // comprobar si se ha enviado el formulario
@@ -44,7 +42,8 @@ if (isset($_POST['register_submit'])) {
 			window.location.href = 'index.php';
 			</script>";
 			$conn->close();
-			exit();} 
+			exit();
+		} 
 		else {
     		echo "Error: " . $sql . "<br>" . $conn->error;
     	}
@@ -57,12 +56,10 @@ if (isset($_POST['register_submit'])) {
 
 <html>
 <head>
-<title> Registrarse </title>
-<script src="comprobacionDeDatos.js"></script>
-<link rel="stylesheet" href="estilo.css">
+	<title> Registrarse </title>
+	<script src="comprobacionDeDatos.js"></script>
+	<link rel="stylesheet" href="estilo.css">
 </head>
-	
-	
 	<body>
 	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
@@ -88,16 +85,3 @@ if (isset($_POST['register_submit'])) {
 	<a href="index.php" class="button">Volver a inicio</a>
 
 <html>
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

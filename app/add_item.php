@@ -82,12 +82,12 @@ $conn->close();
 
 <html>
 <head>
-<! -- título que se pondrá en la página -- > 
-<title> Añadir libro </title>
-<! -- indica desde que script realizará las comprobaciones -- > 
-<script src="comprobarDatosLibro.js"></script>
-<! -- indica desde que script modela la página web-- > 
-<link rel="stylesheet" href="estilo.css">
+	<! -- título que se pondrá en la página -- > 
+	<title> Añadir libro </title>
+	<! -- indica desde que script realizará las comprobaciones -- > 
+	<script src="comprobarDatosLibro.js"></script>
+	<! -- indica desde que script modela la página web-- > 
+	<link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
