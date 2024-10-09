@@ -82,6 +82,8 @@ if (isset($_POST['register_submit'])) {
 		<input type="submit" value="Registrarme" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 		
-	<a href="index.php" class="button">Volver a inicio</a>
-
+	<div class="button-container">
+		<a href="index.php" class="button">Volver a inicio</a>
+	</div>
+	
 <html>

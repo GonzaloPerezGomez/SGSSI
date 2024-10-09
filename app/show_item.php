@@ -63,7 +63,6 @@ $stmt->close();
 		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
 		"
 		?>
-		
 	</form>
 	
 	<div class="button-container">

@@ -87,7 +87,9 @@ session_start();?>
 </form>
 
 <br>
-<a href="index.php" class="button">Volver a inicio</a>
+<div class="button-container">
+    <a href="index.php" class="button">Volver a inicio</a>
+</div>
 
 </body>
 <html>
