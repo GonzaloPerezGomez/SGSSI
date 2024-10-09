@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
         
         if ($contrasena==$actualcontrasena) {
             if($nuevacontrasena1==$nuevacontrasena2){
-                if(trim($nuevacontrasena1)!= '') { //para que la nueva contraseña no puedan ser espacios en blanco
+                if(trim($nuevacontrasena1)!= '' && strpos(trim($nuevacontrasena1), ' ') === false) { //para que la nueva contraseña no puedan ser espacios en blanco y que sea una sola palabra
                     // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
                     $sql = "UPDATE usuarios SET contrasena='" . $nuevacontrasena1 . "' WHERE idUsuario= " . $_SESSION['user_id'];
                     $stmt = $conn->prepare($sql);
