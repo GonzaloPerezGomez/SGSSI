@@ -1,7 +1,7 @@
 function comprobardatosAnnadir(){
-    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
+    //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     aux=document.item_add_form;
-    //comprobamos si todos los campos son validos
+    //comprueba si todos los campos son validos
 	result = (comprobarTitulo(aux) && comprobarAutor(aux) && comprobarFecha(aux) && comprobarISBN(aux) && comprobarNumPaginas(aux));
 	return result;
 }
@@ -9,9 +9,9 @@ function comprobardatosAnnadir(){
 
 
 function comprobardatosModificar(){    
-    //guardamos el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
+    //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     aux=document.item_modify_form;
-    //comprobamos si todos los campos son validos
+    //comprueba si todos los campos son validos
 	return (comprobarTitulo(aux) && comprobarAutor(aux) && comprobarFecha(aux) && comprobarISBN(aux) && comprobarNumPaginas(aux));
 }
 
