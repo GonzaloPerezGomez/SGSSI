@@ -12,19 +12,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 //comprobar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);  
-
 }
 
 if (isset($_SESSION['user_id'])) {
 
-
 	$userId=$_SESSION['user_id'];
-
 	$query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario FROM usuarios WHERE idUsuario = " . $userId;
 
 	if($stmt = $conn->prepare($query)){     //prepara la consulta
-		$userId = $_GET['user'];              //se obtiene el user
-		//$stmt->bind_param("i", $userId);      //s=string
 		$stmt->execute();                   //se ejecuta la consulta
 		$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
 		if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
@@ -52,7 +47,6 @@ if (isset($_SESSION['user_id'])) {
 		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
 			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 		else{
-
 			// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
 			$sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido ."', telefono='" . $nuevo_telefono ."', nacimiento='" . $nueva_fecha ."', email='" .$nuevo_email ."', usuario='" . $nuevo_usuario."' WHERE idUsuario= " . $_SESSION['user_id'];
 			$stmt = $conn->prepare($sql);
@@ -76,35 +70,32 @@ if (isset($_SESSION['user_id'])) {
 
 <html>
 <head>
-<title> Modificar Datos </title>
-<script src="comprobacionDeDatos.js"></script>
-<link rel="stylesheet" href="estilo.css">
+	<title> Modificar Datos </title>
+	<script src="comprobacionDeDatos.js"></script>
+	<link rel="stylesheet" href="estilo.css">
 </head>
-	
-	
 	<body>
 	<form name="user_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
         if (isset($_SESSION['user_id'])) {
-
-		echo
-		"
-		Nombre completo:<br>
-		<input type= text name= nombre value= " . $infousuario['nombre'] . " >
-		<input type= text  name= apellido value=  " . $infousuario['apellido'] . " > <br>
-  		DNI:<br>
-  		<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . "> <br>
-		<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . "> <br>
-		Teléfono:<br>
-		<input type= text  name= telefono value= " . $infousuario['telefono'] . " > <br>
-        Fecha de Nacimiento:<br>
-		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " > <br>
-        Email:<br>
-		<input type= text  name= email value= " . $infousuario['email'] . " > <br>
-        Usuario:<br>
-		<input type= text  name= usuario value= " . $infousuario['usuario'] . "  <br>
-		";
+			echo
+			"
+			Nombre completo:<br>
+			<input type= text name= nombre value= " . $infousuario['nombre'] . " >
+			<input type= text  name= apellido value=  " . $infousuario['apellido'] . " > <br>
+			DNI:<br>
+			<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . "> <br>
+			<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . "> <br>
+			Teléfono:<br>
+			<input type= text  name= telefono value= " . $infousuario['telefono'] . " > <br>
+			Fecha de Nacimiento:<br>
+			<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " > <br>
+			Email:<br>
+			<input type= text  name= email value= " . $infousuario['email'] . " > <br>
+			Usuario:<br>
+			<input type= text  name= usuario value= " . $infousuario['usuario'] . "  <br>
+			";
         }
         else {
             echo "You are not logged in";
@@ -114,7 +105,6 @@ if (isset($_SESSION['user_id'])) {
 	</form>
 
 	<div class="button-container">
-		
 		<a class="button" href="show_user.php">Volver</a>
 	</div>	
 	

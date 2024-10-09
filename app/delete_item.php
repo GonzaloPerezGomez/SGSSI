@@ -53,18 +53,17 @@ if (isset($_POST['item_delete_submit'])) {
 
 <html>
 <head>
-<! -- comentario-- > 
-<meta charset="UTF-8">
-<! -- titulo que se pondra en la pagina -- > 
-<title> Borrar libro </title>
-<! -- indica desde que script realizara las comprobaciones -- > 
-<link rel="stylesheet" href="estilo.css">
+    <! -- comentario-- > 
+    <meta charset="UTF-8">
+    <! -- titulo que se pondra en la pagina -- > 
+    <title> Borrar libro </title>
+    <! -- indica desde que script realizara las comprobaciones -- > 
+    <link rel="stylesheet" href="estilo.css">
 </head>
-
 <body>
+    <br>
     <div><h1>¿ESTÁS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
-
-    ! -- crea un formulario que realizará un metodo post  -- > 
+    <! -- crea un formulario que realizará un metodo post  -- > 
     <form method="post">
     <! -- se trata de un boton del tipo submit-- >
         <input type="submit" name="item_delete_submit" value='Confirmar' style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
@@ -72,6 +71,5 @@ if (isset($_POST['item_delete_submit'])) {
         <! -- botton normal que al pulsar redirige la pagina a items.php -- > 
         <a type="button" class="button" href="items.php">Cancelar</a>
     </form>
-    
 </body>
 </html>

@@ -12,11 +12,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = ? ";
+$ISBN = $_GET['ISBN'];              //se obtiene el ISBN
+$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = '" . $ISBN . "'";
 
 if($stmt = $conn->prepare($query)){     //prepara la consulta
-	$ISBN = $_GET['ISBN'];              //se obtiene el ISBN
-	$stmt->bind_param("s", $ISBN);      //s=string
 	$stmt->execute();                   //se ejecuta la consulta
 	$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
 	if($result->num_rows > 0){          //comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
@@ -38,14 +37,11 @@ $stmt->close();
 ?>
 
 
-
 <html>
 <head>
-<title> Información de libro </title>
-<link rel="stylesheet" href="estilo.css">
+	<title> Información de libro </title>
+	<link rel="stylesheet" href="estilo.css">
 </head>
-	
-	
 	<body>
 	<form name="show_item_form" method="POST">
 		<p align="center"> Introduzca la información pedida a continuación:</p>

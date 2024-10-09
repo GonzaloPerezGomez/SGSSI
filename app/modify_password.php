@@ -11,20 +11,15 @@ $dbname = "database";
 $conn = new mysqli($servername, $username, $password, $dbname);
 //comprobar conexión
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);  
-
+    die("Connection failed: " . $conn->connect_error);
 }
 
 if (isset($_SESSION['user_id'])) {
 
-
     $userId=$_SESSION['user_id'];
-
     $query = "SELECT contrasena FROM usuarios WHERE idUsuario = " . $userId;
 
     if($stmt = $conn->prepare($query)){     //prepara la consulta
-        $userId = $_GET['user'];              //se obtiene el user
-        //$stmt->bind_param("s", $userId);      //s=string
         $stmt->execute();                   //se ejecuta la consulta
         $result = $stmt->get_result();      //el resultado se cuarda en la variable $result
         if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
@@ -67,9 +62,7 @@ if (isset($_SESSION['user_id'])) {
             echo "<script> window.alert('La contraseña actual no coincide con tu contraseña'); </script>";
         }
     }
-    
 }
-
 
 // cerrar conexión
 $conn->close();
@@ -77,11 +70,9 @@ $conn->close();
 
 <html>
 <head>
-<title> Modificar Contraseña </title>
-<link rel="stylesheet" href="estilo.css">
+    <title> Modificar Contraseña </title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
-	
-	
 	<body>
 	<form name="user_modify_password" method="POST">
 		<br>
@@ -95,7 +86,6 @@ $conn->close();
 	</form>
 
 	<div class="button-container">
-		
 		<a class="button" href="show_user.php">Volver</a>
 	</div>	
 	

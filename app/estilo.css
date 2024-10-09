@@ -3,7 +3,7 @@
     --color-fondo: #ffffff; /* Fondo */
     --color-texto: #ffffff; /* Texto */
     --color-textotabla: #000000; /* Texto */
-    --color-enlace: #ff007c; /* Color de los enlaces */
+    --color-enlace: #ffaa65; /* Color de los enlaces */
     --color-boton: #ffaa65; /* Color de los botones */
     --color-boton-hover: #ff8724; /* Hover del botón = poner el ratón encima*/
     --color-tablaborde: #ff8724;
@@ -41,6 +41,7 @@ h2, h3 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration:none;
 }
 
 .button:hover {
