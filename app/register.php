@@ -23,7 +23,7 @@ if (isset($_POST['register_submit'])) {
     $telefono=$_POST['telefono'];
     $nacimiento=$_POST['nacimiento'];
     $email=$_POST['email'];
-    $usuario=$_POST['nombreUsuario'];
+    $usuario=$_POST['usuario'];
     $contraseña=$_POST['contrasena'];
 
 	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
@@ -74,7 +74,7 @@ if (isset($_POST['register_submit'])) {
 		Email:<br>
 		<input type="text" name="email" placeholder="example@xxx.yyy" required> <br>
 		Nombre de usuario<br>
-		<input type="text" name="nombreUsuario" required><br>
+		<input type="text" name="usuario" required><br>
 		Contraseña:<br>
 		<input type="text" name="contrasena" required> <br>
 
