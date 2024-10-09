@@ -57,7 +57,7 @@ if (isset($_POST['item_delete_submit'])) {
 <meta charset="UTF-8">
 <! -- titulo que se pondra en la pagina -- > 
 <title> Borrar libro </title>
-<! -- indica desde que script realizara las comprobaciones -- > 
+<! -- indica desde que script modela la página web-- > 
 <link rel="stylesheet" href="estilo.css">
 </head>
 
