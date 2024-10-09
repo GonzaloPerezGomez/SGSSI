@@ -221,7 +221,7 @@ function comprobarCorreo(form){
 //Comprobacion del usuario
 function comprobarUsuario(form) {
 	var usuario= form.usuario.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como usuario " ")
-	if (usuario.length!=0) {return true;} //si se ha escrito algo (longitud mayor que 0)
+	if (usuario.length>0 && usuario.indexOf(' ') === -1) {return true;} //si se ha escrito algo (longitud mayor que 0) y no es más de una palabra (no contiene espacios)
 	else{
 		//avisa el error
 		window.alert ("El nombre de usuario no es válido");
@@ -232,7 +232,7 @@ function comprobarUsuario(form) {
 //Comprobacion de la contraseña
 function comprobarContrasena(form) {
 	var contrasena= form.contrasena.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como contraseña " ")
-	if (contrasena.length!=0) {return true;} //si se ha escrito algo (longitud mayor que 0)
+	if (contrasena.length>0 && contrasena.indexOf(' ') === -1) {return true;} //si se ha escrito algo (longitud mayor que 0) y no es más de una palabra (no contiene espacios)
 	else{
 		//avisa el error
 		window.alert ("La contraseña no es válida");
