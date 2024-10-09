@@ -12,7 +12,7 @@ function comprobardatosModificar(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['user_modify_form'];
     //comprueba si todos los campos son validos
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux));
 }
 
 
@@ -221,14 +221,21 @@ function comprobarCorreo(form){
 //Comprobacion del usuario
 function comprobarUsuario(form) {
 	var usuario= form.usuario.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como usuario " ")
-	window.alert (usuario);
 	if (usuario.length!=0) {return true;} //si se ha escrito algo (longitud mayor que 0)
-	else {return false;}
+	else{
+		//avisa el error
+		window.alert ("El nombre de usuario no es válido");
+		//devuelve false
+		return false;}
 }
 
 //Comprobacion de la contraseña
 function comprobarContrasena(form) {
 	var contrasena= form.contrasena.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como contraseña " ")
 	if (contrasena.length!=0) {return true;} //si se ha escrito algo (longitud mayor que 0)
-	else {return false;}
+	else{
+		//avisa el error
+		window.alert ("La contraseña no es válida");
+		//devuelve false
+		return false;}
 }

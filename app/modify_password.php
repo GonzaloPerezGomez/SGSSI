@@ -41,26 +41,24 @@ if (isset($_SESSION['user_id'])) {
         
         if ($contrasena==$actualcontrasena) {
             if($nuevacontrasena1==$nuevacontrasena2){
-                // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-                $sql = "UPDATE usuarios SET contrasena='" . $nuevacontrasena1 . "' WHERE idUsuario= " . $_SESSION['user_id'];
-                $stmt = $conn->prepare($sql);
-                // Ejecutar la consulta
-                if ($stmt->execute()) {
-                    echo "<script>
-                    window.alert('Cambios guardados correctamente.');
-                    window.location.href = 'show_user.php';
-                    </script>";
-                } else {
-                    echo "Error al guardar los cambios: " . $stmt->error;
-                }
+                if(trim($nuevacontrasena1)!= '') { //para que la nueva contraseña no puedan ser espacios en blanco
+                    // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
+                    $sql = "UPDATE usuarios SET contrasena='" . $nuevacontrasena1 . "' WHERE idUsuario= " . $_SESSION['user_id'];
+                    $stmt = $conn->prepare($sql);
+                    // Ejecutar la consulta
+                    if ($stmt->execute()) {
+                        echo "<script>
+                        window.alert('Cambios guardados correctamente.');
+                        window.location.href = 'show_user.php';
+                        </script>";
+                    } else {
+                        echo "Error al guardar los cambios: " . $stmt->error;
+                    }
+                } else {echo "<script> window.alert('La contraseña nueva no es válida'); </script>";}
             }
-            else {
-                echo "<script> window.alert('Las nuevas contraseñas no coinciden'); </script>";
-            }
+            else {echo "<script> window.alert('Las nuevas contraseñas no coinciden'); </script>";}
         }
-        else {
-            echo "<script> window.alert('La contraseña actual no coincide con tu contraseña'); </script>";
-        }
+        else {echo "<script> window.alert('La contraseña actual no coincide con tu contraseña'); </script>";}
     }
 }
 
