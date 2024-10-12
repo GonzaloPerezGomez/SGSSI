@@ -23,5 +23,5 @@ Para detenerlo:
 ```bash
 $ docker-compose stop
 ```
-# Instrucción adicional
+### Instrucción adicional
 Para ver la información de un libro hay que pulsar en su imagen
