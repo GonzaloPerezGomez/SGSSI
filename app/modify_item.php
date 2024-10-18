@@ -1,18 +1,27 @@
 <?php
 // conexión a la base de datos
+
+//guarda el nombre del servidor a conectar
 $servername = "db";
+//guarda el nombre del usuario necesario para acceder al servidor
 $username = "admin";
+//guarda la contraseña del usuario en una variable
 $password = "test";
+//guarda el nombre del de la base de datos a la que quiere acceder
 $dbname = "database";
 
+//se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // comprobar conexión
+
+// si la variable que guarda la conexión es un error 
 if ($conn->connect_error) {
-    echo "aaaaaaa";
+	//para el proceso(die) e indica por pantalla la causa del fallo de conexión 
     die("Connection failed: " . $conn->connect_error);
 }
 
+//si se ha pulsado el botón que llama a item_modify_submit
 if (isset($_POST['item_modify_submit'])) {
     // guardar la info del formulario
     $titulo = $_POST['titulo'];

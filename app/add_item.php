@@ -82,19 +82,19 @@ $conn->close();
 
 <html>
 <head>
-<! -- título que se pondrá en la página -- > 
+<!-- título que se pondrá en la página --> 
 <title> Añadir libro </title>
-<! -- indica desde que script realizará las comprobaciones -- > 
+<!-- indica desde que script realizará las comprobaciones --> 
 <script src="comprobarDatosLibro.js"></script>
-<! -- indica desde que script modela la página web-- > 
+<!-- indica desde que script modela la página web--> 
 <link rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
-	<! -- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosAnnadir -- > 
+	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosAnnadir --> 
 	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
-    <! -- centra el párrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) -- > 
+    <!-- centra el párrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) --> 
 	<p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
 		<input type="text" name="titulo" required> 
@@ -110,13 +110,13 @@ $conn->close();
 		<input type="file" name="imagen" accept=".jpeg" required> <br>
 		<br>
 
-		<! -- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para introducir el libro en la base de datos-- > 
+		<!-- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para introducir el libro en la base de datos--> 
 		<input type="submit" name="item_add_submit" class ="button" value="Añadir" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
 
-	<! -- contenedor de botones-- > 
+	<!-- contenedor de botones--> 
 	<div class="button-container">
-	<! -- botón normal que al pulsar redirige página a items.php -- > 
+	<!-- botón normal que al pulsar redirige página a items.php --> 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	
