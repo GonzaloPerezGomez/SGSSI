@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db:3306
--- Tiempo de generación: 06-10-2024 a las 17:36:43
+-- Tiempo de generación: 18-10-2024 a las 17:26:35
 -- Versión del servidor: 10.8.2-MariaDB-1:10.8.2+maria~focal
 -- Versión de PHP: 8.2.8
 
@@ -41,7 +41,10 @@ CREATE TABLE `libro` (
 --
 
 INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VALUES
-(1, 'Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '123456789123', '500');
+(1, 'Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '9788419260246', '500'),
+(17, 'Los Juegos del Hambre', 'Suzanne Collins', '2008-09-14', '9788413144856', '400'),
+(18, 'El Asesinato de Roger Ackroyd', 'Agatha Christie', '1926-06-12', '9788467052978', '272'),
+(20, 'Harry Potter y la piedra filosofal', 'J K Rowling', '1997-06-26', '9788478884452', '264');
 
 -- --------------------------------------------------------
 
@@ -93,13 +96,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `libro`
 --
 ALTER TABLE `libro`
-  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
