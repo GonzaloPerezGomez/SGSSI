@@ -1,18 +1,16 @@
 <?php  
 session_start();?>
+
 <html>
 <head>
-
-<meta charset="UTF-8">
-<!-- titulo que se pondra en la pagina --> 
-<title> Página principal </title>
-<!-- indica desde que script modela la página web--> 
-<link rel="stylesheet" href="estilo.css">
+    <meta charset="UTF-8">
+    <title> Página principal </title>
+    <script src="comprobacionDeDatos.js"></script>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 
 <body>
-<!-- titulo que se pondra en la pagina --> 
-<h1>PÁGINA PRINCIPAL</h1>
+    <br><h1>PÁGINA PRINCIPAL</h1>
 
 <?php
 //si la sesión esta iniciada
@@ -42,7 +40,6 @@ else {
         <!--botón normal que al pulsar se redirige a la página items.php-->
         <a class="button" href="items.php">Catálogo</a>
     </div>';}?>
-
 
 		
 

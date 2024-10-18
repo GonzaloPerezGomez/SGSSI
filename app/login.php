@@ -4,12 +4,10 @@ session_start();?>
 
 <html>
 <head>
-
-<!--titulo de la direccion-->
-<title> login </title> 
-<!-- indica desde que script modela la pagina web --> 
-<link rel="stylesheet" href="estilo.css">
- </head>
+    <title> login </title> 
+    <! -- indica desde que script modela la pagina web -- > 
+    <link rel="stylesheet" href="estilo.css">
+</head>
 	
 	
 <body>
