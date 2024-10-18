@@ -58,9 +58,9 @@ if (isset($_POST['item_add_submit'])) {
 		if ($conn->query($sql) === TRUE) {
 			//pone por pantalla:
 			echo "<script>
-					//un aviso de que el libro se ha añadido correctamente 
+					<!--un aviso de que el libro se ha añadido correctamente -->
 					window.alert('Infromacion actualizada correctamente.');
-					//nos lleva a la pagina items.php
+					<!--nos lleva a la pagina items.php-->
 					window.location.href = 'items.php';
 				</script>";
 			exit();

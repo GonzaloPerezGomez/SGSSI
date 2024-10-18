@@ -31,9 +31,9 @@ if (isset($_POST['item_delete_submit'])) {
     if ($conn->query($sql) === TRUE) {
         //imprime por pantalla
         echo "<script>
-            //un aviso de que el libro se ha añadido correctamente 
+            <!--un aviso de que el libro se ha añadido correctamente -->
 			window.alert('Libro eliminado correctamente.');
-            //nos lleva a la pagina items.php
+            <!--nos lleva a la pagina items.php-->
 			window.location.href = 'items.php';
 		</script>";
         //cierra conexión con la base de datos

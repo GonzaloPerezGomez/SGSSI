@@ -1,6 +1,4 @@
-
 <?php  
-//funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 session_start();?>
 <html>
 <head>
@@ -22,31 +20,29 @@ if (isset($_SESSION['user_id'])) {
     //se muestra
     echo
     '
-    //contenedor de botones con los siguientes botones
+    <!--contenedor de botones con los siguientes botones-->
     <div class="button-container">
-        // botón normal que al pulsar se redirige a la página items.php
+        <!-- botón normal que al pulsar se redirige a la página items.php-->
         <a class="button" href="items.php">Catálogo</a>
-        // botón normal que al pulsar redirige página a show_user.php 
+        <!-- botón normal que al pulsar redirige página a show_user.php -->
         <a class="button" href=show_user.php>
-        //se carga la imagen de una carpeta ubicada en el repositorio
+        <!--se carga la imagen de una carpeta ubicada en el repositorio-->
         <img src="image/user.png" style="height:20px;"></a>
     </div>';}
 //si no ha iniciado sesión
 else {                              
     echo
     '
-    //contenedor de botones con los siguientes botones
+    <!--contenedor de botones con los siguientes botones-->
 	<div class="button-container">
-        // botón normal que al pulsar se redirige a la página login.php
+        <!-- botón normal que al pulsar se redirige a la página login.php-->
         <a href="login.php" class="button">Iniciar Sesión</a>
-        // botón normal que al pulsar se redirige a la página register.php
+        <!-- botón normal que al pulsar se redirige a la página register.php-->
         <a href="register.php" class="button">Registrarse</a>
-        // botón normal que al pulsar se redirige a la página items.php
+        <!--botón normal que al pulsar se redirige a la página items.php-->
         <a class="button" href="items.php">Catálogo</a>
-    </div>';}
+    </div>';}?>
 
-</body>
-</html>
 
 		
 
