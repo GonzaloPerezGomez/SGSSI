@@ -8,7 +8,9 @@
 <body>
 <br>
 <div class="button-container">
+    <!--botón normal que al pulsar se redirige a la página add_item.php-->
     <a class="button" href="add_item.php">Añadir libro</a>
+    <!-- botón normal que al pulsar se redirige a la página index.php-->
     <a class="button" href="index.php">Volver a inicio</a>
 
 </div>

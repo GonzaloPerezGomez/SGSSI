@@ -74,14 +74,14 @@ session_start();?>
 
     ?>
     
-<! -- crea un formulario con el nombre login_form que realizará un metodo post  -- > 
+<!-- crea un formulario con el nombre login_form que realizará un metodo post  --> 
 <form name="login_form" method="post">
 	<p>Introduzca el nombre del usuario y su contraseña:</p>
 	Nombre de usuario:<input type="text" name="nombreUsuario" value=""> 
 	Contraseña:<input type="text" name="contraseña" value=""> 
   
 	<br>
-    <! -- se trata de un boton del tipo submit, que al pulsar realiza el login_submit-- > 
+    <!-- se trata de un boton del tipo submit, que al pulsar realiza el login_submit--> 
 	<input type="submit" name="login_submit" value="Acceder" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
     
 </form>
