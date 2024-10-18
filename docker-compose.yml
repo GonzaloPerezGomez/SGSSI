@@ -9,6 +9,7 @@ services:
    - "81:80"
   volumes:
    - ./app:/var/www/html/
+   - imagenes:/var/www/imagen
   depends_on:
    - db
    - phpmyadmin
@@ -36,3 +37,6 @@ services:
    PMA_PORT: 3306
    PMA_USER: admin
    PMA_PASSWORD: test
+
+volumes:
+  imagenes:
