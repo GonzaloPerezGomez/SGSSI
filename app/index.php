@@ -4,6 +4,7 @@
 session_start();?>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <!-- titulo que se pondra en la pagina --> 
 <title> Página principal </title>
@@ -44,8 +45,6 @@ else {
         <a class="button" href="items.php">Catálogo</a>
     </div>';}
 
-
-?>
 </body>
 </html>
 

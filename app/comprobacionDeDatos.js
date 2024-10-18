@@ -2,7 +2,7 @@ function comprobardatosRegistro(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 
     //comprueba si todos los campos son validos
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
 	return result;
 }
 
@@ -12,7 +12,7 @@ function comprobardatosModificar(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['user_modify_form'];
     //comprueba si todos los campos son validos
-	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux));
+	return (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux));
 }
 
 
@@ -22,12 +22,12 @@ function comprobardatosModificar(){
 //Comprobacion del nombre y apellido
 function comprobarNombreApellido(form){
     //obtiene el valor del campo nombre
-	var nombre= form.nombre.value;
+	var nombre= form.nombre.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como nombre " ")
 	//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
 	if(/^[a-zA-Z\s]+$/.test(nombre) && nombre.length!=0){
 	    //si se cumple la condicion comprueba el apellido
 	    //obtiene el valor de campo apellido
-		var apellido= form.apellido.value;
+		var apellido= form.apellido.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como apellido " ")
 		//mira si se ha escrito algo (longitud mayor que 0) y se han escrito solo letras
 		if (/^[a-zA-Z\s]+$/.test(apellido) && apellido.length!=0){
 		    //si cumple la condicion, tanto el nombre como el apellido tienen un formato valido (devolvemos true)
@@ -41,7 +41,8 @@ function comprobarNombreApellido(form){
 	     //si no se cumple, lo indica en una ventana de alerta
 		window.alert ("El nombre no es correcto");
 		//devuelve false
-		return false;}}
+		return false;}
+}
 
 	
 //------------------------------------------------------------------------------------------------------------------------//
@@ -151,7 +152,7 @@ function comprobarFecha(form){
             //Crea una variable de tipo date con la fecha actual
             fechaActual=new Date();
             //mira si la fecha es valida y si no hemos introducido una fecha superior a la actual
-            if (fechaValida(anno,mes,dia) && fechaIndicada<=fechaActual){
+            if (fechaValida(anno,mes,dia) && fechaIndicada<=fechaActual && /^\d{4}$/.test(fecha[0])){
                 //si la fecha es valida e inferior a la actual devuelve un true
                 return true;}}}
     //si el programa no ha terminado, es decir, no se han cumplido todos los terminos de validacion salta una alarma de alerta
@@ -215,4 +216,26 @@ function comprobarCorreo(form){
         //devuelve false
         return false;}      
         
+}
+
+//Comprobacion del usuario
+function comprobarUsuario(form) {
+	var usuario= form.usuario.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como usuario " ")
+	if (usuario.length>0 && usuario.indexOf(' ') === -1) {return true;} //si se ha escrito algo (longitud mayor que 0) y no es más de una palabra (no contiene espacios)
+	else{
+		//avisa el error
+		window.alert ("El nombre de usuario no es válido");
+		//devuelve false
+		return false;}
+}
+
+//Comprobacion de la contraseña
+function comprobarContrasena(form) {
+	var contrasena= form.contrasena.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como contraseña " ")
+	if (contrasena.length>0 && contrasena.indexOf(' ') === -1) {return true;} //si se ha escrito algo (longitud mayor que 0) y no es más de una palabra (no contiene espacios)
+	else{
+		//avisa el error
+		window.alert ("La contraseña no es válida");
+		//devuelve false
+		return false;}
 }

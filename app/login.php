@@ -4,6 +4,7 @@ session_start();?>
 
 <html>
 <head>
+
 <!--titulo de la direccion-->
 <title> login </title> 
 <!-- indica desde que script modela la pagina web --> 
@@ -12,11 +13,10 @@ session_start();?>
 	
 	
 <body>
- <header>
+    <br>
+    <header>
         <h1>Bienvenido</h1>
-       
     </header>
-
     <main>
         <section>
             <h2>Iniciar sesión</h2>  
@@ -72,11 +72,7 @@ session_start();?>
             echo "<script>alert('Usuario o contraseña incorrectos');</script>";
         }
     }
-
-
-        
-        $conn->close();
-
+    $conn->close();
 
     ?>
     
@@ -85,7 +81,6 @@ session_start();?>
 	<p>Introduzca el nombre del usuario y su contraseña:</p>
 	Nombre de usuario:<input type="text" name="nombreUsuario" value=""> 
 	Contraseña:<input type="text" name="contraseña" value=""> 
-  	<br>
   
 	<br>
     <! -- se trata de un boton del tipo submit, que al pulsar realiza el login_submit-- > 
@@ -93,8 +88,10 @@ session_start();?>
     
 </form>
 
-<a href="index.php" class="button">Volver a inicio</a>
-	
- 
+<br>
+<div class="button-container">
+    <a href="index.php" class="button">Volver a inicio</a>
+</div>
+
 </body>
 <html>

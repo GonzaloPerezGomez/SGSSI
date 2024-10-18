@@ -17,11 +17,33 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // si la variable que guarda la conexión es un error 
 if ($conn->connect_error) {
+
 	//para el proceso(die) e indica por pantalla la causa del fallo de conexión 
     die("Connection failed: " . $conn->connect_error);
 }
 
-//si se ha pulsado el botón que llama a item_modify_submit
+$idLibro = $_GET['idLibro'];
+$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = '" . $idLibro . "'";
+
+if($stmt = $conn->prepare($query)){
+	$stmt->execute();
+	$result = $stmt->get_result();
+	if($result->num_rows > 0){
+		$libro = $result->fetch_assoc();
+	}
+	else{
+		echo "No se ha encontrado ningun libro";
+	}
+}
+else{
+	echo "Conexion fallida";
+}
+
+$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
+$nombimagen = str_replace(" ", "-", $nombimagen);
+
+// cuando se pulsa el botón "Guardar" entra en el if:
+
 if (isset($_POST['item_modify_submit'])) {
     // guardar la info del formulario
     $titulo = $_POST['titulo'];
@@ -43,33 +65,9 @@ if (isset($_POST['item_modify_submit'])) {
       }
     $conn->close();
 }
-
-
-$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ? ";
-
-if($stmt = $conn->prepare($query)){
-	$idLibro = $_GET['idLibro'];
-	$stmt->bind_param("i", $idLibro);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	if($result->num_rows > 0){
-		$libro = $result->fetch_assoc();
-	}
-	else{
-		echo "No se ha encontrado ningun libro";
-	}
-}
-else{
-	echo "Conexion fallida";
-}
-
-$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
-$nombimagen = str_replace(" ", "-", $nombimagen);
-
 $stmt->close();
 
 ?>
-
 
 
 <html>
@@ -77,9 +75,7 @@ $stmt->close();
 <title> Editar libro </title>
 <script src="comprobarDatosLibro.js"></script>
 <link rel="stylesheet" href="estilo.css">
-</head>
-	
-	
+</head>	
 	<body>
 	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
 		<p align="center"> Introduzca la información pedida a continuación:</p>

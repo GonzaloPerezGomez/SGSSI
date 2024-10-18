@@ -75,6 +75,5 @@ if (isset($_POST['item_delete_submit'])) {
         <!-- botton normal que al pulsar redirige la pagina a items.php --> 
         <a type="button" class="button" href="items.php">Cancelar</a>
     </form>
-    
 </body>
 </html>
