@@ -1,21 +1,29 @@
 <?php
 session_start();
 // conexión a la base de datos
+//guarda el nombre del servidor a conectar
 $servername = "db";
+//guarda el nombre del usuario necesario para acceder al servidor
 $username = "admin";
+//guarda la contraseña del usuario en una variable
 $password = "test";
+//guarda el nombre del de la base de datos a la que quiere acceder
 $dbname = "database";
 
+//se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // comprobar conexión
+
+// si la variable que guarda la conexión es un error 
 if ($conn->connect_error) {
+	//detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
     die("Connection failed: " . $conn->connect_error);
 }
 
 // comprobar si se ha enviado el formulario
 if (isset($_POST['register_submit'])) {
-	// guardar la info del formulario
+	// guardar la información del formulario
     $nombre = $_POST['nombre'];
     $apellido= $_POST['apellido'];
     $DNI = $_POST['numeroDNI'];
@@ -26,13 +34,18 @@ if (isset($_POST['register_submit'])) {
     $usuario=$_POST['usuario'];
     $contraseña=$_POST['contrasena'];
 
+	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
+	//se ejecuta la instrucción
 	$result = $conn->query($sql);
 	if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
 		echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 	else{
+		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
 		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
-    	if ($conn->query($sql) === TRUE) {
+    	//se comprueba si la instrucción se ha ejecutado de forma correcta
+		if ($conn->query($sql) === TRUE) {
+			//se recoge el id del usuario para despues crear su sesión
 			$sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
 			$result = $conn->query($sql);
 			$returnedValues = $result->fetch_assoc();
@@ -41,13 +54,17 @@ if (isset($_POST['register_submit'])) {
 			window.alert('Se ha registrado correctamente :)');
 			window.location.href = 'index.php';
 			</script>";
+
+			//se cierra la conexión
 			$conn->close();
 			exit();
 		} 
 		else {
+			//la instrucción no es válida
     		echo "Error: " . $sql . "<br>" . $conn->error;
     	}
-
+		
+	//se cierra la conexión
 	$conn->close();
 }
 }

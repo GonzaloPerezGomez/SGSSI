@@ -1,22 +1,34 @@
 <?php
-
+//funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 session_start();
 
 // conexión a la base de datos
+//guarda el nombre del servidor a conectar
 $servername = "db";
+//guarda el nombre del usuario necesario para acceder al servidor
 $username = "admin";
+//guarda la contraseña del usuario en una variable
 $password = "test";
+//guarda el nombre del de la base de datos a la que quiere acceder
 $dbname = "database";
 
+//se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
 $conn = new mysqli($servername, $username, $password, $dbname);
-//comprobar conexión
+
+// comprobar conexión
+
+// si la variable que guarda la conexión es un error 
 if ($conn->connect_error) {
+	//detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
     die("Connection failed: " . $conn->connect_error);  
 }
 
+// comprobar si se ha enviado el formulario
 if (isset($_SESSION['user_id'])) {
 
+	//se obtiene el id del usuario que tenga la sesión iniciada
 	$userId=$_SESSION['user_id'];
+	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario FROM usuarios WHERE idUsuario = " . $userId;
 
 	if($stmt = $conn->prepare($query)){     //prepara la consulta
@@ -26,12 +38,16 @@ if (isset($_SESSION['user_id'])) {
 			$infousuario = $result->fetch_assoc();//obtenemos el usuario
 		}
 		else{
+			//no se ha encontrado un usuario con ese id
 			echo "No attributes found for user ID: " . $userId;
 		}
 	}
 	else{
+		//la instrucción no es valida
 		echo "Conexión fallida";
 	}
+
+
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// Obtener los datos del formulario
 		$id_usuario = $_POST['idUsuario'];
@@ -41,9 +57,12 @@ if (isset($_SESSION['user_id'])) {
 		$nueva_fecha = $_POST['nacimiento'];
 		$nuevo_email = $_POST['email'];
 		$nuevo_usuario = $_POST['usuario'];
-
+		
+		//guarda la instrucción de SQL que quere utilizar, en este caso un select
 		$sql = "SELECT usuario from usuarios where usuario = '" . $nuevo_usuario . "'";
+		//se prepara la instrucción
 		$result = $conn->query($sql);
+		//se comprueba si ya esxiste un usuario con ese nombre de usuario
 		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
 			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 		else{
@@ -57,6 +76,7 @@ if (isset($_SESSION['user_id'])) {
 				window.location.href = 'show_user.php';
 				</script>";
 			} else {
+				//la instrucción no es valdia
 				echo "Error al guardar los cambios: " . $stmt->error;
 			}
 		}
