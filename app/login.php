@@ -5,7 +5,7 @@ session_start();?>
 <html>
 <head>
     <title> login </title> 
-    <! -- indica desde que script modela la pagina web -- > 
+    <!-- indica desde que script modela la pagina web --> 
     <link rel="stylesheet" href="estilo.css">
 </head>
 	
