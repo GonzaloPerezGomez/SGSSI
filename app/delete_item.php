@@ -9,7 +9,7 @@ $password = "test";
 //guarda el nombre del de la base de datos a la que quere acceder
 $dbname = "database";
 
- //se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
+//se realiza la conexión en el servidor con el usuario introducido en la besa de datos introducida (db, database)
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // comprobar conexión
@@ -53,22 +53,22 @@ if (isset($_POST['item_delete_submit'])) {
 
 <html>
 <head>
-    <! -- comentario-- > 
+    <!-- comentario--> 
     <meta charset="UTF-8">
-    <! -- titulo que se pondra en la pagina -- > 
+    <!-- titulo que se pondra en la pagina --> 
     <title> Borrar libro </title>
-    <! -- indica desde que script realizara las comprobaciones -- > 
+    <!-- indica desde que script realizara las comprobaciones --> 
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <br>
     <div><h1>¿ESTÁS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
-    <! -- crea un formulario que realizará un metodo post  -- > 
+    <!-- crea un formulario que realizará un metodo post  --> 
     <form method="post">
-    <! -- se trata de un boton del tipo submit-- >
+    <!-- se trata de un boton del tipo submit-->
         <input type="submit" name="item_delete_submit" value='Confirmar' style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
         <br>
-        <! -- botton normal que al pulsar redirige la pagina a items.php -- > 
+        <!-- botton normal que al pulsar redirige la pagina a items.php --> 
         <a type="button" class="button" href="items.php">Cancelar</a>
     </form>
 </body>
