@@ -50,7 +50,7 @@ else{
 }
 
 //guardamos nombre de la portada del libro
-$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
+$nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
 //quitemos los espacios por guiones
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
@@ -72,12 +72,18 @@ if (isset($_POST['item_modify_submit'])) {
 	$idLibro = $_GET['idLibro'];
 	//guardamos la instruccion updeta
     $sql = "UPDATE libro SET titulo='$titulo', autor='$autor' , f_publicacion='$f_publicacion' , ISBN='$ISBN' , n_paginas='$n_paginas' WHERE idLibro = '$idLibro'";
+	if (isset($_FILES["imagen"])) {
+		$target_dir = "/var/www/imagen/";
+		$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
+		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
+	}
+
 	//si la instruccion se realiza correctamente(resulatdo del update es true)
 	if ($conn->query($sql) === TRUE) {
 		//imprimimos por pantalla
         echo "<script>
 			<!--la informacion es correcta-->
-			window.alert('Infromacion actualizada correctamente.');
+			window.alert('Infromacion actualizada correctamente');
 			<!--redirigimos a la pagina items.php
 			window.location.href = 'items.php';
 		</script>";
@@ -108,7 +114,7 @@ $stmt->close();
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
-	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
+	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()" enctype="multipart/form-data">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 
 		<p align="center"> Introduzca la información pedida a continuación:</p>
 		<?php

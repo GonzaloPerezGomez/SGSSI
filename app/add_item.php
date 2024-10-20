@@ -48,14 +48,21 @@ if (isset($_POST['item_add_submit'])) {
 		//prepara la inserción del nuevo libro con el comando de SQL insert into
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
 		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
-		// Procesar la imagen        
-        $target_dir = "/var/www/imagen/";
-        $target_file = $target_dir . strtolower($titulo) . ".jpeg";
-		$target_file = str_replace(" ", "-", $target_file); //reemplaza los espacios con -
-		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
 		//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
 		if ($conn->query($sql) === TRUE) {
+			$sqlId = "SELECT idLibro from libro where ISBN = '" . $ISBN . "'";
+			//realiza el comando en la base de datos y almacena el resultado en una variable
+			$stmtId = $conn->prepare($sqlId);
+			$stmtId->execute();                   //se ejecuta la consulta
+			$resultId = $stmtId->get_result();  
+			$libroId = $resultId->fetch_assoc();    //el resultado se cuarda en la variable $result
+			$idLibro = $libroId['idLibro'];
+			// Procesar la imagen        
+			$target_dir = "/var/www/imagen/";
+			$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
+			move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
+	
 			//pone por pantalla:
 			echo "<script>
 					<!--un aviso de que el libro se ha añadido correctamente -->

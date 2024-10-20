@@ -67,9 +67,7 @@ $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
 //mientras haya filas sin estudiar
 while ($row = mysqli_fetch_array($query)) {
   //guardamos nombre de la portada del libro
-  $nombre = "libros/" . strtolower($row['titulo'] . ".jpeg"); //imagen
-  //quitemos los espacios por guiones
-  $nombre = str_replace(" ", "-", $nombre);
+  $nombimagen = "libros/" . strval($row['idLibro']) . ".jpeg"; //imágenes
   //imprimimos por pantalla
   echo 
    "
@@ -78,7 +76,7 @@ while ($row = mysqli_fetch_array($query)) {
         <!--referencia as how_item.php cargado con el ISBN del libro-->
         <a href=show_item.php?ISBN=" . $row['ISBN'] . ">
         <!--la foto de la portada del libro-->
-        <img src='$nombre' style=width:60px ; height:auto ;>
+        <img src='$nombimagen' style=width:60px ; height:auto ;>
         </a>
     </td>
     <!--informacion del titulo del libro-->
