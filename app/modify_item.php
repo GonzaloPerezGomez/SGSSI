@@ -75,6 +75,9 @@ if (isset($_POST['item_modify_submit'])) {
 	if (isset($_FILES["imagen"])) {
 		$target_dir = "/var/www/imagen/";
 		$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
+		if (file_exists($target_file)) {
+			unlink($target_file);  // Eliminar la imagen anterior
+		}
 		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 	}
 
