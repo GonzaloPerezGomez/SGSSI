@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 //se guarda el ISBN del libro seleccionado
 $ISBN = $_GET['ISBN'];
 //guarda la instrucción de SQL que quere utilizar, en este caso un select
-$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = '" . $ISBN . "'";
+$query = "SELECT idLibro,titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = '" . $ISBN . "'";
 
 // comprobar si la consulta es valida
 if($stmt = $conn->prepare($query)){     //prepara la consulta
@@ -42,8 +42,9 @@ else{
 	echo "Conecxion fallida";
 }
 
+$idLibro = $libro['idLibro'];
 //se obtiene el nombre de la imagen a partir del titulo
-$nombimagen = "libros/" . strtolower($libro['titulo'] . ".jpeg"); //imágenes
+$nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $stmt->close();
