@@ -15,6 +15,7 @@ Iratxe Urrutia Sordo.
 Introduce los siguientes comandos para empezar:
 ```bash
 $ sudo rm -r mysql
+$ docker-compose down -v
 $ docker build -t web .
 $ docker-compose up
 ```
