@@ -14,8 +14,7 @@
 /* Estilos generales */
 body {
     font-family: 'Baskerville', serif;
-    /*background-color: var(--color-fondo);*/
-    background-image: url("image/background.jpg");
+    background-color: var(--color-fondo);
     color: var(--color-texto);
     margin: 0;
     padding: 20px;

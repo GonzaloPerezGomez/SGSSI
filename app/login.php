@@ -51,16 +51,16 @@ session_start();?>
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
         //guarda la instrucción de SQL que quere utilizar, en este caso un select
-        $sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
+        $sql = "SELECT idUsuario,tipo from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
         //realiza el select en la base de datos y guarda el resultado en una variable
         $result = $conn->query($sql);
-
         // comprobar si la consulta ha devuelto algo
         if ($result->num_rows > 0) {
             //guarda la primera fila del resultado obtenido al realizar el select en la base de datos
             $returnedValues = $result->fetch_assoc();
             //guarda en la variable global sesion el id del usuario que se acaba de registrar
             $_SESSION['user_id'] = $returnedValues['idUsuario'];
+            $_SESSION['role'] = $returnedValues['tipo'];
             //redirige el sistema a la pagina index.php
             echo "<script>window.location.href = 'index.php';</script>";
         }

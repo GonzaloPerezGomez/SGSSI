@@ -62,15 +62,16 @@ CREATE TABLE `usuarios` (
   `nacimiento` text NOT NULL,
   `email` text NOT NULL,
   `usuario` text NOT NULL,
-  `contrasena` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `contrasena` text NOT NULL,
+  `tipo` text DEFAULT 'user'
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `numeroDNI`, `letraDNI`, `telefono`, `nacimiento`, `email`, `usuario`, `contrasena`) VALUES
-(1, 'admin', 'admin', '12345678', 'z', '123456789', '1800-01-01', 'admin@gmail.com', 'admin', '1234');
+INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `numeroDNI`, `letraDNI`, `telefono`, `nacimiento`, `email`, `usuario`, `contrasena`, `role`) VALUES
+(1, 'admin', 'admin', '12345678', 'z', '123456789', '1800-01-01', 'admin@gmail.com', 'admin', '1234', 'admin');
 
 --
 -- Índices para tablas volcadas
