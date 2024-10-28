@@ -34,12 +34,14 @@ if ($conn->connect_error) {
 $userId=$_SESSION['user_id'];
 
 //guarda la instrucción de SQL que quere utilizar, en este caso un select
-$query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena FROM usuarios WHERE idUsuario = " . $userId;
+$sql = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena FROM usuarios WHERE idUsuario = ?";
+
+$sth = $conn->prepare($sql);
+$sth->bind_param('s', $userId);
 
 // comprobar si la consulta es valida
-if($stmt = $conn->prepare($query)){     //prepara la consulta
-	$stmt->execute();                   //se ejecuta la consulta
-	$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
+if($sth->execute()){//se ejecuta la consulta
+	$result = $sth->get_result();      //el resultado se cuarda en la variable $result
 	if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
 		$infousuario = $result->fetch_assoc();//obtenemos el usuario
 	}
@@ -54,6 +56,7 @@ else{
 }
 
 // cerrar conexión
+$sth->close();
 $conn->close();
 ?>
 

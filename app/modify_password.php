@@ -30,12 +30,14 @@ if (isset($_SESSION['user_id'])) {
     //se obtiene el id del usuario que tenga la sesión iniciada
 	$userId=$_SESSION['user_id'];
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
-    $query = "SELECT contrasena FROM usuarios WHERE idUsuario = " . $userId;
+    $sql = "SELECT contrasena FROM usuarios WHERE idUsuario = ?";
+
+    $sth = $conn->prepare($sql);
+	$sth->bind_param('i', $userId);
 
     //se obtiene la contraseña actual del usuario para poder compararla con la nueva
-    if($stmt = $conn->prepare($query)){     //prepara la consulta
-        $stmt->execute();                   //se ejecuta la consulta
-        $result = $stmt->get_result();      //el resultado se guarda en la variable $result
+    if($sth->execute()){//se ejecuta la consulta
+        $result = $sth->get_result();      //el resultado se guarda en la variable $result
         if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
             $cont = $result->fetch_assoc();//obtenemos la contraseña
             $contrasena = $cont['contrasena'];
@@ -49,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
         //la instrucción no es valida
         echo "Conexion fallida";
     }
-
+    $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Obtener los datos del formulario
         $actualcontrasena = $_POST['actualcontrasena'];

@@ -35,19 +35,33 @@ if (isset($_POST['register_submit'])) {
     $contraseña=$_POST['contrasena'];
 
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
-	$sql = "SELECT usuario from usuarios where usuario = '" . $usuario . "'";
+	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
+
+	$sth = $conn->prepare($sql);
+	$sth->bind_param('si', $usuario, $DNI);
+	$sth->execute();
+
 	//se ejecuta la instrucción
-	$result = $conn->query($sql);
+	$result = $sth->get_result();
 	if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
-		echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
+		echo "<script> window.alert('El nombre de usuario ya está cogido o ya tiene una cuenta'); </script>";}
 	else{
 		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $contraseña . "'  )";
-    	//se comprueba si la instrucción se ha ejecutado de forma correcta
-		if ($conn->query($sql) === TRUE) {
+		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES (?,?,?,?,?,?,?,?,?)";
+    	
+		$sth = $conn->prepare($sql);
+		$sth->bind_param('ssisissss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $contraseña);
+
+		//se comprueba si la instrucción se ha ejecutado de forma correcta
+		if ($sth->execute() === TRUE) {
 			//se recoge el id del usuario para despues crear su sesión
-			$sql = "SELECT idUsuario from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
-			$result = $conn->query($sql);
+			$sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
+			
+			$sth = $conn->prepare($sql);
+			$sth->bind_param('ss', $usuario, $contraseña);
+			$sth->execute();
+
+			$result = $sth->get_result();
 			$returnedValues = $result->fetch_assoc();
 			$_SESSION['user_id'] = $returnedValues['idUsuario'];
 			echo "<script>

@@ -24,14 +24,15 @@ if ($conn->connect_error) {
 //obtenemos el id del libro
 $idLibro = $_GET['idLibro'];
 //guardamso la instruccion select en una variable
-$query = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = '" . $idLibro . "'";
+$sql = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ?";
+
+$sth = $conn->prepare($sql);
+$sth->bind_param('i', $idLibro);
 
 //si da no fallo la preparacion del select
-if($stmt = $conn->prepare($query)){
-	//se hace el select en la base de datos 
-	$stmt->execute();
+if($sth->execute()){
 	//se guarda el resultado del select en una variable
-	$result = $stmt->get_result();
+	$result = $sth->get_result();
 	//si hay al menos una fila(si se ha encontrado elemento)
 	if($result->num_rows > 0){
 		//obtenemos la primera fila
@@ -70,8 +71,12 @@ if (isset($_POST['item_modify_submit'])) {
     $n_paginas=$_POST['n_paginas'];
 	//el id del libro
 	$idLibro = $_GET['idLibro'];
-	//guardamos la instruccion updeta
-    $sql = "UPDATE libro SET titulo='$titulo', autor='$autor' , f_publicacion='$f_publicacion' , ISBN='$ISBN' , n_paginas='$n_paginas' WHERE idLibro = '$idLibro'";
+	//guardamos la instruccion update
+    $sql = "UPDATE libro SET titulo= ?, autor= ? , f_publicacion= ? , ISBN= ? , n_paginas= ? WHERE idLibro = ?";
+
+	$sth = $conn->prepare($sql);
+	$sth->bind_param("sssssi", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas, $idLibro);
+
 	if (isset($_FILES["imagen"])) {
 		$target_dir = "/var/www/imagen/";
 		$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
@@ -82,7 +87,7 @@ if (isset($_POST['item_modify_submit'])) {
 	}
 
 	//si la instruccion se realiza correctamente(resulatdo del update es true)
-	if ($conn->query($sql) === TRUE) {
+	if ($sth->execute() === TRUE) {
 		//imprimimos por pantalla
         echo "<script>
 			<!--la informacion es correcta-->
@@ -101,7 +106,7 @@ if (isset($_POST['item_modify_submit'])) {
 	//cerramos conexion
     $conn->close();
 }
-$stmt->close();
+$sth->close();
 
 ?>
 

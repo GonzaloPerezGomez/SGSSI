@@ -35,7 +35,10 @@ if (isset($_POST['item_add_submit'])) {
     $n_paginas=$_POST['n_paginas'];
 	
 	//guarda la instrucción de SQL que quire utilizar, en este caso un select
-	$sql = "SELECT ISBN from libro where ISBN = '" . $ISBN . "'";
+	$sql = "SELECT ISBN from libro where ISBN = ?";
+	//se prepara la instrucción la evitar la inyección SQL
+	$sth = $conn->prepare($sql);
+	$sth->bind_param('s', $ISBN);
 	//realiza el comando en la base de datos y almacena el resultado en una variable
 	$result = $conn->query($sql);
 
@@ -47,15 +50,21 @@ if (isset($_POST['item_add_submit'])) {
 	else{
 		//prepara la inserción del nuevo libro con el comando de SQL insert into
 		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
-		VALUES ('". $titulo ."', '" . $autor . "' , '" . $f_publicacion . "', '" . $ISBN . "' , '" . $n_paginas . "')";
+		VALUES (?,?,?,?,?)";
+		
+		$sth = $conn->prepare($sql);
+		$sth->bind_param("sssss", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas);
 
 		//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
-		if ($conn->query($sql) === TRUE) {
-			$sqlId = "SELECT idLibro from libro where ISBN = '" . $ISBN . "'";
+		if ($sth->execute() === TRUE) {
+			$sqlId = "SELECT idLibro from libro where ISBN = ?";
+
+			$sth = $conn->prepare($sqlId);
+			$sth->bind_param('s', $ISBN);
+
 			//realiza el comando en la base de datos y almacena el resultado en una variable
-			$stmtId = $conn->prepare($sqlId);
-			$stmtId->execute();                   //se ejecuta la consulta
-			$resultId = $stmtId->get_result();  
+			$sth->execute();                   //se ejecuta la consulta
+			$resultId = $sth->get_result();  
 			$libroId = $resultId->fetch_assoc();    //el resultado se cuarda en la variable $result
 			$idLibro = $libroId['idLibro'];
 			// Procesar la imagen        
