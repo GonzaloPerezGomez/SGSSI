@@ -35,11 +35,13 @@ if (isset($_SESSION['user_id'])) {
 	//se obtiene el id del usuario que tenga la sesión iniciada
 	$userId=$_SESSION['user_id'];
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
-	$query = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario FROM usuarios WHERE idUsuario = " . $userId;
+	$sql = "SELECT nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario FROM usuarios WHERE idUsuario = ? ";
 
-	if($stmt = $conn->prepare($query)){     //prepara la consulta
-		$stmt->execute();                   //se ejecuta la consulta
-		$result = $stmt->get_result();      //el resultado se cuarda en la variable $result
+	$sth = $conn->prepare($sql);
+	$sth->bind_param('i', $userId);
+
+	if($sth->execute()){//se ejecuta la consulta
+		$result = $sth->get_result();      //el resultado se cuarda en la variable $result
 		if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
 			$infousuario = $result->fetch_assoc();//obtenemos el usuario
 		}
@@ -52,7 +54,7 @@ if (isset($_SESSION['user_id'])) {
 		//la instrucción no es valida
 		echo "Conexión fallida";
 	}
-
+	$sth->close();
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// Obtener los datos del formulario
@@ -65,18 +67,26 @@ if (isset($_SESSION['user_id'])) {
 		$nuevo_usuario = $_POST['usuario'];
 		
 		//guarda la instrucción de SQL que quere utilizar, en este caso un select
-		$sql = "SELECT usuario from usuarios where usuario = '" . $nuevo_usuario . "'";
+		$sql = "SELECT usuario from usuarios where usuario = ?";
 		//se prepara la instrucción
-		$result = $conn->query($sql);
+
+		$sth = $conn->prepare($sql);
+		$sth->bind_param('s', $nuevo_usuario);
+		$sth->execute();
+		$result = $sth->get_result();
+		
 		//se comprueba si ya esxiste un usuario con ese nombre de usuario
 		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
 			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 		else{
 			// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-			$sql = "UPDATE usuarios SET nombre='" . $nuevo_nombre . "', apellido='" . $nuevo_apellido ."', telefono='" . $nuevo_telefono ."', nacimiento='" . $nueva_fecha ."', email='" .$nuevo_email ."', usuario='" . $nuevo_usuario."' WHERE idUsuario= " . $_SESSION['user_id'];
-			$stmt = $conn->prepare($sql);
+			$sql = "UPDATE usuarios SET nombre= ?, apellido= ?, telefono= ?, nacimiento= ?, email= ?, usuario= ? WHERE idUsuario= ?";
+			
+			$sth = $conn->prepare($sql);
+			$sth->bind_param('ssisssi', $nuevo_nombre, $nuevo_apellido, $nuevo_telefono, $nueva_fecha, $nuevo_email, $nuevo_usuario, $_SESSION['user_id']);
+
 			// Ejecutar la consulta
-			if ($stmt->execute()) {
+			if ($sth->execute()) {
 				echo "<script>
 				window.alert('Cambios guardados correctamente.');
 				window.location.href = 'show_user.php';
@@ -86,7 +96,7 @@ if (isset($_SESSION['user_id'])) {
 				echo "Error al guardar los cambios: " . $stmt->error;
 			}
 		}
-		$stmt->close();
+		$sth->close();
 	}
 
 	// cerrar conexión

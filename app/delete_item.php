@@ -35,9 +35,13 @@ $ISBN = $_GET['ISBN'];
  //si se ha pulsado el botón que llama a item_delete_submit
 if (isset($_POST['item_delete_submit'])) {
     //se guarda la instrucción de SQL que se quiere aplicar en la base de datos en este caso delete 
-    $sql = "DELETE FROM libro WHERE ISBN=" . $ISBN ;
+    $sql = "DELETE FROM libro WHERE ISBN = ?" ;
+
+    $sth = $conn->prepare($sql);
+	$sth->bind_param('s', $ISBN);
+
     //si al realizar el delete en sql el resultado es true(se ha realizado la introduccion)
-    if ($conn->query($sql) === TRUE) {
+    if ($sth->execute() === TRUE) {
         //pone por pantalla
         echo "<script>
             <!--un aviso de que el libro se ha añadido correctamente -->

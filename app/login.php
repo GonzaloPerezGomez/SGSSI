@@ -51,9 +51,15 @@ session_start();?>
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
         //guarda la instrucción de SQL que quere utilizar, en este caso un select
-        $sql = "SELECT idUsuario,tipo from usuarios where usuario = '" . $usuario . "' and contrasena='" . $contraseña . "'";
+        $sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
+        
+        $sth = $conn->prepare($sql);
+	    $sth->bind_param('ss', $usuario, $contraseña);
+
         //realiza el select en la base de datos y guarda el resultado en una variable
-        $result = $conn->query($sql);
+        $sth->execute();
+        $result = $sth->get_result();
+
         // comprobar si la consulta ha devuelto algo
         if ($result->num_rows > 0) {
             //guarda la primera fila del resultado obtenido al realizar el select en la base de datos
