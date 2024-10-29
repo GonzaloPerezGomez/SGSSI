@@ -46,11 +46,16 @@ if (isset($_POST['register_submit'])) {
 	if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
 		echo "<script> window.alert('El nombre de usuario ya está cogido o ya tiene una cuenta'); </script>";}
 	else{
+		//generamos una semilla de 255 bytes
+		$salt = bin2hex(random_bytes(255));
+		//generamos el hash apartir de la contraseña mas la semilla 
+		$contraseña_completa = $contraseña . $salt;
+		$hash_contraseña = hash("sha256", $contraseña_completa);
 		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-		$sql = "INSERT INTO usuarios (nombre, apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena) VALUES (?,?,?,?,?,?,?,?,?)";
+		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
     	
 		$sth = $conn->prepare($sql);
-		$sth->bind_param('ssisissss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $contraseña);
+		$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
 
 		//se comprueba si la instrucción se ha ejecutado de forma correcta
 		if ($sth->execute() === TRUE) {

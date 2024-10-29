@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: db:3306
--- Tiempo de generación: 18-10-2024 a las 17:26:35
--- Versión del servidor: 10.8.2-MariaDB-1:10.8.2+maria~focal
--- Versión de PHP: 8.2.8
+-- Host: db:3306
+-- Generation Time: Oct 29, 2024 at 02:47 PM
+-- Server version: 10.8.2-MariaDB-1:10.8.2+maria~focal
+-- PHP Version: 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `database`
+-- Database: `database`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `libro`
+-- Table structure for table `libro`
 --
 
 CREATE TABLE `libro` (
@@ -37,7 +37,7 @@ CREATE TABLE `libro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `libro`
+-- Dumping data for table `libro`
 --
 
 INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VALUES
@@ -49,7 +49,7 @@ INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_p
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -63,47 +63,49 @@ CREATE TABLE `usuarios` (
   `email` text NOT NULL,
   `usuario` text NOT NULL,
   `contrasena` text NOT NULL,
+  `salt` text NOT NULL,
   `tipo` text DEFAULT 'user'
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `numeroDNI`, `letraDNI`, `telefono`, `nacimiento`, `email`, `usuario`, `contrasena`, `role`) VALUES
-(1, 'admin', 'admin', '12345678', 'z', '123456789', '1800-01-01', 'admin@gmail.com', 'admin', '1234', 'admin');
+INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `numeroDNI`, `letraDNI`, `telefono`, `nacimiento`, `email`, `usuario`, `contrasena`, `salt`, `tipo`) VALUES
+(5, 'Gonzalo', 'Perez', '50634325', 'D', '688889338', '2003-11-30', 'gonzaloperezgo@gmail.com', 'GPerez', '6b2ad1ba6fb9cfb950848fa91f207b294d8f8ea99946f9a3e459dc61803eace3', 'f2fffe6378fdde57946ef500be0a5563a7c0146d4323da7f651c63a21d8b98007a8aa7f40ccd9b4ee4d8065ee84fec3cea6847000f0484d67c92208ef6e585255094c0f4dcc49a0cf27f29c7a94a6ad4f579ceb1ec7c5c337a3c72b7ff69821676f4fb01eaeb3ef1939cc8b2a5abdc73d082501d9afd476887d31da5387a5cbda60b32f797b56893d52164271d0e338c7ac2c161c61ba4b24e32d8d3df5092b653fee1ce16df0ac9bda90a37ec4e6ab02488f57f814a19bf3d45a59d8c815e1482b3b55a377f7ec8c619d8435e23d472cf45223e6da2cc05781fd7cb5598a00174fafb82ea12be1c30006754b8ce36536b394798dab037d00a936abd94a569', 'user'),
+(6, 'admin', 'admin', '12345678', 'Z', '555666777', '2000-01-01', 'correo@gmail.com', 'admin', '96a04458c7150c028219e1a82d47b777463f8beefd2abd535c914087784ec718', '3577d55152b6fb04ea21433c36822871c93bbdd3a75680e1db43bb1926b27bb178c479a5aba30a92fa1ea1fabb13f170157c7d023ee0d6849ad6fb236a1dc8b9cf6086fb4d5238b1138943d8a76cbcc47e0aa999c8ba7da954094de08319ee3a19da4ed2f011e0f3bd2891050853b19bde4ee6f8b705d408f4c52eb995e2fcbf88ebb0276fac25bdc5c97ab1618557d033d440c29d91a47dd23151760dd748ee705648a67f504cab29b7861909b016d53d71b06d01e9afb959413f0bac59c523e6da5cc5d605a7f3cb8fcc631e99550ffef52f2e2bb4824924a773bedd8e995708bd69ae622c2c581b56ffef8b17c5d632af96b26b88e8df60719ee64f00b1', 'admin');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `libro`
+-- Indexes for table `libro`
 --
 ALTER TABLE `libro`
   ADD PRIMARY KEY (`idLibro`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`idUsuario`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `libro`
+-- AUTO_INCREMENT for table `libro`
 --
 ALTER TABLE `libro`
   MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

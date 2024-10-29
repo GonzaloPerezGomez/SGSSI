@@ -50,31 +50,41 @@ session_start();?>
         // obtener el usuario y contraseña del formulario y meterlos en una variable
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
-        //guarda la instrucción de SQL que quere utilizar, en este caso un select
-        $sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
-        
+
+        $sql = "SELECT idUsuario, tipo, contrasena, salt from usuarios where usuario = ?";
         $sth = $conn->prepare($sql);
-	    $sth->bind_param('ss', $usuario, $contraseña);
+	    $sth->bind_param('s', $usuario);
+        
+        try {
+            $sth->execute();
+            $result = $sth->get_result();
+            if ($result->num_rows > 0){
+                $result = $result->fetch_assoc();
 
-        //realiza el select en la base de datos y guarda el resultado en una variable
-        $sth->execute();
-        $result = $sth->get_result();
+                $hash_usuario = hash("sha256", $contraseña . $result['salt']);
 
-        // comprobar si la consulta ha devuelto algo
-        if ($result->num_rows > 0) {
-            //guarda la primera fila del resultado obtenido al realizar el select en la base de datos
-            $returnedValues = $result->fetch_assoc();
-            //guarda en la variable global sesion el id del usuario que se acaba de registrar
-            $_SESSION['user_id'] = $returnedValues['idUsuario'];
-            $_SESSION['role'] = $returnedValues['tipo'];
-            //redirige el sistema a la pagina index.php
-            echo "<script>window.location.href = 'index.php';</script>";
+                if ($hash_usuario == $result['contrasena']) {
+                    //guarda en la variable global sesion el id del usuario que se acaba de registrar
+                    $_SESSION['user_id'] = $result['idUsuario'];
+                    $_SESSION['tipo'] = $result['tipo'];
+                    //redirige el sistema a la pagina index.php
+                    echo "<script>window.location.href = 'index.php';</script>";
+                }
+                //si no
+                else {
+                    //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
+                    echo "<script>alert('El usuario o la contraseña no coinciden');</script>";
+                }
+            }
+            else{
+                echo "<script>alert('No existe un usuario con ese nombre de usuario');</script>";
+                        
+            }
+        }catch(Exception $e){
+
         }
-        //si no
-        else {
-            //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
-            echo "<script>alert('Usuario o contraseña incorrectos');</script>";
-        }
+        
+        
     }
     $conn->close();
 
