@@ -22,7 +22,7 @@ if (!isset($_SESSION['user_id']) ) {
 <body>
 <br>
 <?php
-if ($_SESSION['role']=='admin'){
+if ($_SESSION['tipo']=='admin'){
     echo 
         "
         <!--Contenedor de botones-->
@@ -69,7 +69,7 @@ else{
 //Guardamos el valor que obtenemos al realizar una select en la base de datos, si hay error paramos el proceso
 $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
    or die (mysqli_error($conn));
-if ($_SESSION['role']=='admin'){
+if ($_SESSION['tipo']=='admin'){
     echo 
         "
         <!--crea una tabla-->
@@ -87,7 +87,7 @@ if ($_SESSION['role']=='admin'){
                 </tr>
             </thead>
         <tbody>";}
-else if (isset($_SESSION['role'])=='admin'){
+else{
     echo 
         "
         <!--crea una tabla-->
@@ -102,14 +102,15 @@ else if (isset($_SESSION['role'])=='admin'){
                     <th>Autor</th>
                 </tr>
             </thead>
-        <tbody>";}
+        <tbody>";
+    }
 
 //mientras haya filas sin estudiar
 while ($row = mysqli_fetch_array($query)) {
     //guardamos nombre de la portada del libro
     $nombimagen = "libros/" . strval($row['idLibro']) . ".jpeg"; //imágenes
     //imprimimos por pantalla
-    if ($_SESSION['role']=='admin'){
+    if ($_SESSION['tipo']=='admin'){
         echo 
         "
         <tr>
