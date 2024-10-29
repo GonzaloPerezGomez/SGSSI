@@ -2,6 +2,13 @@
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 session_start();
 
+//comprueba si se ha iniciado sesion
+if (!isset($_SESSION['user_id']) ) {
+    header("Location: index.php");
+    exit();
+}
+
+
 //comprueba si se pulsa el botón de cerrar sesión
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
 	//elimina la sesión

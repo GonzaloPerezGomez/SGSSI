@@ -37,8 +37,6 @@ else {
         <a href="login.php" class="button">Iniciar Sesión</a>
         <!-- botón normal que al pulsar se redirige a la página register.php-->
         <a href="register.php" class="button">Registrarse</a>
-        <!--botón normal que al pulsar se redirige a la página items.php-->
-        <a class="button" href="items.php">Catálogo</a>
     </div>';}?>
 
 		

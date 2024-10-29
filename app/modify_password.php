@@ -3,6 +3,13 @@
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 session_start();
 
+
+//comprueba si se ha iniciado sesion
+if (!isset($_SESSION['user_id']) ) {
+    header("Location: index.php");
+    exit();
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";

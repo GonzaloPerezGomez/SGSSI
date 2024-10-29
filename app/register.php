@@ -64,6 +64,7 @@ if (isset($_POST['register_submit'])) {
 			$result = $sth->get_result();
 			$returnedValues = $result->fetch_assoc();
 			$_SESSION['user_id'] = $returnedValues['idUsuario'];
+			$_SESSION['role'] = $returnedValues['role'];
 			echo "<script>
 			window.alert('Se ha registrado correctamente :)');
 			window.location.href = 'index.php';

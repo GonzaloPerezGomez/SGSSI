@@ -1,4 +1,11 @@
 <?php
+
+//comprueba si se ha iniciado sesion
+if (isset($_SESSION['user_id']) ) {
+    header("Location: index.php");
+    exit();
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";

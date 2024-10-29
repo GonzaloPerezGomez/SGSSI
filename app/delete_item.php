@@ -1,4 +1,13 @@
 <?php
+
+session_start();
+
+//comprueba si se ha iniciado sesion
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+    header("Location: items.php");
+    exit();
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";

@@ -66,6 +66,7 @@ session_start();?>
             $returnedValues = $result->fetch_assoc();
             //guarda en la variable global sesion el id del usuario que se acaba de registrar
             $_SESSION['user_id'] = $returnedValues['idUsuario'];
+            $_SESSION['role'] = $returnedValues['tipo'];
             //redirige el sistema a la pagina index.php
             echo "<script>window.location.href = 'index.php';</script>";
         }
