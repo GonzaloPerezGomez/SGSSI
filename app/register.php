@@ -63,13 +63,13 @@ if (isset($_POST['register_submit'])) {
 			$sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
 			
 			$sth = $conn->prepare($sql);
-			$sth->bind_param('ss', $usuario, $contraseña);
+			$sth->bind_param('ss', $usuario, $hash_contraseña);
 			$sth->execute();
 
 			$result = $sth->get_result();
 			$returnedValues = $result->fetch_assoc();
 			$_SESSION['user_id'] = $returnedValues['idUsuario'];
-			$_SESSION['role'] = $returnedValues['role'];
+			$_SESSION['tipo'] = $returnedValues['tipo'];
 			echo "<script>
 			window.alert('Se ha registrado correctamente :)');
 			window.location.href = 'index.php';
