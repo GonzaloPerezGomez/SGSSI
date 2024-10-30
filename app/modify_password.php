@@ -37,7 +37,7 @@ if (isset($_SESSION['user_id'])) {
     //se obtiene el id del usuario que tenga la sesión iniciada
 	$userId=$_SESSION['user_id'];
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
-    $sql = "SELECT contrasena FROM usuarios WHERE idUsuario = ?";
+    $sql = "SELECT contrasena, salt FROM usuarios WHERE idUsuario = ?";
 
     $sth = $conn->prepare($sql);
 	$sth->bind_param('i', $userId);
@@ -46,8 +46,9 @@ if (isset($_SESSION['user_id'])) {
     if($sth->execute()){//se ejecuta la consulta
         $result = $sth->get_result();      //el resultado se guarda en la variable $result
         if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
-            $cont = $result->fetch_assoc();//obtenemos la contraseña
-            $contrasena = $cont['contrasena'];
+            $result = $result->fetch_assoc();//obtenemos la contraseña
+            $contrasena = $result['contrasena'];
+            $salt = $result['salt'];
         }
         else{
             //no se ha encontrado un usuario con ese id
@@ -65,24 +66,31 @@ if (isset($_SESSION['user_id'])) {
         $nuevacontrasena1 = $_POST['nuevacontrasena1'];
         $nuevacontrasena2 = $_POST['nuevacontrasena2'];
         
+        $actualcontrasena = $actualcontrasena . $salt;
+        $actualcontrasena = hash('sha256', $actualcontrasena);
+
         //se comprueba si la contraseña introducida es correcata
         if ($contrasena==$actualcontrasena) {
             //se comprueba si las nuevas contraseñas con la misma
             if($nuevacontrasena1==$nuevacontrasena2){
                  //para que la nueva contraseña no puedan ser espacios en blanco y que sea una sola palabra
                 if(trim($nuevacontrasena1)!= '' && strpos(trim($nuevacontrasena1), ' ') === false) {
+
+                    $nuevacontrasena = $nuevacontrasena . $salt;
+                    $nuevacontrasena = hash('sha256', $nuevacontrasena);
                     // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-                    $sql = "UPDATE usuarios SET contrasena='" . $nuevacontrasena1 . "' WHERE idUsuario= " . $_SESSION['user_id'];
-                    $stmt = $conn->prepare($sql);
+                    $sql = "UPDATE usuarios SET contrasena= ? WHERE idUsuario= ?";
+                    $sth = $conn->prepare($sql);
+	                $sth->bind_param('si', $nuevacontrasena, $userId);
                     // Ejecutar la consulta
-                    if ($stmt->execute()) {
+                    if ($sth->execute()) {
                         echo "<script>
                         window.alert('Cambios guardados correctamente.');
                         window.location.href = 'show_user.php';
                         </script>";
                     } else {
                         //la instrucción no se ha ejecutado correctamente
-                        echo "Error al guardar los cambios: " . $stmt->error;
+                        echo "Error al guardar los cambios: " . $sth->error;
                     }
                 } else {echo "<script> window.alert('La contraseña nueva no es válida'); </script>";}
             }
