@@ -93,6 +93,15 @@ if (isset($_POST['register_submit'])) {
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'self'; 
+		         script-src 'self'; 
+		         img-src 'self'; 
+		         style-src 'self'; 
+		         base-uri 'self'; 
+		         form-action 'self';
+		         connect-src 'self'; 
+		         font-src 'self';">
 	<title> Registrarse </title>
 	<script src="comprobacionDeDatos.js"></script>
 	<link rel="stylesheet" href="estilo.css">
