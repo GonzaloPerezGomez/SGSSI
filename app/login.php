@@ -4,6 +4,15 @@ session_start();?>
 
 <html>
 <head>
+    <meta http-equiv="Content-Security-Policy"
+            content="default-src 'self'; 
+                    script-src 'self'; 
+                    img-src 'self'; 
+                    style-src 'self'; 
+                    base-uri 'self'; 
+                    form-action 'self';
+                    connect-src 'self'; 
+                    font-src 'self';">
     <title> login </title> 
     <!-- indica desde que script modela la pagina web --> 
     <link rel="stylesheet" href="estilo.css">

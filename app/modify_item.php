@@ -120,12 +120,12 @@ $sth->close();
 
 <html>
 <head>
-<!-- título que se pondrá en la página --> 
-<title> Editar libro </title>
-<!-- indica desde que script realizará las comprobaciones --> 
-<script src="comprobarDatosLibro.js"></script>
-<!-- indica desde que script modela la página web--> 
-<link rel="stylesheet" href="estilo.css">
+	<!-- título que se pondrá en la página --> 
+	<title> Editar libro </title>
+	<!-- indica desde que script realizará las comprobaciones --> 
+	<script src="comprobarDatosLibro.js"></script>
+	<!-- indica desde que script modela la página web--> 
+	<link rel="stylesheet" href="estilo.css">
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
