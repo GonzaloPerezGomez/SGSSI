@@ -8,6 +8,18 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Generar token CSRF si no existe
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Validación del token CSRF al enviar el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Token CSRF inválido. Operación no permitida.");
+    }
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -57,6 +69,8 @@ if (isset($_SESSION['user_id'])) {
 	$sth->close();
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+		
 		// Obtener los datos del formulario
 		$id_usuario = $_POST['idUsuario'];
 		$nuevo_nombre = $_POST['nombre'];
@@ -77,6 +91,7 @@ if (isset($_SESSION['user_id'])) {
 		
 		//se comprueba si ya esxiste un usuario con ese nombre de usuario
 		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
+			unset($_SESSION['csrf_token']);
 			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 		else{
 			// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
@@ -87,6 +102,7 @@ if (isset($_SESSION['user_id'])) {
 
 			// Ejecutar la consulta
 			if ($sth->execute()) {
+				unset($_SESSION['csrf_token']);
 				echo "<script>
 				window.alert('Cambios guardados correctamente.');
 				window.location.href = 'show_user.php';
@@ -97,8 +113,9 @@ if (isset($_SESSION['user_id'])) {
 			}
 		}
 		$sth->close();
+	setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie
 	}
-
+	
 	// cerrar conexión
 	$conn->close();
 }
@@ -112,6 +129,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 	<body>
 	<form name="user_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
+	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
         if (isset($_SESSION['user_id'])) {

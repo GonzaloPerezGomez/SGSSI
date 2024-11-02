@@ -8,6 +8,10 @@ if (!isset($_SESSION['user_id']) ) {
    exit();
 }
 
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 ?>
 
 <html>
@@ -111,15 +115,22 @@ while ($row = mysqli_fetch_array($query)) {
     $nombimagen = "libros/" . strval($row['idLibro']) . ".jpeg"; //imágenes
     //imprimimos por pantalla
     if ($_SESSION['tipo']=='admin'){
+        $idLibro = $row['idLibro'];
+        $ISBN = $row['ISBN'];
         echo 
         "
         <tr>
             <td>
-                <!--referencia as how_item.php cargado con el ISBN del libro-->
-                <a href=show_item.php?ISBN=" . $row['ISBN'] . ">
-                <!--la foto de la portada del libro-->
-                <img src='$nombimagen' style=width:60px ; height:auto ;>
-                </a>
+            
+                <!--referencia as show_item.php cargado con el ISBN del libro-->
+                <form method='POST' action='show_item.php'>
+                        <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
+                        <input type='hidden' name='ISBN' value=" . $ISBN . ">
+                        <button type='submit'>
+                            <img src='$nombimagen' style=width:60px ; height:auto ;'>
+                        </button>
+                </form>
+
             </td>
             <!--informacion del titulo del libro-->
             <td>{$row['titulo']}</td>
@@ -128,10 +139,22 @@ while ($row = mysqli_fetch_array($query)) {
             <td>
                 <!--contenedor de los botones de modificacion y eliminacion con su respectivas imagenes-->
                 <div class=button-container>
-                    <a class=button href=modify_item.php?idLibro=" . $row['idLibro'] . ">
-                    <img src='image/editar.png' style='height:20px;'></a>
-                    <a class=button href=delete_item.php?ISBN=" . $row['ISBN'] . ">
-                    <img src='image/borrar.png' style='height:20px;'></a>
+                    <form method='POST' action='modify_item.php'>
+                        <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
+                        <input type='hidden' name='idLibro' value=" . $idLibro . ">
+                        <button type='submit'>
+                            <img src='image/editar.png' style='height:20px;'>
+                        </button>
+                    </form>
+                    <form method='POST' action='delete_item.php'>
+                        <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
+                        <input type='hidden' name='ISBN' value='" . $ISBN . "'>
+                        <button type='submit'>
+                            <img src='image/borrar.png' style='height:20px;'>
+                        </button>
+                    </form>
+
+
                 </div>
             </td>
         </tr>";}
@@ -140,11 +163,14 @@ while ($row = mysqli_fetch_array($query)) {
         "
         <tr>
             <td>
-                <!--referencia as how_item.php cargado con el ISBN del libro-->
-                <a href=show_item.php?ISBN=" . $row['ISBN'] . ">
-                <!--la foto de la portada del libro-->
-                <img src='$nombimagen' style=width:60px ; height:auto ;>
-                </a>
+                <!--referencia as show_item.php cargado con el ISBN del libro-->
+                <form method='POST' action='show_item.php'>
+                        <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
+                        <input type='hidden' name='ISBN' value='" . $ISBN . "'>
+                        <button type='submit'>
+                            <img src='$nombimagen' style=width:60px ; height:auto ;'>
+                        </button>
+                </form>
             </td>
             <!--informacion del titulo del libro-->
             <td>{$row['titulo']}</td>

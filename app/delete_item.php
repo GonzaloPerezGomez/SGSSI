@@ -8,6 +8,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['tipo'] != 'admin') {
     exit();
 }
 
+
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("CSRF token inválido.");
+}
+
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -30,10 +36,16 @@ if ($conn->connect_error) {
 }
 
 //
-$ISBN = $_GET['ISBN'];
+$ISBN = isset($_POST['ISBN']) ? trim($_POST['ISBN']) : '';
 
  //si se ha pulsado el botón que llama a item_delete_submit
 if (isset($_POST['item_delete_submit'])) {
+
+    // Verificación del token CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Token CSRF inválido. Operación no permitida.");
+    }
+
     //se guarda la instrucción de SQL que se quiere aplicar en la base de datos en este caso delete 
     $sql = "DELETE FROM libro WHERE ISBN = ?" ;
 
@@ -42,6 +54,8 @@ if (isset($_POST['item_delete_submit'])) {
 
     //si al realizar el delete en sql el resultado es true(se ha realizado la introduccion)
     if ($sth->execute() === TRUE) {
+        unset($_SESSION['csrf_token']);
+
         //pone por pantalla
         echo "<script>
             <!--un aviso de que el libro se ha añadido correctamente -->
@@ -51,6 +65,8 @@ if (isset($_POST['item_delete_submit'])) {
 		</script>";
         //cierra conexión con la base de datos
 		$conn->close();
+
+        // Para eliminar la cookie del CSRF Token
 		exit();
     } 
     //si no
@@ -78,8 +94,13 @@ if (isset($_POST['item_delete_submit'])) {
     <div><h1>¿ESTÁS SEGURO DE QUE QUIERES ELIMINARLO?</h1></div>
     <!-- crea un formulario que realizará un metodo post  --> 
     <form method="post">
-    <!-- se trata de un boton del tipo submit-->
+
+    <!-- Campo oculto para el token CSRF -->
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+    <input type="hidden" name="ISBN" value="<?php echo htmlspecialchars($ISBN); ?>">
+        <!-- se trata de un boton del tipo submit-->
         <input type="submit" name="item_delete_submit" value='Confirmar' style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+        
         <br>
         <!-- botton normal que al pulsar redirige la pagina a items.php --> 
         <a type="button" class="button" href="items.php">Cancelar</a>

@@ -6,6 +6,10 @@ if (!isset($_SESSION['user_id']) ) {
     exit();
 }
 
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("CSRF token inválido.");
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -28,7 +32,7 @@ if ($conn->connect_error) {
 }
 
 //se guarda el ISBN del libro seleccionado
-$ISBN = $_GET['ISBN'];
+$ISBN = $_POST['ISBN']; 
 //guarda la instrucción de SQL que quere utilizar, en este caso un select
 $sql = "SELECT idLibro,titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = ?";
 
@@ -38,7 +42,9 @@ $sth->bind_param('s', $ISBN);
 // comprobar si la consulta es valida
 if($sth->execute()){//se ejecuta la consulta
 	$result = $sth->get_result();      //el resultado se cuarda en la variable $result
-	if($result->num_rows > 0){          //comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
+	if($result->num_rows > 0){      
+		unset($_SESSION['csrf_token']);    
+		//comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
 		$libro = $result->fetch_assoc();//obtenemos el libro
 	}
 	else{
@@ -57,7 +63,7 @@ $nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $sth->close();
-
+setcookie("csrf_token", "", time() - 3600, "/");
 ?>
 
 

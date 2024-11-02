@@ -8,6 +8,13 @@ if (!isset($_SESSION['user_id']) ||  $_SESSION['tipo'] != 'admin') {
     exit();
 }
 
+
+// Genera el token CSRF si no existe en la sesión
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
+}
+
+
 // conexión a la base de datos
 
 //guarda el nombre del servidor a conectar
@@ -31,6 +38,12 @@ if ($conn->connect_error) {
 }
 //si se ha pulsado el botón que llama a item_add_submit
 if (isset($_POST['item_add_submit'])) {
+
+	// Verificación del token CSRF
+	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		die("Token CSRF inválido. Operación no permitida.");
+	}
+
     // guardar la información del formulario
     //guarda el título del libro
     $titulo = $_POST['titulo'];
@@ -66,6 +79,7 @@ if (isset($_POST['item_add_submit'])) {
 
 		//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
 		if ($sth->execute() === TRUE) {
+			unset($_SESSION['csrf_token']);
 			$sqlId = "SELECT idLibro from libro where ISBN = ?";
 
 			$sth = $conn->prepare($sqlId);
@@ -88,6 +102,9 @@ if (isset($_POST['item_add_submit'])) {
 					<!--nos lleva a la pagina items.php-->
 					window.location.href = 'items.php';
 				</script>";
+
+			// Para eliminar la cookie del CSRF Token
+			setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie
 			exit();
 		} 
 		//si no 
@@ -107,6 +124,7 @@ $conn->close();
 
 <html>
 <head>
+	<meta charset="UTF-8">
 	<!-- título que se pondrá en la página --> 
 	<title> Añadir libro </title>
 	<!-- indica desde que script realizará las comprobaciones --> 
@@ -119,20 +137,23 @@ $conn->close();
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosAnnadir --> 
 	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
-    <!-- centra el párrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) --> 
+    <!-- Campo oculto para el token CSRF -->
+	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+
+	<!-- centra el párrafo que contendra todos los campos a rellenar obligatoriamente (gracias al required) --> 
 	<p align="center">Introduzca la información pedida a continuación:</p>
 		Título:<br>
-		<input type="text" name="titulo" required> 
+		<input type="text" name="titulo" autocomplete="off" required> 
         Autor: <br>
-		<input type="text" name="autor" required> <br>
+		<input type="text" name="autor" autocomplete="off" required> <br>
   		Fecha de Publicación:<br>
-  		<input type="text" name="f_publicacion" placeholder="AAAA-MM-DD" required> <br>
+  		<input type="text" name="f_publicacion" placeholder="AAAA-MM-DD" autocomplete="off" required> <br>
 		ISBN:<br>
-		<input type="text" name="ISBN" required><br>
+		<input type="text" name="ISBN" autocomplete="off" required><br>
 		Nº de Páginas:<br>
-		<input type="text" name="n_paginas" required> <br>
+		<input type="text" name="n_paginas" autocomplete="off" required> <br>
 		Imagen (.jpeg):<br>
-		<input type="file" name="imagen" accept=".jpeg" required> <br>
+		<input type="file" name="imagen" accept=".jpeg" autocomplete="off" required> <br>
 		<br>
 
 		<!-- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para introducir el libro en la base de datos--> 

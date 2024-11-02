@@ -1,5 +1,15 @@
 <?php
 session_start();
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
+}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -23,6 +33,11 @@ if ($conn->connect_error) {
 
 // comprobar si se ha enviado el formulario
 if (isset($_POST['register_submit'])) {
+
+	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+			die("Token CSRF inválido. Operación no permitida.");
+		}
+
 	// guardar la información del formulario
     $nombre = $_POST['nombre'];
     $apellido= $_POST['apellido'];
@@ -36,7 +51,6 @@ if (isset($_POST['register_submit'])) {
 
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
-
 	$sth = $conn->prepare($sql);
 	$sth->bind_param('si', $usuario, $DNI);
 	$sth->execute();
@@ -59,6 +73,9 @@ if (isset($_POST['register_submit'])) {
 
 		//se comprueba si la instrucción se ha ejecutado de forma correcta
 		if ($sth->execute() === TRUE) {
+
+			unset($_SESSION['csrf_token']); // Borrar el token CSRF
+
 			//se recoge el id del usuario para despues crear su sesión
 			$sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
 			
@@ -77,13 +94,15 @@ if (isset($_POST['register_submit'])) {
 
 			//se cierra la conexión
 			$conn->close();
+			// Borra la cookie del CSRF token
+			setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie
 			exit();
 		} 
 		else {
 			//la instrucción no es válida
     		echo "Error: " . $sql . "<br>" . $conn->error;
     	}
-		
+	setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie	
 	//se cierra la conexión
 	$conn->close();
 }
@@ -108,21 +127,22 @@ if (isset($_POST['register_submit'])) {
 </head>
 	<body>
 	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
 		Nombre completo:<br>
-		<input type="text" name="nombre" placeholder="Nombre" required>  <input type="text" name="apellido" placeholder="Apellido" required><br>
+		<input type="text" name="nombre" placeholder="Nombre" autocomplete="off" required>  <input type="text" name="apellido" placeholder="Apellido" autocomplete="off" required><br>
 		DNI: <br>
-		<input type="text" name="numeroDNI" placeholder="12345678" required> <input type="text" name="letraDNI" placeholder="Letra DNI" required> <br>
+		<input type="text" name="numeroDNI" placeholder="12345678" autocomplete="off" required> <input type="text" name="letraDNI" placeholder="Letra DNI" autocomplete="off" required> <br>
   		Teléfono:<br>
-  		<input type="text" name="telefono" placeholder="123456789"required><br>
+  		<input type="text" name="telefono" placeholder="123456789" autocomplete="off" required><br>
 		Fecha de Nacimiento:<br>
-		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD"required/><br>
+		<input type="text" name="nacimiento" placeholder="AAAA-MM-DD" autocomplete="off" required/><br>
 		Email:<br>
-		<input type="text" name="email" placeholder="example@xxx.yyy" required> <br>
+		<input type="text" name="email" placeholder="example@xxx.yyy" autocomplete="off" required> <br>
 		Nombre de usuario<br>
-		<input type="text" name="usuario" required><br>
+		<input type="text" name="usuario" autocomplete="off" required><br>
 		Contraseña:<br>
-		<input type="text" name="contrasena" required> <br>
+		<input type="text" name="contrasena" autocomplete="off" required> <br>
 
 		<br>
 		<input type="submit" value="Registrarme" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">

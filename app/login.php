@@ -1,6 +1,19 @@
 <?php  
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();?>
+session_start();
+
+//comprueba si se ha iniciado sesion
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
+
+// Genera el token CSRF si no existe en la sesión
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
+    }
+
+?>
 
 <html>
 <head>
@@ -56,6 +69,11 @@ session_start();?>
 
     //si se ha pulsado el botón que llama a login_submit
     if (isset($_POST['login_submit'])) {
+
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die("Token CSRF inválido. Operación no permitida.");
+        }
+
         // obtener el usuario y contraseña del formulario y meterlos en una variable
         $usuario = $_POST['nombreUsuario'];
         $contraseña=$_POST['contraseña'];
@@ -73,6 +91,7 @@ session_start();?>
                 $hash_usuario = hash("sha256", $contraseña . $result['salt']);
 
                 if ($hash_usuario == $result['contrasena']) {
+                    unset($_SESSION['csrf_token']);
                     //guarda en la variable global sesion el id del usuario que se acaba de registrar
                     $_SESSION['user_id'] = $result['idUsuario'];
                     $_SESSION['tipo'] = $result['tipo'];
@@ -96,14 +115,14 @@ session_start();?>
         
     }
     $conn->close();
-
     ?>
     
 <!-- crea un formulario con el nombre login_form que realizará un metodo post  --> 
 <form name="login_form" method="post">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 	<p>Introduzca el nombre del usuario y su contraseña:</p>
-	Nombre de usuario:<input type="text" name="nombreUsuario" value=""> 
-	Contraseña:<input type="text" name="contraseña" value=""> 
+	Nombre de usuario:<input type="text" name="nombreUsuario" value="" autocomplete="off"> 
+	Contraseña:<input type="text" name="contraseña" value="" autocomplete="off"> 
   
 	<br>
     <!-- se trata de un boton del tipo submit, que al pulsar realiza el login_submit--> 

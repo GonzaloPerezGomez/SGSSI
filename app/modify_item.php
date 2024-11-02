@@ -2,11 +2,12 @@
 // conexión a la base de datos
 
 session_start();
-//comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) || $_SESSION['tipo'] != 'admin') {
-    header("Location: items.php");
-    exit();
+
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("CSRF token inválido.");
 }
+
+
 
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -29,10 +30,10 @@ if ($conn->connect_error) {
 }
 
 //obtenemos el id del libro
-$idLibro = $_GET['idLibro'];
+$idLibro = isset($_POST['idLibro']) ? intval(trim($_POST['idLibro'])) : 0;
+
 //guardamso la instruccion select en una variable
 $sql = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ?";
-
 $sth = $conn->prepare($sql);
 $sth->bind_param('i', $idLibro);
 
@@ -56,9 +57,9 @@ else{
 	//imprimimos el fallo de conexion
 	echo "Conexion fallida";
 }
-
 //guardamos nombre de la portada del libro
 $nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
+echo "<script> window.alert($nombimagen); </script>";
 //quitemos los espacios por guiones
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
@@ -77,7 +78,7 @@ if (isset($_POST['item_modify_submit'])) {
 	//el numero de paginas
     $n_paginas=$_POST['n_paginas'];
 	//el id del libro
-	$idLibro = $_GET['idLibro'];
+	$idLibro = $_POST['idLibro'];
 	//guardamos la instruccion update
     $sql = "UPDATE libro SET titulo= ?, autor= ? , f_publicacion= ? , ISBN= ? , n_paginas= ? WHERE idLibro = ?";
 
@@ -95,6 +96,7 @@ if (isset($_POST['item_modify_submit'])) {
 
 	//si la instruccion se realiza correctamente(resulatdo del update es true)
 	if ($sth->execute() === TRUE) {
+		unset($_SESSION['csrf_token']);
 		//imprimimos por pantalla
         echo "<script>
 			<!--la informacion es correcta-->
@@ -118,7 +120,7 @@ $sth->close();
 ?>
 
 
-<html>
+<htm>
 <head>
 	<!-- título que se pondrá en la página --> 
 	<title> Editar libro </title>
@@ -130,6 +132,8 @@ $sth->close();
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
 	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()" enctype="multipart/form-data">
+		<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+		<input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($idLibro); ?>">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 
 		<p align="center"> Introduzca la información pedida a continuación:</p>
 		<?php
@@ -162,4 +166,4 @@ $sth->close();
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	
-<html>
+</html>
