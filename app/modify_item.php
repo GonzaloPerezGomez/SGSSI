@@ -3,8 +3,17 @@
 
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: items.php");
+    exit();
+}
+
 if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    die("CSRF token inválido.");
+	echo "<script>
+		window.alert('no se puede modificar el libro, pruebelo mas tarde');
+		window.location.href = 'items.php';
+	</script>";
+    exit();
 }
 
 
@@ -65,20 +74,29 @@ $nombimagen = str_replace(" ", "-", $nombimagen);
 
 // cuando se pulsa el botón "Guardar" entra en el if:
 if (isset($_POST['item_modify_submit'])) {
+	// Verificación del token CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "<script>
+					window.alert('no ha sido modificar el libro, pruebalo mas tarde');
+					window.location.href = 'items.php';
+				</script>";
+        exit();
+    }
+
     // guardar la info del formulario
 
 	//el titulo
-    $titulo = $_POST['titulo'];
+    $titulo = htmlspecialchars($_POST['titulo']);
 	//el autor
-    $autor= $_POST['autor'];
+    $autor= htmlspecialchars($_POST['autor']);
 	//la fecha de publicacion
-    $f_publicacion = $_POST['f_publicacion'];
+    $f_publicacion = htmlspecialchars($_POST['f_publicacion']);
 	//el ISBN
-    $ISBN=$_POST['ISBN'];
+    $ISBN=htmlspecialchars($_POST['ISBN']);
 	//el numero de paginas
-    $n_paginas=$_POST['n_paginas'];
+    $n_paginas=htmlspecialchars($_POST['n_paginas']);
 	//el id del libro
-	$idLibro = $_POST['idLibro'];
+	$idLibro = htmlspecialchars($_POST['idLibro']);
 	//guardamos la instruccion update
     $sql = "UPDATE libro SET titulo= ?, autor= ? , f_publicacion= ? , ISBN= ? , n_paginas= ? WHERE idLibro = ?";
 
@@ -120,7 +138,7 @@ $sth->close();
 ?>
 
 
-<htm>
+<html>
 <head>
 	<!-- título que se pondrá en la página --> 
 	<title> Editar libro </title>
@@ -139,16 +157,17 @@ $sth->close();
 		<?php
 		echo 
 		"
+		
 		Título:<br>
-		<input type= text name= titulo value= '{$libro['titulo']}'>
+		<input type= text name= titulo value= '". htmlspecialchars($libro['titulo']). "'>
         Autor: <br>
-		<input type= text  name= autor value=  '{$libro['autor']}'> <br>
+		<input type= text  name= autor value=  '". htmlspecialchars($libro['autor']). "'><br>
   		Fecha de Publicación:<br>
-  		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . "> <br>
+  		<input type= text  name= f_publicacion value= '". htmlspecialchars($libro['f_publicacion']). "'><br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= " . $libro['ISBN'] . " ><br>
+		<input type= text  name= ISBN value= '". htmlspecialchars($libro['ISBN']). "'><br>
 		Nº de Páginas:<br>
-		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . "> <br>
+		<input type= text  name= n_paginas value= '". htmlspecialchars($libro['n_paginas']). "'> <br>
 		Imagen:<br>
 		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
 		Cambiar imagen (.jpeg):<br>

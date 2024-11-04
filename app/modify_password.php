@@ -15,12 +15,7 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Validación del token CSRF al enviar el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Token CSRF inválido. Operación no permitida.");
-    }
-}
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -72,11 +67,18 @@ if (isset($_SESSION['user_id'])) {
     }
     $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+        // Verificación del token CSRF
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo "<script>
+                        window.alert('no ha sido posible modificar la contraseña, pruebalo mas tarde');
+                        window.location.href = 'items.php';
+                    </script>";
+            exit();
+        }
         // Obtener los datos del formulario
-        $actualcontrasena = $_POST['actualcontrasena'];
-        $nuevacontrasena1 = $_POST['nuevacontrasena1'];
-        $nuevacontrasena2 = $_POST['nuevacontrasena2'];
+        $actualcontrasena = htmlspecialchars($_POST['actualcontrasena']);
+        $nuevacontrasena1 = htmlspecialchars($_POST['nuevacontrasena1']);
+        $nuevacontrasena2 = htmlspecialchars($_POST['nuevacontrasena2']);
         
         $actualcontrasena = $actualcontrasena . $salt;
         $actualcontrasena = hash('sha256', $actualcontrasena);

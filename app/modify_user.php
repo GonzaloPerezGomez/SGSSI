@@ -13,12 +13,6 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Validación del token CSRF al enviar el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Token CSRF inválido. Operación no permitida.");
-    }
-}
 
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
@@ -59,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
 		}
 		else{
 			//no se ha encontrado un usuario con ese id
-			echo "No attributes found for user ID: " . $userId;
+			echo "No attributes found for user ID: " . htmlspecialchars($userId);
 		}
 	}
 	else{
@@ -69,16 +63,23 @@ if (isset($_SESSION['user_id'])) {
 	$sth->close();
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+		// Verificación del token CSRF
+		if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+			echo "<script>
+						window.alert('no ha sido posible modificar los datos, pruebalo mas tarde');
+						window.location.href = 'items.php';
+					</script>";
+			exit();
+		}
 		
 		// Obtener los datos del formulario
-		$id_usuario = $_POST['idUsuario'];
-		$nuevo_nombre = $_POST['nombre'];
-		$nuevo_apellido = $_POST['apellido'];
-		$nuevo_telefono = $_POST['telefono'];
-		$nueva_fecha = $_POST['nacimiento'];
-		$nuevo_email = $_POST['email'];
-		$nuevo_usuario = $_POST['usuario'];
+		$id_usuario = htmlspecialchars($_POST['idUsuario']);
+		$nuevo_nombre = htmlspecialchars($_POST['nombre']);
+		$nuevo_apellido = htmlspecialchars($_POST['apellido']);
+		$nuevo_telefono = htmlspecialchars($_POST['telefono']);
+		$nueva_fecha = htmlspecialchars($_POST['nacimiento']);
+		$nuevo_email = htmlspecialchars($_POST['email']);
+		$nuevo_usuario = htmlspecialchars($_POST['usuario']);
 		
 		//guarda la instrucción de SQL que quere utilizar, en este caso un select
 		$sql = "SELECT usuario from usuarios where usuario = ?";
@@ -91,7 +92,6 @@ if (isset($_SESSION['user_id'])) {
 		
 		//se comprueba si ya esxiste un usuario con ese nombre de usuario
 		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
-			unset($_SESSION['csrf_token']);
 			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
 		else{
 			// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
@@ -104,8 +104,8 @@ if (isset($_SESSION['user_id'])) {
 			if ($sth->execute()) {
 				unset($_SESSION['csrf_token']);
 				echo "<script>
-				window.alert('Cambios guardados correctamente.');
-				window.location.href = 'show_user.php';
+					window.alert('Cambios guardados correctamente.');
+					window.location.href = 'show_user.php';
 				</script>";
 			} else {
 				//la instrucción no es valdia
@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id'])) {
 			}
 		}
 		$sth->close();
-	setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie
+	
 	}
 	
 	// cerrar conexión
@@ -136,19 +136,19 @@ if (isset($_SESSION['user_id'])) {
 			echo
 			"
 			Nombre completo:<br>
-			<input type= text name= nombre value= " . $infousuario['nombre'] . " >
-			<input type= text  name= apellido value=  " . $infousuario['apellido'] . " > <br>
+			<input type= text name= nombre value= '" . htmlspecialchars($infousuario['nombre']) . "' required>
+			<input type= text  name= apellido value=  '" . htmlspecialchars($infousuario['apellido']) . "' required> <br>
 			DNI:<br>
-			<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . "> <br>
-			<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . "> <br>
+			<input type= text  name= numeroDNI value= '" . htmlspecialchars($infousuario['numeroDNI']) . "' required> <br>
+			<input type= text  name= letraDNI value= '" . htmlspecialchars($infousuario['letraDNI']) . "' required> <br>
 			Teléfono:<br>
-			<input type= text  name= telefono value= " . $infousuario['telefono'] . " > <br>
+			<input type= text  name= telefono value= '" . htmlspecialchars($infousuario['telefono']) . "' required> <br>
 			Fecha de Nacimiento:<br>
-			<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " > <br>
+			<input type= text  name= nacimiento value= '" . htmlspecialchars($infousuario['nacimiento']) . "' required> <br>
 			Email:<br>
-			<input type= text  name= email value= " . $infousuario['email'] . " > <br>
+			<input type= text  name= email value= '" . htmlspecialchars($infousuario['email']) . "' required> <br>
 			Usuario:<br>
-			<input type= text  name= usuario value= " . $infousuario['usuario'] . "  <br>
+			<input type= text  name= usuario value= '" . htmlspecialchars($infousuario['usuario']) . "' required> <br>
 			";
         }
         else {

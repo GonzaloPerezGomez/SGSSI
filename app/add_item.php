@@ -33,6 +33,10 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // si la variable que guarda la conexión es un error 
 if ($conn->connect_error) {
+	echo "<script>
+				window.alert('No se ha podido conectar a la abase de datos');
+				window.location.href = 'items.php';
+		</script>";
     //para el proceso(die) e indica por pantalla la causa del fallo de conexión 
     die("Connection failed: " . $conn->connect_error);
 }
@@ -41,20 +45,24 @@ if (isset($_POST['item_add_submit'])) {
 
 	// Verificación del token CSRF
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-		die("Token CSRF inválido. Operación no permitida.");
+		echo "<script>
+					window.alert('no ha sido posible añadir el libro, pruebalo mas tarde');
+					window.location.href = 'items.php';
+				</script>";
+		exit();
 	}
 
     // guardar la información del formulario
     //guarda el título del libro
-    $titulo = $_POST['titulo'];
+    $titulo = htmlspecialchars($_POST['titulo']);
     //guarda el autor del libro
-    $autor= $_POST['autor'];
+    $autor= htmlspecialchars($_POST['autor']);
     //guarda la fecha de publicación del libro
-    $f_publicacion = $_POST['f_publicacion'];
+    $f_publicacion = htmlspecialchars($_POST['f_publicacion']);
     //guarda el ISBN del libro
-    $ISBN=$_POST['ISBN'];
+    $ISBN=htmlspecialchars($_POST['ISBN']);
     //guarda el número de páginas del libro
-    $n_paginas=$_POST['n_paginas'];
+    $n_paginas=htmlspecialchars($_POST['n_paginas']);
 	
 	//guarda la instrucción de SQL que quire utilizar, en este caso un select
 	$sql = "SELECT ISBN from libro where ISBN = ?";
@@ -104,7 +112,6 @@ if (isset($_POST['item_add_submit'])) {
 				</script>";
 
 			// Para eliminar la cookie del CSRF Token
-			setcookie("csrf_token", "", time() - 3600, "/"); // Elimina la cookie
 			exit();
 		} 
 		//si no 

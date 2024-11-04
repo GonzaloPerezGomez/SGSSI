@@ -10,7 +10,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['tipo'] != 'admin') {
 
 
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    die("CSRF token inválido.");
+    echo "<script>
+			window.alert('no es posible eliminar el libro en estos momentos, pruebalo mas tarde');
+			window.location.href = 'items.php';
+		</script>";
 }
 
 
@@ -40,10 +43,13 @@ $ISBN = isset($_POST['ISBN']) ? trim($_POST['ISBN']) : '';
 
  //si se ha pulsado el botón que llama a item_delete_submit
 if (isset($_POST['item_delete_submit'])) {
-
     // Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Token CSRF inválido. Operación no permitida.");
+        echo "<script>
+					window.alert('no ha sido posible borrar el libro, pruebalo mas tarde');
+					window.location.href = 'items.php';
+				</script>";
+        exit();
     }
 
     //se guarda la instrucción de SQL que se quiere aplicar en la base de datos en este caso delete 

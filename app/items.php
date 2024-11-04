@@ -73,6 +73,7 @@ else{
 //Guardamos el valor que obtenemos al realizar una select en la base de datos, si hay error paramos el proceso
 $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
    or die (mysqli_error($conn));
+
 if ($_SESSION['tipo']=='admin'){
     echo 
         "
@@ -112,11 +113,11 @@ else{
 //mientras haya filas sin estudiar
 while ($row = mysqli_fetch_array($query)) {
     //guardamos nombre de la portada del libro
-    $nombimagen = "libros/" . strval($row['idLibro']) . ".jpeg"; //imágenes
+    $nombimagen = "libros/" .htmlspecialchars(strval($row['idLibro'])) . ".jpeg"; //imágenes
     //imprimimos por pantalla
     if ($_SESSION['tipo']=='admin'){
-        $idLibro = $row['idLibro'];
-        $ISBN = $row['ISBN'];
+        $idLibro = htmlspecialchars($row['idLibro']);
+        $ISBN = htmlspecialchars($row['ISBN']);
         echo 
         "
         <tr>
@@ -125,7 +126,7 @@ while ($row = mysqli_fetch_array($query)) {
                 <!--referencia as show_item.php cargado con el ISBN del libro-->
                 <form method='POST' action='show_item.php'>
                         <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                        <input type='hidden' name='ISBN' value=" . $ISBN . ">
+                        <input type='hidden' name='ISBN' value=" . htmlspecialchars($ISBN) . ">
                         <button type='submit'>
                             <img src='$nombimagen' style=width:60px ; height:auto ;'>
                         </button>
@@ -133,22 +134,22 @@ while ($row = mysqli_fetch_array($query)) {
 
             </td>
             <!--informacion del titulo del libro-->
-            <td>{$row['titulo']}</td>
+            <td>" . htmlspecialchars($row['titulo']) . "</td>
             <!--informacion del autor del libro-->
-            <td>{$row['autor']}</td>
+            <td>" . htmlspecialchars($row['autor']) . "</td> 
             <td>
                 <!--contenedor de los botones de modificacion y eliminacion con su respectivas imagenes-->
                 <div class=button-container>
                     <form method='POST' action='modify_item.php'>
                         <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                        <input type='hidden' name='idLibro' value=" . $idLibro . ">
+                        <input type='hidden' name='idLibro' value=" . htmlspecialchars($idLibro) . ">
                         <button type='submit'>
                             <img src='image/editar.png' style='height:20px;'>
                         </button>
                     </form>
                     <form method='POST' action='delete_item.php'>
                         <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                        <input type='hidden' name='ISBN' value='" . $ISBN . "'>
+                        <input type='hidden' name='ISBN' value='" . htmlspecialchars($ISBN) . "'>
                         <button type='submit'>
                             <img src='image/borrar.png' style='height:20px;'>
                         </button>
@@ -166,16 +167,16 @@ while ($row = mysqli_fetch_array($query)) {
                 <!--referencia as show_item.php cargado con el ISBN del libro-->
                 <form method='POST' action='show_item.php'>
                         <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                        <input type='hidden' name='ISBN' value='" . $ISBN . "'>
+                        <input type='hidden' name='ISBN' value='" . htmlspecialchars($ISBN) . "'>
                         <button type='submit'>
                             <img src='$nombimagen' style=width:60px ; height:auto ;'>
                         </button>
                 </form>
             </td>
             <!--informacion del titulo del libro-->
-            <td>{$row['titulo']}</td>
+            <td>" . htmlspecialchars($row['titulo']) . "</td>
             <!--informacion del autor del libro-->
-            <td>{$row['autor']}</td>
+            <td>" . htmlspecialchars($row['autor']) . "</td>
         </tr>";}
 }
 
