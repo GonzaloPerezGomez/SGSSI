@@ -107,6 +107,11 @@ if ( isset($_POST['register_submit'])) {
     	}
 	//se cierra la conexión
 	$conn->close();
+	//default-src 'self'; 
+	//script-src 'self'; 
+	//Content-Security-Policy:
+  	//script-src 'nonce-416d1177-4d12-4e3b-b7c9-f6c409789fb8'
+
 }}
 
 
@@ -115,20 +120,20 @@ if ( isset($_POST['register_submit'])) {
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-		content="default-src 'self'; 
-		         script-src 'self'; 
-		         img-src 'self'; 
-		         style-src 'self'; 
-		         base-uri 'self'; 
-		         form-action 'self';
-		         connect-src 'self'; 
-		         font-src 'self';">
+		content="
+			script-src 'self';
+			img-src 'self';
+			style-src 'self';
+			base-uri 'self';
+			form-action 'self';
+			connect-src 'self';
+			font-src 'self';">
 	<title> Registrarse </title>
 	<script src="comprobacionDeDatos.js"></script>
 	<link rel="stylesheet" href="estilo.css">
 </head>
 	<body>
-	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
+	<form name="register_form" method="post"  id="register_form">
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
 		Nombre completo:<br>
