@@ -6,6 +6,15 @@ if (!isset($_SESSION['user_id']) ) {
     exit();
 }
 
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    echo "<script>
+		window.alert('no se puede mostrar el libro, pruebalo mas tarde');
+		window.location.href = 'items.php';
+	</script>";
+    exit();
+}
+
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -28,7 +37,7 @@ if ($conn->connect_error) {
 }
 
 //se guarda el ISBN del libro seleccionado
-$ISBN = $_GET['ISBN'];
+$ISBN = htmlspecialchars($_POST['ISBN']); 
 //guarda la instrucción de SQL que quere utilizar, en este caso un select
 $sql = "SELECT idLibro,titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = ?";
 
@@ -38,7 +47,9 @@ $sth->bind_param('s', $ISBN);
 // comprobar si la consulta es valida
 if($sth->execute()){//se ejecuta la consulta
 	$result = $sth->get_result();      //el resultado se cuarda en la variable $result
-	if($result->num_rows > 0){          //comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
+	if($result->num_rows > 0){      
+		unset($_SESSION['csrf_token']);    
+		//comprueba si hay un libro con ese ISBM (mira si el resultado contiene filas)
 		$libro = $result->fetch_assoc();//obtenemos el libro
 	}
 	else{
@@ -51,13 +62,12 @@ else{
 	echo "Conecxion fallida";
 }
 
-$idLibro = $libro['idLibro'];
+$idLibro = htmlspecialchars($libro['idLibro']);
 //se obtiene el nombre de la imagen a partir del titulo
-$nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
+$nombimagen = "libros/" . htmlspecialchars(strval($idLibro)) . ".jpeg"; //imágenes
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 $sth->close();
-
 ?>
 
 
@@ -74,15 +84,15 @@ $sth->close();
 		echo
 		"
 		Título:<br>
-		<input type= text name= titulo value= '{$libro['titulo']}' readonly>
+		<input type= text name= titulo value='" . htmlspecialchars($libro['titulo']) . "' readonly>
         Autor: <br>
-		<input type= text  name= autor value=  '{$libro['autor']}' readonly> <br>
+		<input type= text  name= autor value=  '" . htmlspecialchars($libro['autor']) ."' readonly> <br>
   		Fecha de Publicación:<br>
-  		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . " readonly> <br>
+  		<input type= text  name= f_publicacion value= '" . htmlspecialchars($libro['f_publicacion']) . "' readonly> <br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= " . $ISBN . " ><br>
+		<input type= text  name= ISBN value= '" . htmlspecialchars($ISBN) . "' ><br>
 		Nº de Páginas:<br>
-		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . " readonly> <br>
+		<input type= text  name= n_paginas value= '" . htmlspecialchars($libro['n_paginas']) . "' readonly> <br>
 		Imagen:<br>
 		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
 		"

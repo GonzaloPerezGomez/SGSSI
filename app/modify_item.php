@@ -2,11 +2,21 @@
 // conexión a la base de datos
 
 session_start();
-//comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) || $_SESSION['tipo'] != 'admin') {
+
+if (!isset($_SESSION['user_id'])) {
     header("Location: items.php");
     exit();
 }
+
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+	echo "<script>
+		window.alert('no se puede modificar el libro, pruebelo mas tarde');
+		window.location.href = 'items.php';
+	</script>";
+    exit();
+}
+
+
 
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -29,10 +39,10 @@ if ($conn->connect_error) {
 }
 
 //obtenemos el id del libro
-$idLibro = $_GET['idLibro'];
+$idLibro = isset($_POST['idLibro']) ? intval(trim($_POST['idLibro'])) : 0;
+
 //guardamso la instruccion select en una variable
 $sql = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ?";
-
 $sth = $conn->prepare($sql);
 $sth->bind_param('i', $idLibro);
 
@@ -56,28 +66,37 @@ else{
 	//imprimimos el fallo de conexion
 	echo "Conexion fallida";
 }
-
 //guardamos nombre de la portada del libro
 $nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
+echo "<script> window.alert($nombimagen); </script>";
 //quitemos los espacios por guiones
 $nombimagen = str_replace(" ", "-", $nombimagen);
 
 // cuando se pulsa el botón "Guardar" entra en el if:
 if (isset($_POST['item_modify_submit'])) {
+	// Verificación del token CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo "<script>
+					window.alert('no ha sido modificar el libro, pruebalo mas tarde');
+					window.location.href = 'items.php';
+				</script>";
+        exit();
+    }
+
     // guardar la info del formulario
 
 	//el titulo
-    $titulo = $_POST['titulo'];
+    $titulo = htmlspecialchars($_POST['titulo']);
 	//el autor
-    $autor= $_POST['autor'];
+    $autor= htmlspecialchars($_POST['autor']);
 	//la fecha de publicacion
-    $f_publicacion = $_POST['f_publicacion'];
+    $f_publicacion = htmlspecialchars($_POST['f_publicacion']);
 	//el ISBN
-    $ISBN=$_POST['ISBN'];
+    $ISBN=htmlspecialchars($_POST['ISBN']);
 	//el numero de paginas
-    $n_paginas=$_POST['n_paginas'];
+    $n_paginas=htmlspecialchars($_POST['n_paginas']);
 	//el id del libro
-	$idLibro = $_GET['idLibro'];
+	$idLibro = htmlspecialchars($_POST['idLibro']);
 	//guardamos la instruccion update
     $sql = "UPDATE libro SET titulo= ?, autor= ? , f_publicacion= ? , ISBN= ? , n_paginas= ? WHERE idLibro = ?";
 
@@ -95,6 +114,7 @@ if (isset($_POST['item_modify_submit'])) {
 
 	//si la instruccion se realiza correctamente(resulatdo del update es true)
 	if ($sth->execute() === TRUE) {
+		unset($_SESSION['csrf_token']);
 		//imprimimos por pantalla
         echo "<script>
 			<!--la informacion es correcta-->
@@ -130,21 +150,24 @@ $sth->close();
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
 	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()" enctype="multipart/form-data">
+		<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+		<input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($idLibro); ?>">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 
 		<p align="center"> Introduzca la información pedida a continuación:</p>
 		<?php
 		echo 
 		"
+		
 		Título:<br>
-		<input type= text name= titulo value= '{$libro['titulo']}'>
+		<input type= text name= titulo value= '". htmlspecialchars($libro['titulo']). "'>
         Autor: <br>
-		<input type= text  name= autor value=  '{$libro['autor']}'> <br>
+		<input type= text  name= autor value=  '". htmlspecialchars($libro['autor']). "'><br>
   		Fecha de Publicación:<br>
-  		<input type= text  name= f_publicacion value= " . $libro['f_publicacion'] . "> <br>
+  		<input type= text  name= f_publicacion value= '". htmlspecialchars($libro['f_publicacion']). "'><br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= " . $libro['ISBN'] . " ><br>
+		<input type= text  name= ISBN value= '". htmlspecialchars($libro['ISBN']). "'><br>
 		Nº de Páginas:<br>
-		<input type= text  name= n_paginas value= " . $libro['n_paginas'] . "> <br>
+		<input type= text  name= n_paginas value= '". htmlspecialchars($libro['n_paginas']). "'> <br>
 		Imagen:<br>
 		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
 		Cambiar imagen (.jpeg):<br>
@@ -162,4 +185,4 @@ $sth->close();
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	
-<html>
+</html>

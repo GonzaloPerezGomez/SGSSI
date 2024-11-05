@@ -82,19 +82,19 @@ $conn->close();
 		echo
 		"<br>
 		Nombre completo:<br>
-		<input type= text name= nombre value= " . $infousuario['nombre'] . " readonly>
-		<input type= text  name= apellido value=  " . $infousuario['apellido'] . " readonly> <br>
+		<input type= text name= nombre value= '" . htmlspecialchars($infousuario['nombre']) . "' readonly>
+		<input type= text  name= apellido value=  '" . htmlspecialchars($infousuario['apellido']) . "' readonly> <br>
   		DNI:<br>
-  		<input type= text  name= numeroDNI value= " . $infousuario['numeroDNI'] . " readonly> <br>
-		<input type= text  name= letraDNI value= " . $infousuario['letraDNI'] . " readonly><br>
+  		<input type= text  name= numeroDNI value= '" . htmlspecialchars($infousuario['numeroDNI']) . "' readonly> <br>
+		<input type= text  name= letraDNI value= '" . htmlspecialchars($infousuario['letraDNI']) . "' readonly><br>
 		Teléfono:<br>
-		<input type= text  name= telefono value=" . $infousuario['telefono'] . " readonly> <br>
+		<input type= text  name= telefono value='" . htmlspecialchars($infousuario['telefono']) . "' readonly> <br>
         Fecha de Nacimiento:<br>
-		<input type= text  name= nacimiento value= " . $infousuario['nacimiento'] . " readonly> <br>
+		<input type= text  name= nacimiento value= '" . htmlspecialchars($infousuario['nacimiento']) . "' readonly> <br>
         Email:<br>
-		<input type= text  name= email value= " . $infousuario['email'] . " readonly> <br>
+		<input type= text  name= email value= '" . htmlspecialchars($infousuario['email']) . "' readonly> <br>
         Usuario:<br>
-		<input type= text  name= usuario value= " . $infousuario['usuario'] . " readonly>
+		<input type= text  name= usuario value= '" . htmlspecialchars($infousuario['usuario']) . "' readonly>
 		";
 		}
 		else {

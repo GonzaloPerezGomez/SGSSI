@@ -10,6 +10,12 @@ if (!isset($_SESSION['user_id']) ) {
     exit();
 }
 
+// Generar token CSRF si no existe
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+
 // conexión a la base de datos
 //guarda el nombre del servidor a conectar
 $servername = "db";
@@ -61,10 +67,18 @@ if (isset($_SESSION['user_id'])) {
     }
     $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Verificación del token CSRF
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo "<script>
+                        window.alert('no ha sido posible modificar la contraseña, pruebalo mas tarde');
+                        window.location.href = 'items.php';
+                    </script>";
+            exit();
+        }
         // Obtener los datos del formulario
-        $actualcontrasena = $_POST['actualcontrasena'];
-        $nuevacontrasena1 = $_POST['nuevacontrasena1'];
-        $nuevacontrasena2 = $_POST['nuevacontrasena2'];
+        $actualcontrasena = htmlspecialchars($_POST['actualcontrasena']);
+        $nuevacontrasena1 = htmlspecialchars($_POST['nuevacontrasena1']);
+        $nuevacontrasena2 = htmlspecialchars($_POST['nuevacontrasena2']);
         
         $actualcontrasena = $actualcontrasena . $salt;
         $actualcontrasena = hash('sha256', $actualcontrasena);
@@ -76,7 +90,7 @@ if (isset($_SESSION['user_id'])) {
                  //para que la nueva contraseña no puedan ser espacios en blanco y que sea una sola palabra
                 if(trim($nuevacontrasena1)!= '' && strpos(trim($nuevacontrasena1), ' ') === false) {
 
-                    $nuevacontrasena = $nuevacontrasena . $salt;
+                    $nuevacontrasena = $nuevacontrasena1 . $salt;
                     $nuevacontrasena = hash('sha256', $nuevacontrasena);
                     // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
                     $sql = "UPDATE usuarios SET contrasena= ? WHERE idUsuario= ?";
@@ -84,6 +98,7 @@ if (isset($_SESSION['user_id'])) {
 	                $sth->bind_param('si', $nuevacontrasena, $userId);
                     // Ejecutar la consulta
                     if ($sth->execute()) {
+                        unset($_SESSION['csrf_token']);
                         echo "<script>
                         window.alert('Cambios guardados correctamente.');
                         window.location.href = 'show_user.php';
@@ -111,12 +126,13 @@ $conn->close();
 </head>
 	<body>
 	<form name="user_modify_password" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<br>
   		Introduzca su contraseña actual:<br>
-  		<input type= text  name= actualcontrasena placeholder="contraseña actual" required> <br>
+  		<input type= text  name= actualcontrasena placeholder="contraseña actual" autocomplete="off" required> <br>
 		Introduzca la nueva contraseña:<br>
-		<input type= text  name= nuevacontrasena1 placeholder="nueva contraseña" required> 
-		<input type= text  name= nuevacontrasena2 placeholder="repita la nueva contraseña" required> <br>
+		<input type= text  name= nuevacontrasena1 placeholder="nueva contraseña" autocomplete="off" required> 
+		<input type= text  name= nuevacontrasena2 placeholder="repita la nueva contraseña" autocomplete="off" required> <br>
 
 		<input type="submit" value="Guardar cambios"name="modify_password_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
 	</form>
