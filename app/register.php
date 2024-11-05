@@ -70,14 +70,12 @@ if ( isset($_POST['register_submit'])) {
 		$contraseña_completa = $contraseña . $salt;
 		$hash_contraseña = hash("sha256", $contraseña_completa);
 		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-		#$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
     	
-		#$sth = $conn->prepare($sql);
-		#$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
-		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) 
-		VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $hash_contraseña . "' , '" . $salt . "' )";
+		$sth = $conn->prepare($sql);
+		$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
 		//se comprueba si la instrucción se ha ejecutado de forma correcta
-		if ($sth->execute() === TRUE) {
+		if ($sth->execute()) {
 
 			unset($_SESSION['csrf_token']); // Borrar el token CSRF
 
@@ -106,27 +104,31 @@ if ( isset($_POST['register_submit'])) {
 			//la instrucción no es válida
     		echo "Error: " . htmlspecialchars($sql) . "<br>" . htmlspecialchars($conn->error);
     	}
-	//se cierra la conexión
-	$conn->close();
+		
 
-}}
+	}
+}
+//se cierra la conexión
+$conn->close();
 
+/*
+script-src http://localhost:81/comprobacionDeDatos.js ;
+			style-src http://localhost:81/estilo.css ;
+			img-src http://localhost:81/image/background.jpg">
+			*/
 
 ?>
 
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-		content="
-			script-src 'self';
-			img-src 'self';
-			style-src 'self';
-			base-uri 'self';
-			form-action 'self';
-			connect-src 'self';
-			font-src 'self';">
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;">
+			
 	<title> Registrarse </title>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
 	<form name="register_form" method="post"  id="register_form">
@@ -155,7 +157,7 @@ if ( isset($_POST['register_submit'])) {
 		<a href="index.php" class="button">Volver a inicio</a>
 	</div>
 
-	<script src="comprobacionDeDatos.js"></script>
+	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
 
 	</body>
 	
