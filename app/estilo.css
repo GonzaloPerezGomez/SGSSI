@@ -44,6 +44,12 @@ h2, h3 {
     text-decoration:none;
 }
 
+.button-submit{
+    color: black;
+    font-family: 'Baskerville', serif;
+    font-weight: bold;
+}
+
 .button:hover {
     background-color: var(--color-boton-hover);
 }

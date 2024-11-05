@@ -18,14 +18,14 @@ if (!isset($_SESSION['csrf_token'])) {
 <html>
 <head>
     <meta http-equiv="Content-Security-Policy"
-            content="default-src 'self'; 
-                    script-src 'self'; 
-                    img-src 'self'; 
-                    style-src 'self'; 
-                    base-uri 'self'; 
-                    form-action 'self';
-                    connect-src 'self'; 
-                    font-src 'self';">
+         content="
+            script-src 'self';
+            img-src 'self';
+            style-src 'self';
+            base-uri 'self';
+            form-action 'self';
+            connect-src 'self';
+            font-src 'self';">
     <title> login </title> 
     <!-- indica desde que script modela la pagina web --> 
     <link rel="stylesheet" href="estilo.css">
@@ -120,7 +120,7 @@ if (!isset($_SESSION['csrf_token'])) {
     ?>
     
 <!-- crea un formulario con el nombre login_form que realizará un metodo post  --> 
-<form name="login_form" method="post">
+<form name="login_form" method="post" id="login_form">
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 	<p>Introduzca el nombre del usuario y su contraseña:</p>
 	Nombre de usuario:<input type="text" name="nombreUsuario" autocomplete="off" required> 
@@ -128,7 +128,7 @@ if (!isset($_SESSION['csrf_token'])) {
   
 	<br>
     <!-- se trata de un boton del tipo submit, que al pulsar realiza el login_submit--> 
-	<input type="submit" name="login_submit" value="Acceder" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+	<input type="submit" name="login_submit" value="Acceder" >
     
 </form>
 

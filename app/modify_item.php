@@ -140,16 +140,25 @@ $sth->close();
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="
+			script-src 'self';
+			img-src 'self';
+			style-src 'self';
+			base-uri 'self';
+			form-action 'self';
+			connect-src 'self';
+			font-src 'self';">
 	<!-- título que se pondrá en la página --> 
 	<title> Editar libro </title>
 	<!-- indica desde que script realizará las comprobaciones --> 
-	<script src="comprobarDatosLibro.js"></script>
+	
 	<!-- indica desde que script modela la página web--> 
 	<link rel="stylesheet" href="estilo.css">
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
-	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()" enctype="multipart/form-data">
+	<form name="item_modify_form" method="POST" id="item_modify_form" enctype="multipart/form-data">
 		<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($idLibro); ?>">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 
@@ -176,7 +185,7 @@ $sth->close();
 		?>
 		<br>
 		<!-- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para modificar los datos del libro en la base de datos--> 	
-		<input type="submit" name="item_modify_submit" class ="button" value="Guardar" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" name="item_modify_submit" class ="button" value="Guardar" >
 		
 	</form>
 	<!-- contenedor de botones--> 
@@ -184,5 +193,6 @@ $sth->close();
 		<!-- botón normal que al pulsar redirige página a items.php --> 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
-	
+	<script src="comprobarDatosLibro.js"></script>
+	</body>
 </html>

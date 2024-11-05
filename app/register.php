@@ -70,11 +70,12 @@ if ( isset($_POST['register_submit'])) {
 		$contraseña_completa = $contraseña . $salt;
 		$hash_contraseña = hash("sha256", $contraseña_completa);
 		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		#$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
     	
-		$sth = $conn->prepare($sql);
-		$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
-
+		#$sth = $conn->prepare($sql);
+		#$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
+		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) 
+		VALUES ('". $nombre ."', '" . $apellido . "' , '" . $DNI . "', '" . $letraDNI . "', '" . $telefono . "' , '" . $nacimiento . "' , '" . $email . "' , '" . $usuario . "' , '" . $hash_contraseña . "' , '" . $salt . "' )";
 		//se comprueba si la instrucción se ha ejecutado de forma correcta
 		if ($sth->execute() === TRUE) {
 
@@ -107,10 +108,6 @@ if ( isset($_POST['register_submit'])) {
     	}
 	//se cierra la conexión
 	$conn->close();
-	//default-src 'self'; 
-	//script-src 'self'; 
-	//Content-Security-Policy:
-  	//script-src 'nonce-416d1177-4d12-4e3b-b7c9-f6c409789fb8'
 
 }}
 
@@ -129,7 +126,6 @@ if ( isset($_POST['register_submit'])) {
 			connect-src 'self';
 			font-src 'self';">
 	<title> Registrarse </title>
-	<script src="comprobacionDeDatos.js"></script>
 	<link rel="stylesheet" href="estilo.css">
 </head>
 	<body>
@@ -152,11 +148,15 @@ if ( isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena" autocomplete="off" required> <br>
 
 		<br>
-		<input type="submit" value="Registrarme" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">
 	</form>
 		
 	<div class="button-container">
 		<a href="index.php" class="button">Volver a inicio</a>
 	</div>
+
+	<script src="comprobacionDeDatos.js"></script>
+
+	</body>
 	
 <html>

@@ -121,6 +121,15 @@ $conn->close();
 
 <html>
 <head>
+    <meta http-equiv="Content-Security-Policy"
+            content="
+                script-src 'self';
+                img-src 'self';
+                style-src 'self';
+                base-uri 'self';
+                form-action 'self';
+                connect-src 'self';
+                font-src 'self';">
     <title> Modificar Contraseña </title>
     <link rel="stylesheet" href="estilo.css">
 </head>

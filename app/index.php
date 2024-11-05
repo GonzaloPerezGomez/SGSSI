@@ -14,7 +14,6 @@ session_start();?>
                     font-src 'self';">
     <meta charset="UTF-8">
     <title> Página principal </title>
-    <script src="comprobacionDeDatos.js"></script>
     <link rel="stylesheet" href="estilo.css">
 </head>
 
@@ -34,7 +33,7 @@ if (isset($_SESSION['user_id'])) {
         <!-- botón normal que al pulsar redirige página a show_user.php -->
         <a class="button" href=show_user.php>
         <!--se carga la imagen de una carpeta ubicada en el repositorio-->
-        <img src="image/user.png" style="height:20px;"></a>
+        <img src="image/user.png"></a>
     </div>';}
 //si no ha iniciado sesión
 else {                              

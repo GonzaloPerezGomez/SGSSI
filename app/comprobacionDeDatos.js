@@ -1,12 +1,28 @@
-document.getElementById("register_form").addEventListener("submit", function(event) {
-    if (!comprobardatosRegistro()) {
-        event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Maneja el formulario de registro
+    var registerForm = document.getElementById("register_form");
+    if (registerForm) {
+        registerForm.addEventListener("submit", function(event) {
+            if (!comprobardatosRegistro()) {
+				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+			}
+        });
     }
-})
+
+    // Maneja otro elemento si existe
+    var anotherElement = document.getElementById("user_modify_form");
+    if (anotherElement) {
+        anotherElement.addEventListener("click", function(event) {
+            if (!comprobardatosModificar()) {
+				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+			}
+        });
+    }
+});
 
 
 function comprobardatosRegistro(){
-	window.alert("Se ejecuta");
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 
     //comprueba si los campos son validos
