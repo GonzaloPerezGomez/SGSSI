@@ -4,7 +4,11 @@ services:
  web:
   image: web
   environment:
-   - ALLOW_OVERRIDE=true
+    ALLOW_OVERRIDE: true
+    MYSQL_SERVER: db
+    MYSQL_USER: admin
+    MYSQL_PASSWORD: WqoL3OTBXD2ioZ15
+    MYSQL_DATABASE: database
   ports:
    - "81:80"
   volumes:
@@ -23,7 +27,7 @@ services:
   environment:
    MYSQL_ROOT_PASSWORD: root
    MYSQL_USER: admin
-   MYSQL_PASSWORD: test
+   MYSQL_PASSWORD: WqoL3OTBXD2ioZ15
    MYSQL_DATABASE: database
   ports:
    - "8889:3306" 

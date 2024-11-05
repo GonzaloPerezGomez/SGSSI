@@ -10,26 +10,8 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
 }
 
-// conexión a la base de datos
-//guarda el nombre del servidor a conectar
-$servername = "db";
-//guarda el nombre del usuario necesario para acceder al servidor
-$username = "admin";
-//guarda la contraseña del usuario en una variable
-$password = "test";
-//guarda el nombre del de la base de datos a la que quiere acceder
-$dbname = "database";
+require 'setup_sql.php';
 
-//se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// comprobar conexión
-
-// si la variable que guarda la conexión es un error 
-if ($conn->connect_error) {
-	//detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
-    die("Connection failed: " . htmlspecialchars($conn->connect_error));
-}
 // comprobar si se ha enviado el formulario
 if ( isset($_POST['register_submit'])) {
 
