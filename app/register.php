@@ -31,7 +31,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . htmlspecialchars($conn->connect_error));
 }
 // comprobar si se ha enviado el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_submit'])) {
+if ( isset($_POST['register_submit'])) {
+
+
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 			echo "<script>
 				window.alert('no ha sido posible registrarse, pruebalo mas tarde');
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_submit'])) {
 			</script>";
 			exit();
 		}
-		}
+		
 
 	// guardar la información del formulario
     $nombre = htmlspecialchars($_POST['nombre']);
@@ -105,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_submit'])) {
     	}
 	//se cierra la conexión
 	$conn->close();
-}
+}}
 
 
 ?>
