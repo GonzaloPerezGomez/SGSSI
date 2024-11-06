@@ -17,25 +17,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     exit();
 }
 
-// conexión a la base de datos
-
-//guarda el nombre del servidor a conectar
-$servername = "db";
-//guarda el nombre del usuario necesario para acceder al servidor
-$username = "admin";
-//guarda la contraseña del usuario en una variable
-$password = "test";
-//guarda el nombre del de la base de datos a la que quiere acceder
-$dbname = "database";
-
-//se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-//comprobar conexión
-if ($conn->connect_error) {
-	//detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
-    die("Connection failed: " . $conn->connect_error);
-}
+require 'setup_sql.php';
 
 //se guarda el id del usuario con la sesión activa
 $userId=$_SESSION['user_id'];
