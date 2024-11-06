@@ -50,31 +50,10 @@ if (!isset($_SESSION['csrf_token'])) {
                     <a class=button href=index.php>Volver a inicio</a>
                 </div>";}
 
-
-        // conexión a la base de datos
-        //guarda el nombre del servidor a conectar
-        $hostname = "db";
-        //guarda el nombre del usuario necesario para acceder al servidor
-        $username = "admin";
-        //guarda la contraseña del usuario en una variable
-        $password = "test";
-        //guarda el nombre del de la base de datos a la que quiere acceder
-        $db = "database";
-
-        //se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
-        $conn = mysqli_connect($hostname,$username,$password,$db);
-
-        // comprobar conexión
-        
-        // si la variable que guarda la conexión es un error 
-        if ($conn->connect_error) {
-            //detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión
-            die("Database connection failed: " . $conn->connect_error);
-        }
-
         ?>
 
         <?php
+        require 'setup_sql.php';
         //Guardamos el valor que obtenemos al realizar una select en la base de datos, si hay error paramos el proceso
         $query = mysqli_query($conn, "SELECT idLibro, titulo, autor, ISBN  FROM libro")
         or die (mysqli_error($conn));
