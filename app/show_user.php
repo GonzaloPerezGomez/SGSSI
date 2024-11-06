@@ -52,8 +52,13 @@ $conn->close();
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'none';">
 	<title> Información de usuario </title>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
 	<form name="show_item_form" method="POST">
@@ -86,8 +91,8 @@ $conn->close();
 	</form>
 
 	<div class="button-container">
-			<a class="button" href="modify_user.php">Editar Datos</a>
-			<a class="button" href="modify_password.php">Cambiar contraseña</a>
+		<a class="button" href="modify_user.php">Editar Datos</a>
+		<a class="button" href="modify_password.php">Cambiar contraseña</a>
 	</div>
 
 	<div class="button-container">

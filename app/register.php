@@ -56,9 +56,8 @@ if ( isset($_POST['register_submit'])) {
     	
 		$sth = $conn->prepare($sql);
 		$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
-
 		//se comprueba si la instrucción se ha ejecutado de forma correcta
-		if ($sth->execute() === TRUE) {
+		if ($sth->execute()) {
 
 			unset($_SESSION['csrf_token']); // Borrar el token CSRF
 
@@ -87,30 +86,29 @@ if ( isset($_POST['register_submit'])) {
 			//la instrucción no es válida
     		echo "Error: " . htmlspecialchars($sql) . "<br>" . htmlspecialchars($conn->error);
     	}
-	//se cierra la conexión
-	$conn->close();
-}}
+		
 
+	}
+}
+//se cierra la conexión
+$conn->close();
 
 ?>
 
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-		content="default-src 'self'; 
-		         script-src 'self'; 
-		         img-src 'self'; 
-		         style-src 'self'; 
-		         base-uri 'self'; 
-		         form-action 'self';
-		         connect-src 'self'; 
-		         font-src 'self';">
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
+			
 	<title> Registrarse </title>
-	<script src="comprobacionDeDatos.js"></script>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
-	<form name="register_form" method="post"  onsubmit="return comprobardatosRegistro()">
+	<form name="register_form" method="post"  id="register_form">
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<p align="center">Introduzca la información pedida a continuación para registrarse:</p>
 		Nombre completo:<br>
@@ -129,11 +127,15 @@ if ( isset($_POST['register_submit'])) {
 		<input type="text" name="contrasena" autocomplete="off" required> <br>
 
 		<br>
-		<input type="submit" value="Registrarme" name="register_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">
 	</form>
 		
 	<div class="button-container">
 		<a href="index.php" class="button">Volver a inicio</a>
 	</div>
+
+	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
+
+	</body>
 	
 <html>

@@ -32,6 +32,21 @@ h2, h3 {
     text-align: center;
 }
 
+/* Imagenes */
+.imagen_catalogo{
+    width:60px ; 
+    height:auto ;
+}
+
+.imagen_funcionalidades{
+    width:20px;
+}
+
+.imagen_show{
+    height: 150px;
+    width: auto;
+}
+
 /* Botones */
 .button {
     background-color: var(--color-boton);
@@ -42,6 +57,12 @@ h2, h3 {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration:none;
+}
+
+.button-submit{
+    color: black;
+    font-family: 'Baskerville', serif;
+    font-weight: bold;
 }
 
 .button:hover {

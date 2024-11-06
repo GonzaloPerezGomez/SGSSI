@@ -122,16 +122,22 @@ $sth->close();
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<!-- título que se pondrá en la página --> 
 	<title> Editar libro </title>
 	<!-- indica desde que script realizará las comprobaciones --> 
-	<script src="comprobarDatosLibro.js"></script>
+	
 	<!-- indica desde que script modela la página web--> 
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
-	<form name="item_modify_form" method="POST" onsubmit="return comprobardatosModificar()" enctype="multipart/form-data">
+	<form name="item_modify_form" method="POST" id="item_modify_form" enctype="multipart/form-data">
 		<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($idLibro); ?>">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 
@@ -151,14 +157,14 @@ $sth->close();
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= '". htmlspecialchars($libro['n_paginas']). "'> <br>
 		Imagen:<br>
-		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
+		<img src='" . $nombimagen . "' class='imagen_show'> <br>
 		Cambiar imagen (.jpeg):<br>
 		<input type='file' name='imagen' accept='.jpeg'> <br>
 		"
 		?>
 		<br>
 		<!-- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para modificar los datos del libro en la base de datos--> 	
-		<input type="submit" name="item_modify_submit" class ="button" value="Guardar" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" name="item_modify_submit" class ="button" value="Guardar" >
 		
 	</form>
 	<!-- contenedor de botones--> 
@@ -166,5 +172,6 @@ $sth->close();
 		<!-- botón normal que al pulsar redirige página a items.php --> 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
-	
+	<script nonce="abc123" src="comprobarDatosLibro.js"></script>
+	</body>
 </html>

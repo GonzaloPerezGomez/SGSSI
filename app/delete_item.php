@@ -69,12 +69,18 @@ if (isset($_POST['item_delete_submit'])) {
 
 <html>
 <head>
+    <meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			script-src 'self';
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
     <!-- comentario--> 
     <meta charset="UTF-8">
     <!-- titulo que se pondra en la pagina --> 
     <title> Borrar libro </title>
     <!-- indica desde que script realizara las comprobaciones --> 
-    <link rel="stylesheet" href="estilo.css">
+    <link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <br>
@@ -86,7 +92,7 @@ if (isset($_POST['item_delete_submit'])) {
     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
     <input type="hidden" name="ISBN" value="<?php echo htmlspecialchars($ISBN); ?>">
         <!-- se trata de un boton del tipo submit-->
-        <input type="submit" name="item_delete_submit" value='Confirmar' style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+        <input type="submit" name="item_delete_submit" value='Confirmar'>
         
         <br>
         <!-- botton normal que al pulsar redirige la pagina a items.php --> 

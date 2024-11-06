@@ -104,12 +104,17 @@ if (isset($_SESSION['user_id'])) {
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<title> Modificar Datos </title>
-	<script src="comprobacionDeDatos.js"></script>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
-	<form name="user_modify_form" method="POST" onsubmit="return comprobardatosModificar()">
+	<form name="user_modify_form" method="POST" id="user_modify_form">
 	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
@@ -136,11 +141,12 @@ if (isset($_SESSION['user_id'])) {
             echo "You are not logged in";
         }
 		?>
-		<input type="submit" value="Guardar cambios"name="modify_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" value="Guardar cambios" name="modify_submit" >
 	</form>
 
 	<div class="button-container">
 		<a class="button" href="show_user.php">Volver</a>
 	</div>	
-	
+	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
+	</body>
 <html>

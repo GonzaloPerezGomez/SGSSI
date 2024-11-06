@@ -1,3 +1,27 @@
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Maneja el formulario de registro
+    var register_form = document.getElementById("register_form");
+    if (register_form) {
+        register_form.addEventListener("submit", function(event) {
+            if (!comprobardatosRegistro()) {
+				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+			}
+        });
+    }
+
+    // Maneja otro elemento si existe
+    var user_modify_form = document.getElementById("user_modify_form");
+    if (user_modify_form) {
+        user_modify_form.addEventListener("click", function(event) {
+            if (!comprobardatosModificar()) {
+				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+			}
+        });
+    }
+});
+
+
 function comprobardatosRegistro(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 

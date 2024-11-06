@@ -47,8 +47,9 @@ if (isset($_POST['item_add_submit'])) {
 	$sth = $conn->prepare($sql);
 	$sth->bind_param('s', $ISBN);
 	//realiza el comando en la base de datos y almacena el resultado en una variable
-	$result = $conn->query($sql);
-
+	$sth->execute();
+	//se ejecuta la instrucción
+	$result = $sth->get_result();
 	//si el select nos devuelve un valor mayor que 0,(hay otro libro en la bd con ese isbn)
 	if ($result ->num_rows > 0){ 
 		//imprime por pantalla un mensaje indicando que ya existe un libro con ese ISBN
@@ -83,7 +84,7 @@ if (isset($_POST['item_add_submit'])) {
 			//pone por pantalla:
 			echo "<script>
 					<!--un aviso de que el libro se ha añadido correctamente -->
-					window.alert('Infromacion actualizada correctamente.');
+					window.alert('Libro añadido correctamente.');
 					<!--nos lleva a la pagina items.php-->
 					window.location.href = 'items.php';
 				</script>";
@@ -108,19 +109,22 @@ $conn->close();
 
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<!-- título que se pondrá en la página --> 
 	<title> Añadir libro </title>
-	<!-- indica desde que script realizará las comprobaciones --> 
-	<script src="comprobarDatosLibro.js"></script>
 	<!-- indica desde que script modela la página web--> 
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	
 	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosAnnadir --> 
-	<form name="item_add_form" method="post" onsubmit="return comprobardatosAnnadir()" enctype="multipart/form-data">
+	<form name="item_add_form" method="post" id="item_add_form" enctype="multipart/form-data">
     <!-- Campo oculto para el token CSRF -->
 	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
@@ -141,7 +145,7 @@ $conn->close();
 		<br>
 
 		<!-- se trata de un botón del tipo submit, que tras ser pulsado, comienza las comprobaciones para introducir el libro en la base de datos--> 
-		<input type="submit" name="item_add_submit" class ="button" value="Añadir" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" name="item_add_submit" class ="button" value="Añadir" >
 	</form>
 
 	<!-- contenedor de botones--> 
@@ -149,5 +153,7 @@ $conn->close();
 	<!-- botón normal que al pulsar redirige página a items.php --> 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
-	
+	<!-- indica desde que script realizará las comprobaciones --> 
+	<script nonce="abc123" src="comprobarDatosLibro.js"></script>
+	</body>
 <html>
