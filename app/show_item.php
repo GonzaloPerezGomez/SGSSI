@@ -14,27 +14,7 @@ if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     exit();
 }
 
-
-// conexión a la base de datos
-//guarda el nombre del servidor a conectar
-$servername = "db";
-//guarda el nombre del usuario necesario para acceder al servidor
-$username = "admin";
-//guarda la contraseña del usuario en una variable
-$password = "test";
-//guarda el nombre del de la base de datos a la que quiere acceder
-$dbname = "database";
-
-//se realiza la conexión en el servidor con el usuario introducido en la base de datos introducida (db, database)
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// comprobar conexión
-
-// si la variable que guarda la conexión es un error 
-if ($conn->connect_error) {
-	//detiene el proceso(die) e indica por pantalla la causa del fallo en la conexión 
-    die("Connection failed: " . $conn->connect_error);
-}
+require 'setup_sql.php';
 
 //se guarda el ISBN del libro seleccionado
 $ISBN = htmlspecialchars($_POST['ISBN']); 
