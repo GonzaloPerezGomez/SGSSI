@@ -124,16 +124,13 @@ if (isset($_SESSION['user_id'])) {
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-			content="
-				script-src 'self';
-				img-src 'self';
-				style-src 'self';
-				base-uri 'self';
-				form-action 'self';
-				connect-src 'self';
-				font-src 'self';">
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<title> Modificar Datos </title>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
 	<form name="user_modify_form" method="POST" id="user_modify_form">
@@ -163,12 +160,12 @@ if (isset($_SESSION['user_id'])) {
             echo "You are not logged in";
         }
 		?>
-		<input type="submit" value="Guardar cambios"name="modify_submit" >
+		<input type="submit" value="Guardar cambios" name="modify_submit" >
 	</form>
 
 	<div class="button-container">
 		<a class="button" href="show_user.php">Volver</a>
 	</div>	
-	<script src="comprobacionDeDatos.js"></script>
+	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
 	</body>
 <html>

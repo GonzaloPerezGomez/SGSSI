@@ -111,12 +111,6 @@ if ( isset($_POST['register_submit'])) {
 //se cierra la conexión
 $conn->close();
 
-/*
-script-src http://localhost:81/comprobacionDeDatos.js ;
-			style-src http://localhost:81/estilo.css ;
-			img-src http://localhost:81/image/background.jpg">
-			*/
-
 ?>
 
 <html>
@@ -125,7 +119,8 @@ script-src http://localhost:81/comprobacionDeDatos.js ;
 		content="default-src 'none';
 			script-src 'self' 'nonce-abc123' ;
 			style-src 'self' 'nonce-abc123' ;
-			img-src 'self' http://localhost:81/image/background.jpg ;">
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 			
 	<title> Registrarse </title>
 	<link nonce="abc123" rel="stylesheet" href="estilo.css">

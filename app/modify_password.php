@@ -122,16 +122,12 @@ $conn->close();
 <html>
 <head>
     <meta http-equiv="Content-Security-Policy"
-            content="
-                script-src 'self';
-                img-src 'self';
-                style-src 'self';
-                base-uri 'self';
-                form-action 'self';
-                connect-src 'self';
-                font-src 'self';">
+		content="default-src 'none';
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
     <title> Modificar Contraseña </title>
-    <link rel="stylesheet" href="estilo.css">
+    <link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
 	<form name="user_modify_password" method="POST">
@@ -143,7 +139,7 @@ $conn->close();
 		<input type= text  name= nuevacontrasena1 placeholder="nueva contraseña" autocomplete="off" required> 
 		<input type= text  name= nuevacontrasena2 placeholder="repita la nueva contraseña" autocomplete="off" required> <br>
 
-		<input type="submit" value="Guardar cambios"name="modify_password_submit" style="color:black;font-family:'Baskerville',serif;font-weight:bold;">
+		<input type="submit" value="Guardar cambios"name="modify_password_submit">
 	</form>
 
 	<div class="button-container">

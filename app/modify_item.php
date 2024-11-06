@@ -141,20 +141,17 @@ $sth->close();
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-		content="
-			script-src 'self';
-			img-src 'self';
-			style-src 'self';
-			base-uri 'self';
-			form-action 'self';
-			connect-src 'self';
-			font-src 'self';">
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<!-- título que se pondrá en la página --> 
 	<title> Editar libro </title>
 	<!-- indica desde que script realizará las comprobaciones --> 
 	
 	<!-- indica desde que script modela la página web--> 
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
@@ -178,7 +175,7 @@ $sth->close();
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= '". htmlspecialchars($libro['n_paginas']). "'> <br>
 		Imagen:<br>
-		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
+		<img src='" . $nombimagen . "' class='imagen_show'> <br>
 		Cambiar imagen (.jpeg):<br>
 		<input type='file' name='imagen' accept='.jpeg'> <br>
 		"
@@ -193,6 +190,6 @@ $sth->close();
 		<!-- botón normal que al pulsar redirige página a items.php --> 
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
-	<script src="comprobarDatosLibro.js"></script>
+	<script nonce="abc123" src="comprobarDatosLibro.js"></script>
 	</body>
 </html>

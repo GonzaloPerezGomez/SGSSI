@@ -73,8 +73,13 @@ $sth->close();
 
 <html>
 <head>
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none';
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'none';">
 	<title> Información de libro </title>
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
 	<form name="show_item_form" method="POST">
@@ -94,7 +99,7 @@ $sth->close();
 		Nº de Páginas:<br>
 		<input type= text  name= n_paginas value= '" . htmlspecialchars($libro['n_paginas']) . "' readonly> <br>
 		Imagen:<br>
-		<img src='" . $nombimagen . "' style='height: 150px;'> <br>
+		<img src='" . $nombimagen . "' class='imagen_show'> <br>
 		"
 		?>
 	</form>

@@ -133,18 +133,15 @@ $conn->close();
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
-		content="
-			script-src 'self';
-			img-src 'self';
-			style-src 'self';
-			base-uri 'self';
-			form-action 'self';
-			connect-src 'self';
-			font-src 'self';">
+		content="default-src 'none';
+			script-src 'self' 'nonce-abc123' ;
+			style-src 'self' 'nonce-abc123' ;
+			img-src 'self' http://localhost:81/image/background.jpg ;
+			form-action 'self';">
 	<!-- título que se pondrá en la página --> 
 	<title> Añadir libro </title>
 	<!-- indica desde que script modela la página web--> 
-	<link rel="stylesheet" href="estilo.css">
+	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	
 	
@@ -180,6 +177,6 @@ $conn->close();
 		<a class="button" href="items.php">Cancelar</a>
 	</div>	
 	<!-- indica desde que script realizará las comprobaciones --> 
-	<script src="comprobarDatosLibro.js"></script>
+	<script nonce="abc123" src="comprobarDatosLibro.js"></script>
 	</body>
 <html>

@@ -1,9 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function() {
     // Maneja el formulario de registro
-    var registerForm = document.getElementById("register_form");
-    if (registerForm) {
-        registerForm.addEventListener("submit", function(event) {
+    var register_form = document.getElementById("register_form");
+    if (register_form) {
+        register_form.addEventListener("submit", function(event) {
             if (!comprobardatosRegistro()) {
 				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
 			}
@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Maneja otro elemento si existe
-    var anotherElement = document.getElementById("user_modify_form");
-    if (anotherElement) {
-        anotherElement.addEventListener("click", function(event) {
+    var user_modify_form = document.getElementById("user_modify_form");
+    if (user_modify_form) {
+        user_modify_form.addEventListener("click", function(event) {
             if (!comprobardatosModificar()) {
 				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
 			}
