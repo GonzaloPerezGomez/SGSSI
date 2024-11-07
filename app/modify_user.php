@@ -27,7 +27,8 @@ if (isset($_SESSION['user_id'])) {
 	$sth = $conn->prepare($sql);
 	$sth->bind_param('i', $userId);
 
-	if($sth->execute()){//se ejecuta la consulta
+	try {
+		$sth->execute(); //se ejecuta la consulta
 		$result = $sth->get_result();      //el resultado se cuarda en la variable $result
 		if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
 			$infousuario = $result->fetch_assoc();//obtenemos el usuario
@@ -36,16 +37,18 @@ if (isset($_SESSION['user_id'])) {
 			//no se ha encontrado un usuario con ese id
 			echo "No attributes found for user ID: " . htmlspecialchars($userId);
 		}
-	}
-	else{
-		//la instrucción no es valida
-		echo "Conexión fallida";
+	}catch(Exception $e){
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	$sth->close();
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		// Verificación del token CSRF
 		if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+			$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+        	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			echo "<script>
 						window.alert('no ha sido posible modificar los datos, pruebalo mas tarde');
 						window.location.href = 'items.php';
@@ -68,31 +71,40 @@ if (isset($_SESSION['user_id'])) {
 
 		$sth = $conn->prepare($sql);
 		$sth->bind_param('s', $nuevo_usuario);
-		$sth->execute();
-		$result = $sth->get_result();
-		
-		//se comprueba si ya esxiste un usuario con ese nombre de usuario
-		if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
-			echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
-		else{
-			// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-			$sql = "UPDATE usuarios SET nombre= ?, apellido= ?, telefono= ?, nacimiento= ?, email= ?, usuario= ? WHERE idUsuario= ?";
+		try {
+			$sth->execute();
+			$result = $sth->get_result();
 			
-			$sth = $conn->prepare($sql);
-			$sth->bind_param('ssisssi', $nuevo_nombre, $nuevo_apellido, $nuevo_telefono, $nueva_fecha, $nuevo_email, $nuevo_usuario, $_SESSION['user_id']);
+			//se comprueba si ya esxiste un usuario con ese nombre de usuario
+			if ($result ->num_rows > 0 && $nuevo_usuario!=$infousuario['usuario']){
+				echo "<script> window.alert('Escoja otro nombre de usuario, ese no está disponible'); </script>";}
+			else{
+				// Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
+				$sql = "UPDATE usuarios SET nombre= ?, apellido= ?, telefono= ?, nacimiento= ?, email= ?, usuario= ? WHERE idUsuario= ?";
+				
+				$sth = $conn->prepare($sql);
+				$sth->bind_param('ssisssi', $nuevo_nombre, $nuevo_apellido, $nuevo_telefono, $nueva_fecha, $nuevo_email, $nuevo_usuario, $_SESSION['user_id']);
 
-			// Ejecutar la consulta
-			if ($sth->execute()) {
-				unset($_SESSION['csrf_token']);
-				echo "<script>
-					window.alert('Cambios guardados correctamente.');
-					window.location.href = 'show_user.php';
-				</script>";
-			} else {
-				//la instrucción no es valdia
-				echo "Error al guardar los cambios: " . $stmt->error;
+				// Ejecutar la consulta
+				try {
+					$sth->execute();
+					unset($_SESSION['csrf_token']);
+					echo "<script>
+						window.alert('Cambios guardados correctamente.');
+						window.location.href = 'show_user.php';
+					</script>";
+				}catch(Exception $e){
+					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+					$error_message = 'Excepcion de update: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				}
 			}
+		}catch(Exception $e){
+			echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+			$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+			file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		}
+		
 		$sth->close();
 	
 	}

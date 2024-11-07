@@ -29,19 +29,20 @@ $sth = $conn->prepare($sql);
 $sth->bind_param('s', $userId);
 
 // comprobar si la consulta es valida
-if($sth->execute()){//se ejecuta la consulta
+try {
+	$sth->execute(); //se ejecuta la consulta
 	$result = $sth->get_result();      //el resultado se cuarda en la variable $result
 	if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
 		$infousuario = $result->fetch_assoc();//obtenemos el usuario
 	}
 	else{
 		//no se ha encontrado un usuario con ese id
-		echo "No attributes found for user ID: " . $userId;
+		echo "<script> window.alert('No se ha encontrado ningun usuario con ese id'); </script>";
 	}
-}
-else{
-	//la instruccion SQL no es valida
-	echo "Conexión fallida";
+}catch(Exception $e){
+	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+	$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 
 // cerrar conexión
