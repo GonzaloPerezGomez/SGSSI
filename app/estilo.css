@@ -33,8 +33,7 @@ h2, h3 {
 }
 
 /* Botones */
-.button
-button {
+.button {
     background-color: var(--color-boton);
     color: var(--color-textotabla);
     padding: 10px 20px;
