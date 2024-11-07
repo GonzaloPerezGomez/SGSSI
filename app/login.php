@@ -6,7 +6,7 @@ session_set_cookie_params([
 //    'secure' => true,               // Send cookie only over HTTPS connections
     'httponly' => true              // Cookie is inaccessible to JavaScript
 ]);
-session_start();
+require 'setup_session.php';
 
 // Rutas de los archivos de log
 $log_file = 'logs/login_intentos.log';

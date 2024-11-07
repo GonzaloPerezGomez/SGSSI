@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require 'setup_session.php';
 
 // Rutas de los archivos de log
 $error_log_file = 'logs/errores.log';
