@@ -111,7 +111,7 @@ if (!isset($_SESSION['csrf_token'])) {
                         <form method='POST' action='show_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
                                 <input type='hidden' name='ISBN' value=" . htmlspecialchars($ISBN) . ">
-                                <button type='submit'>
+                                <button type='submit' class='button'>
                                     <img src='$nombimagen' class='imagen_catalogo'>
                                 </button>
                         </form>
@@ -127,14 +127,14 @@ if (!isset($_SESSION['csrf_token'])) {
                             <form method='POST' action='modify_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
                                 <input type='hidden' name='idLibro' value=" . htmlspecialchars($idLibro) . ">
-                                <button type='submit'>
+                                <button type='submit'  class='button'>
                                     <img src='image/editar.png' class='imagen_funcionalidades'>
                                 </button>
                             </form>
                             <form method='POST' action='delete_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
                                 <input type='hidden' name='ISBN' value='" . htmlspecialchars($ISBN) . "'>
-                                <button type='submit'>
+                                <button type='submit'  class='button'>
                                     <img src='image/borrar.png' class='imagen_funcionalidades'>
                                 </button>
                             </form>
