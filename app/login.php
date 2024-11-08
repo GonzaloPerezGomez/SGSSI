@@ -79,7 +79,7 @@ require 'setup_sql.php';
                     file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso: " . htmlspecialchars($usuario) . "\n", FILE_APPEND);
                     //redirige el sistema a la pagina index.php
                     echo "<script> window.alert('Sesión Iniciada');</script>";
-                    echo "<script>window.location.href = 'items.php';</script>";
+                    echo "<script>window.location.href = 'index.php';</script>";
                 }
                     //si no
                 else {
@@ -92,7 +92,7 @@ require 'setup_sql.php';
                     file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
                 }
 
-
+            }
             else{
                 $error_message = 'No existe un usuario con ese nombre de usuario';
                 echo "<script> window.alert('$error_message');</script>";
