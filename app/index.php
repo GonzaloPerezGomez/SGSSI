@@ -29,7 +29,7 @@ require 'setup_session.php';?>
             <!-- botón normal que al pulsar redirige página a show_user.php -->
             <a class="button" href=show_user.php>
             <!--se carga la imagen de una carpeta ubicada en el repositorio-->
-            <img src="image/user.png"></a>
+            <img src="image/user.png"  class="imagen_funcionalidades"></a>
         </div>';}
     //si no ha iniciado sesión
     else {                              
