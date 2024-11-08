@@ -6,7 +6,7 @@ require 'setup_session.php';
 $error_log_file = 'logs/errores.log';
 
 //comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) ||  $_SESSION['tipo'] != 'admin') {
+if (!isset($_SESSION['randomID']) ||  $_SESSION['tipo'] != 'admin') {
     header("Location: items.php");
     exit();
 }

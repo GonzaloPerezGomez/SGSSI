@@ -3,7 +3,7 @@
 
 require 'setup_session.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['randomID'])) {
     header("Location: items.php");
     exit();
 }
