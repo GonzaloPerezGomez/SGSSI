@@ -14,7 +14,7 @@ services:
   volumes:
    - ./app:/var/www/html/
    - imagenes:/var/www/imagen
-   - ./logs:/var/www/html/logs
+   - logs:/var/www/logs
   depends_on:
    - db
    - phpmyadmin
@@ -45,3 +45,4 @@ services:
 
 volumes:
   imagenes:
+  logs:

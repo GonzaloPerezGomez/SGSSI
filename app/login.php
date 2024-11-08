@@ -3,8 +3,8 @@
 session_start();
 
 // Rutas de los archivos de log
-$log_file = 'logs/login_intentos.log';
-$error_log_file = 'logs/errores.log';
+$log_file = '/var/www/logs/login_intentos.log';
+$error_log_file = '/var/www/logs/errores.log';
 
 // Límite de intentos fallidos
 $intentos_maximos = 5;
