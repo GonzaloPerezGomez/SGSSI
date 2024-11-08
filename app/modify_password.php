@@ -1,7 +1,7 @@
 <?php
 
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();
+require 'setup_session.php';
 
 
 //comprueba si se ha iniciado sesion

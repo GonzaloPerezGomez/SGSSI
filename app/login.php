@@ -1,6 +1,12 @@
 <?php  
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();
+session_set_cookie_params([
+    'lifetime' => 0,                // Session cookie (expires when the browser is closed)
+    'path' => '/',                  // Cookie is valid throughout the domain
+//    'secure' => true,               // Send cookie only over HTTPS connections
+    'httponly' => true              // Cookie is inaccessible to JavaScript
+]);
+require 'setup_session.php';
 
 // Rutas de los archivos de log
 $log_file = 'logs/login_intentos.log';

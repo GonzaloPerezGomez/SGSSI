@@ -1,7 +1,7 @@
 <?php
 // conexión a la base de datos
 
-session_start();
+require 'setup_session.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: items.php");

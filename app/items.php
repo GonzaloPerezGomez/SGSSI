@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'setup_session.php';
 
 
 //comprueba si se ha iniciado sesion
