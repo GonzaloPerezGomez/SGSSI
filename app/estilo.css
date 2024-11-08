@@ -32,21 +32,6 @@ h2, h3 {
     text-align: center;
 }
 
-/* Imagenes */
-.imagen_catalogo{
-    width:60px ; 
-    height:auto ;
-}
-
-.imagen_funcionalidades{
-    width:20px;
-}
-
-.imagen_show{
-    height: 150px;
-    width: auto;
-}
-
 /* Botones */
 .button {
     background-color: var(--color-boton);
@@ -57,12 +42,6 @@ h2, h3 {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration:none;
-}
-
-.button-submit{
-    color: black;
-    font-family: 'Baskerville', serif;
-    font-weight: bold;
 }
 
 .button:hover {
@@ -84,7 +63,7 @@ h2, h3 {
 table {
     background-color: var(--color-tablafondo);
     border-collapse: collapse; /* Colapsar bordes */
-    width: 600px; /* Ancho de la tabla */
+    width: auto; /* Ancho de la tabla */
     margin: 20px auto; /* Centrar la tabla */
     color: var(--color-textotabla)
 }
@@ -135,4 +114,3 @@ form{
     justify-content: center;
     align-items: center;
 }
-

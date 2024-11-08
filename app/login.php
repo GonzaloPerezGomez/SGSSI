@@ -1,6 +1,25 @@
 <?php  
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();
+session_set_cookie_params([
+    'lifetime' => 0,                // Session cookie (expires when the browser is closed)
+    'path' => '/',                  // Cookie is valid throughout the domain
+//    'secure' => true,               // Send cookie only over HTTPS connections
+    'httponly' => true              // Cookie is inaccessible to JavaScript
+]);
+require 'setup_session.php';
+
+// Rutas de los archivos de log
+$log_file = '/var/www/logs/login_intentos.log';
+$error_log_file = '/var/www/logs/errores.log';
+
+// Límite de intentos fallidos
+$intentos_maximos = 5;
+
+// Inicializar el contador de intentos fallidos
+if (!isset($_SESSION['intentos_fallidos'])) {
+    $_SESSION['intentos_fallidos'] = 0;
+}
+
 
 //comprueba si se ha iniciado sesion
 if (isset($_SESSION['randomID'])) {
@@ -20,19 +39,27 @@ require 'setup_sql.php';
     if (isset($_POST['login_submit'])) {
 
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            $error_message = 'sin token:' . $_POST['csrf_token'] . ' o tokens diferentes: ' . $_POST['csrf_token'] . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
             echo "<script> window.alert('No ha sido posible iniciar sesión, pruébalo más tarde');</script>";
-            $error_message = 'No ha sido posible iniciar sesión, pruébalo más tarde';
-            echo "<script> window.location.href = 'items.php';</script>";
+            echo "<script> window.location.href = 'index.php';</script>";
             exit();
         }
 
-        // obtener el usuario y contraseña del formulario y meterlos en una variable
-        $usuario = htmlspecialchars($_POST['nombreUsuario']);
-        $contraseña=htmlspecialchars($_POST['contraseña']);
+        if ($_SESSION['intentos_fallidos'] >= $intentos_maximos) {
+            $error_message = 'Demasiados intentos fallidos con token: ' . htmlspecialchars($_SESSION['csrf_token']);
+            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            echo "<script> window.alert('Demasiados intentos fallidos. Por favor, intenta más tarde.');</script>";
+            echo "<script> window.location.href = 'index.php';</script>";
+        } else {
+            // obtener el usuario y contraseña del formulario y meterlos en una variable
+            $usuario = htmlspecialchars($_POST['nombreUsuario']);
+            $contraseña=htmlspecialchars($_POST['contraseña']);
+
 
         $sql = "SELECT idUsuario, tipo, contrasena, salt from usuarios where usuario = ?";
         $sth = $conn->prepare($sql);
-	    $sth->bind_param('s', $usuario);
+	      $sth->bind_param('s', $usuario);
         
         try {
             $sth->execute();
@@ -48,26 +75,37 @@ require 'setup_sql.php';
                     $_SESSION['user_id'] = $result['idUsuario'];
                     $_SESSION['tipo'] = $result['tipo'];
                     $_SESSION['randomID'] = bin2hex(random_bytes(32));
+                    // Registrar intento exitoso
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso: " . htmlspecialchars($usuario) . "\n", FILE_APPEND);
                     //redirige el sistema a la pagina index.php
                     echo "<script> window.alert('Sesión Iniciada');</script>";
                     echo "<script>window.location.href = 'items.php';</script>";
                 }
-                //si no
+                    //si no
                 else {
                     //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
-                    echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
+                    //echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
+                    $error_message = 'El usuario o la contraseña no coinciden';
+                    echo "<script> window.alert('$error_message');</script>";
+                    $_SESSION['intentos_fallidos']++;
+                    // Registrar intento fallido
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
                 }
-            }
+
+
             else{
-                echo "<script> window.alert('No existe un usuario con ese nombre de usuario');</script>";
                 $error_message = 'No existe un usuario con ese nombre de usuario';
-                        
+                echo "<script> window.alert('$error_message');</script>";
+                $_SESSION['intentos_fallidos']++;
+                // Registrar intento fallido
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: " . htmlspecialchars($error_message) .  "\n", FILE_APPEND);      
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-            $error_message = 'Ocurrió un error, intente más tarde.';
+            $error_message = 'Excepcion: ' . htmlspecialchars($e);
+            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         }
-        
+    }
         
     }
     $conn->close();

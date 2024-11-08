@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'setup_session.php';
 
 if (isset($_SESSION['randomID'])) {
     header("Location: index.php");
@@ -17,7 +17,9 @@ if ( isset($_POST['register_submit'])) {
 
 
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-			echo "<script>
+		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);	
+		echo "<script>
 				window.alert('no ha sido posible registrarse, pruebalo mas tarde');
 				window.location.href = 'items.php';
 			</script>";
@@ -40,56 +42,69 @@ if ( isset($_POST['register_submit'])) {
 	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
 	$sth = $conn->prepare($sql);
 	$sth->bind_param('si', $usuario, $DNI);
-	$sth->execute();
-	//se ejecuta la instrucción
-	$result = $sth->get_result();
-	if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
-		echo "<script> window.alert('El nombre de usuario ya está cogido o ya tiene una cuenta') </script>";}
-	else{
-		//generamos una semilla de 255 bytes
-		$salt = bin2hex(random_bytes(255));
-		//generamos el hash apartir de la contraseña mas la semilla 
-		$contraseña_completa = $contraseña . $salt;
-		$hash_contraseña = hash("sha256", $contraseña_completa);
-		//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-		$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    	
-		$sth = $conn->prepare($sql);
-		$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
-		//se comprueba si la instrucción se ha ejecutado de forma correcta
-		if ($sth->execute()) {
-
-			unset($_SESSION['csrf_token']); // Borrar el token CSRF
-
-			//se recoge el id del usuario para despues crear su sesión
-			$sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
+	try {
+		$sth->execute();
+		//se ejecuta la instrucción
+		$result = $sth->get_result();
+		if ($result ->num_rows > 0){ //comprobar si hay otro usuario con ese nombre de usuario
+			echo "<script> window.alert('El nombre de usuario ya está cogido o ya tiene una cuenta') </script>";}
+		else{
+			//generamos una semilla de 255 bytes
+			$salt = bin2hex(random_bytes(255));
+			//generamos el hash apartir de la contraseña mas la semilla 
+			$contraseña_completa = $contraseña . $salt;
+			$hash_contraseña = hash("sha256", $contraseña_completa);
+			//guarda la instrucción de SQL que quere utilizar, en este caso un insert
+			$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
 			
 			$sth = $conn->prepare($sql);
-			$sth->bind_param('ss', $usuario, $hash_contraseña);
-			$sth->execute();
+			$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
+			//se comprueba si la instrucción se ha ejecutado de forma correcta
+			try {
+				$sth->execute();
 
-			$result = $sth->get_result();
-			$returnedValues = $result->fetch_assoc();
-			$_SESSION['user_id'] = $returnedValues['idUsuario'];
-			$_SESSION['tipo'] = $returnedValues['tipo'];
-			$_SESSION['randomID'] = bin2hex(random_bytes(32));
-			echo "<script>
-				window.alert('Se ha registrado correctamente :)');
-				window.location.href = 'index.php';
-			</script>";
+				unset($_SESSION['csrf_token']); // Borrar el token CSRF
 
-			//se cierra la conexión
-			$conn->close();
-			// Borra la cookie del CSRF token
-			//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
-		} 
-		else {
-			//la instrucción no es válida
-    		echo "Error: " . htmlspecialchars($sql) . "<br>" . htmlspecialchars($conn->error);
-    	}
+				//se recoge el id del usuario para despues crear su sesión
+				$sql = "SELECT idUsuario from usuarios where usuario = ? and contrasena= ?";
+				
+				$sth = $conn->prepare($sql);
+				$sth->bind_param('ss', $usuario, $hash_contraseña);
+				try {
+					$sth->execute();
+
+					$result = $sth->get_result();
+					$returnedValues = $result->fetch_assoc();
+					$_SESSION['user_id'] = $returnedValues['idUsuario'];
+					$_SESSION['tipo'] = $returnedValues['tipo'];
+          $_SESSION['randomID'] = bin2hex(random_bytes(32));
+					echo "<script>
+						window.alert('Se ha registrado correctamente :)');
+						window.location.href = 'index.php';
+					</script>";
+				}catch(Exception $e){
+					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+					$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				}
+				//se cierra la conexión
+				$conn->close();
+				// Borra la cookie del CSRF token
+				//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
+			}catch(Exception $e){
+				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+				$error_message = 'Excepcion de insert into: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+			}
 		
 
+		}
+	}catch(Exception $e){
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
+	
 }
 $conn->close();
 

@@ -1,6 +1,9 @@
 <?php
 
-session_start();
+require 'setup_session.php';
+
+// Rutas de los archivos de log
+$error_log_file = 'logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ||  $_SESSION['tipo'] != 'admin') {
@@ -22,6 +25,8 @@ if (isset($_POST['item_add_submit'])) {
 
 	// Verificación del token CSRF
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		echo "<script>
 					window.alert('no ha sido posible añadir el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
@@ -47,56 +52,69 @@ if (isset($_POST['item_add_submit'])) {
 	$sth = $conn->prepare($sql);
 	$sth->bind_param('s', $ISBN);
 	//realiza el comando en la base de datos y almacena el resultado en una variable
-	$sth->execute();
-	//se ejecuta la instrucción
-	$result = $sth->get_result();
-	//si el select nos devuelve un valor mayor que 0,(hay otro libro en la bd con ese isbn)
-	if ($result ->num_rows > 0){ 
-		//imprime por pantalla un mensaje indicando que ya existe un libro con ese ISBN
-		echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
-	//si no
-	else{
-		//prepara la inserción del nuevo libro con el comando de SQL insert into
-		$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
-		VALUES (?,?,?,?,?)";
-		
-		$sth = $conn->prepare($sql);
-		$sth->bind_param("sssss", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas);
+	try {
+		$sth->execute();
+		//se ejecuta la instrucción
+		$result = $sth->get_result();
+		//si el select nos devuelve un valor mayor que 0,(hay otro libro en la bd con ese isbn)
+		if ($result ->num_rows > 0){ 
+			//imprime por pantalla un mensaje indicando que ya existe un libro con ese ISBN
+			echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
+		//si no
+		else{
+			//prepara la inserción del nuevo libro con el comando de SQL insert into
+			$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
+			VALUES (?,?,?,?,?)";
+			
+			$sth = $conn->prepare($sql);
+			$sth->bind_param("sssss", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas);
 
-		//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
-		if ($sth->execute() === TRUE) {
-			unset($_SESSION['csrf_token']);
-			$sqlId = "SELECT idLibro from libro where ISBN = ?";
+			//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
+			try {
+                $sth->execute();
 
-			$sth = $conn->prepare($sqlId);
-			$sth->bind_param('s', $ISBN);
+				unset($_SESSION['csrf_token']);
+				$sqlId = "SELECT idLibro from libro where ISBN = ?";
 
-			//realiza el comando en la base de datos y almacena el resultado en una variable
-			$sth->execute();                   //se ejecuta la consulta
-			$resultId = $sth->get_result();  
-			$libroId = $resultId->fetch_assoc();    //el resultado se cuarda en la variable $result
-			$idLibro = $libroId['idLibro'];
-			// Procesar la imagen        
-			$target_dir = "/var/www/imagen/";
-			$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
-			move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
-	
-			//pone por pantalla:
-			echo "<script>
-					<!--un aviso de que el libro se ha añadido correctamente -->
-					window.alert('Libro añadido correctamente.');
-					<!--nos lleva a la pagina items.php-->
-					window.location.href = 'items.php';
-				</script>";
+				$sth = $conn->prepare($sqlId);
+				$sth->bind_param('s', $ISBN);
 
-			// Para eliminar la cookie del CSRF Token
-			exit();
-		} 
-		//si no 
-		else {
-			//indica el error al introducir el nuevo libro
-			echo "Error: " . $sql . "<br>" . $conn->error;
+				//realiza el comando en la base de datos y almacena el resultado en una variable
+				try {
+					$sth->execute();                   //se ejecuta la consulta
+					$resultId = $sth->get_result();  
+					$libroId = $resultId->fetch_assoc();    //el resultado se cuarda en la variable $result
+					$idLibro = $libroId['idLibro'];
+					// Procesar la imagen        
+					$target_dir = "/var/www/imagen/";
+					$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
+					move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
+			
+					//pone por pantalla:
+					echo "<script>
+							<!--un aviso de que el libro se ha añadido correctamente -->
+							window.alert('Libro añadido correctamente.');
+							<!--nos lleva a la pagina items.php-->
+							window.location.href = 'items.php';
+						</script>";
+
+					// Para eliminar la cookie del CSRF Token
+					exit();
+				}catch(Exception $e){
+					echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
+					$error_message = 'Excepcion de select para imagen: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				}
+			}catch(Exception $e){
+				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+				$error_message = 'Excepcion de insert into: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+			}
 		}
+	}catch(Exception $e){
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 }
 

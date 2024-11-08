@@ -1,7 +1,7 @@
 <?php
 
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();
+require 'setup_session.php';
 
 
 //comprueba si se ha iniciado sesion
@@ -30,7 +30,8 @@ if (isset($_SESSION['user_id'])) {
 	$sth->bind_param('i', $userId);
 
     //se obtiene la contraseña actual del usuario para poder compararla con la nueva
-    if($sth->execute()){//se ejecuta la consulta
+    try {
+        $sth->execute(); //se ejecuta la consulta
         $result = $sth->get_result();      //el resultado se guarda en la variable $result
         if($result->num_rows > 0){          //comprueba si hay un usuario con esa id (mira si el resultado contiene filas)
             $result = $result->fetch_assoc();//obtenemos la contraseña
@@ -39,18 +40,20 @@ if (isset($_SESSION['user_id'])) {
         }
         else{
             //no se ha encontrado un usuario con ese id
-            echo "No attributes found for user ID: " . $userId;
+            echo "<script> window.alert('No se ha encontrado ningun usuario con ese id'); </script>";
         }
-    }
-    else{
-        //la instrucción no es valida
-        echo "Conexion fallida";
-    }
+    }catch(Exception $e){
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+	}
     $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verificación del token CSRF
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            echo "<script>
+            $error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		    echo "<script>
                         window.alert('no ha sido posible modificar la contraseña, pruebalo mas tarde');
                         window.location.href = 'items.php';
                     </script>";
@@ -65,6 +68,7 @@ if (isset($_SESSION['user_id'])) {
         $actualcontrasena1 = hash('sha256', $actualcontrasena1);
 
         //se comprueba si la contraseña introducida es correcata
+
         if ($contrasena==$actualcontrasena1) {
             if ($actualcontrasena != $nuevacontrasena1){
                 //se comprueba si las nuevas contraseñas con la misma
@@ -78,15 +82,17 @@ if (isset($_SESSION['user_id'])) {
                         $sth = $conn->prepare($sql);
                         $sth->bind_param('si', $nuevacontrasena, $userId);
                         // Ejecutar la consulta
-                        if ($sth->execute()) {
-                            unset($_SESSION['csrf_token']);
-                            echo "<script>
-                            window.alert('Cambios guardados correctamente.');
-                            window.location.href = 'show_user.php';
-                            </script>";
-                        } else {
-                            //la instrucción no se ha ejecutado correctamente
-                            echo "Error al guardar los cambios: " . $sth->error;
+                        try {
+                           $sth->execute();
+                           unset($_SESSION['csrf_token']);
+                           echo "<script>
+                               window.alert('Cambios guardados correctamente.');
+                               window.location.href = 'show_user.php';
+                           </script>";
+                        }catch(Exception $e){
+                            echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+                            $error_message = 'Excepcion de update: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+                            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
                         }
                     } else {echo "<script> window.alert('La contraseña nueva no es válida'); </script>";}
                 }

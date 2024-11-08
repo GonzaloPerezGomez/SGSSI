@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require 'setup_session.php';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) || $_SESSION['tipo'] != 'admin') {
@@ -26,6 +26,8 @@ $ISBN = isset($_POST['ISBN']) ? trim($_POST['ISBN']) : '';
 if (isset($_POST['item_delete_submit'])) {
     // Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         echo "<script>
 					window.alert('no ha sido posible borrar el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
@@ -40,7 +42,9 @@ if (isset($_POST['item_delete_submit'])) {
 	$sth->bind_param('s', $ISBN);
 
     //si al realizar el delete en sql el resultado es true(se ha realizado la introduccion)
-    if ($sth->execute() === TRUE) {
+    try {
+        $sth->execute();
+
         unset($_SESSION['csrf_token']);
 
         //pone por pantalla
@@ -55,12 +59,12 @@ if (isset($_POST['item_delete_submit'])) {
 
         // Para eliminar la cookie del CSRF Token
 		exit();
-    } 
-    //si no
-    else {
-        //indica el error al introducir el nuevo libro
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    }catch(Exception $e){
+        echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
+        $error_message = 'Excepcion de delete: ' . htmlspecialchars($e) . '. Error: ' . htmlspecialchars($conn->error);
+        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
     }
+
     //cierra conexión con la base de datos
     $conn->close();
 }

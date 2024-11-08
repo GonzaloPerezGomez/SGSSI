@@ -1,7 +1,7 @@
 <?php
 // conexión a la base de datos
 
-session_start();
+require 'setup_session.php';
 
 if (!isset($_SESSION['randomID'])) {
     header("Location: items.php");
@@ -29,7 +29,8 @@ $sth = $conn->prepare($sql);
 $sth->bind_param('i', $idLibro);
 
 //si da no fallo la preparacion del select
-if($sth->execute()){
+try {
+	$sth->execute();
 	//se guarda el resultado del select en una variable
 	$result = $sth->get_result();
 	//si hay al menos una fila(si se ha encontrado elemento)
@@ -40,13 +41,12 @@ if($sth->execute()){
 	//si no
 	else{
 		//no se ha encontrado el libro con esa id
-		echo "No se ha encontrado ningun libro";
+		echo "<script> window.alert('No se ha encontrado ningun libro'); </script>";
 	}
-}
-//si no
-else{
-	//imprimimos el fallo de conexion
-	echo "Conexion fallida";
+}catch(Exception $e){
+	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+	$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 //guardamos nombre de la portada del libro
 $nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
@@ -58,7 +58,9 @@ $nombimagen = str_replace(" ", "-", $nombimagen);
 if (isset($_POST['item_modify_submit'])) {
 	// Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        echo "<script>
+		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
+        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		echo "<script>
 					window.alert('no ha sido modificar el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
 				</script>";
@@ -85,18 +87,21 @@ if (isset($_POST['item_modify_submit'])) {
 	$sth = $conn->prepare($sql);
 	$sth->bind_param("sssssi", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas, $idLibro);
 
-	if (isset($_FILES["imagen"])) {
-		$target_dir = "/var/www/imagen/";
-		$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
-		if (file_exists($target_file)) {
-			unlink($target_file);  // Eliminar la imagen anterior
-		}
-		move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
-	}
-
 	//si la instruccion se realiza correctamente(resulatdo del update es true)
-	if ($sth->execute() === TRUE) {
+	try {
+		$sth->execute();
+
 		unset($_SESSION['csrf_token']);
+
+		if (isset($_FILES["imagen"])) {
+			$target_dir = "/var/www/imagen/";
+			$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
+			if (file_exists($target_file)) {
+				unlink($target_file);  // Eliminar la imagen anterior
+			}
+			move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
+		}
+
 		//imprimimos por pantalla
         echo "<script>
 			<!--la informacion es correcta-->
@@ -104,14 +109,12 @@ if (isset($_POST['item_modify_submit'])) {
 			<!--redirigimos a la pagina items.php
 			window.location.href = 'items.php';
 		</script>";
-		//se cierra conexion
-		$conn->close();
 		exit();
-	//si no
-	} else {
-		//indicamso el fallo
-        echo "Error: " . $sql . "<br>" . $conn->error;
-      }
+	}catch(Exception $e){
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+	}
 	//cerramos conexion
     $conn->close();
 }

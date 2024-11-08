@@ -1,13 +1,5 @@
 <?php
-session_set_cookie_params([
-    'lifetime' => 0,                 // La cookie de sesión solo se guarda hasta que el navegador se cierra
-    'path' => '/',                   // La cookie es válida en todo el dominio
-    'secure' => true,                 // Solo se envía por HTTPS
-    'httponly' => true,               // Evita el acceso a la cookie desde JavaScript
-    'samesite' => 'Strict'            // Solo se envía con solicitudes originadas en el mismo sitio
-]);
-//funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
-session_start();
+require 'setup_session.php';
 
 
 //comprueba si se ha iniciado sesion
@@ -116,8 +108,9 @@ if (!isset($_SESSION['csrf_token'])) {
                         <!--referencia as show_item.php cargado con el ISBN del libro-->
                         <form method='POST' action='show_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
+
                                 <input type='hidden' name='ISBN' value=" . htmlspecialchars($row['ISBN']) . ">
-                                <button type='submit'>
+                                <button type='submit' class='button'>
                                     <img src='$nombimagen' class='imagen_catalogo'>
                                 </button>
                         </form>
@@ -133,14 +126,14 @@ if (!isset($_SESSION['csrf_token'])) {
                             <form method='POST' action='modify_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
                                 <input type='hidden' name='idLibro' value=" . htmlspecialchars($row['idLibro']) . ">
-                                <button type='submit'>
+                                <button type='submit'  class='button'>
                                     <img src='image/editar.png' class='imagen_funcionalidades'>
                                 </button>
                             </form>
                             <form method='POST' action='delete_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
                                 <input type='hidden' name='ISBN' value='" . htmlspecialchars($row['ISBN']) . "'>
-                                <button type='submit'>
+                                <button type='submit'  class='button'>
                                     <img src='image/borrar.png' class='imagen_funcionalidades'>
                                 </button>
                             </form>

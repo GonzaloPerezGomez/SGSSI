@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
  web:
   image: web
@@ -14,6 +12,7 @@ services:
   volumes:
    - ./app:/var/www/html/
    - imagenes:/var/www/imagen
+   - logs:/var/www/logs
   depends_on:
    - db
    - phpmyadmin
@@ -40,7 +39,9 @@ services:
    PMA_HOST: db
    PMA_PORT: 3306
    PMA_USER: admin
-   PMA_PASSWORD: test
+   PMA_PASSWORD: WqoL3OTBXD2ioZ15
 
 volumes:
   imagenes:
+  logs:
+

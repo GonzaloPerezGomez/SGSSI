@@ -1,6 +1,12 @@
-FROM php:7.2.2-apache
-RUN mkdir /var/www/imagen
-RUN chown -R www-data:www-data /var/www/imagen
-RUN chmod -R 775 /var/www/imagen
+FROM php:8.3-apache-bookworm
+RUN mkdir /var/www/imagen /var/www/logs
+RUN chown -R www-data:www-data /var/www/imagen /var/www/logs
+RUN chmod -R 775 /var/www/imagen /var/www/logs
 COPY default_imagen/*.jpeg /var/www/imagen/
+
+COPY apache-config /etc/apache2/sites-available/000-default.conf 
+RUN a2enmod headers
+
+RUN echo "\nServerSignature Off\nServerTokens Prod\n" >> /etc/apache2/apache2.conf
+
 RUN docker-php-ext-install mysqli
