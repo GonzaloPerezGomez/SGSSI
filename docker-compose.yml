@@ -33,7 +33,7 @@ services:
    - "8889:3306" 
 
  phpmyadmin:
-  image: phpmyadmin/phpmyadmin:4.9.11
+  image: phpmyadmin/phpmyadmin:latest
   ports:
    - "8890:80"
   environment:

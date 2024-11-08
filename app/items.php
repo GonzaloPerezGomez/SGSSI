@@ -28,7 +28,7 @@ if (!isset($_SESSION['csrf_token'])) {
 		content="default-src 'none';
 			style-src 'self' 'nonce-abc123' ;
 			img-src 'self' http://localhost:81/image/background.jpg ;
-			form-action 'none';">
+			form-action 'self';">
     <meta charset="UTF-8">
     <!-- título que se pondrá en la página --> 
     <title> Catálogo </title>
