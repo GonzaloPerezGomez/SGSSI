@@ -112,6 +112,7 @@ $conn->close();
 <head>
     <meta http-equiv="Content-Security-Policy"
 		content="default-src 'none';
+            script-src 'self' 'nonce-abc123';
 			style-src 'self' 'nonce-abc123' ;
 			img-src 'self' http://localhost:81/image/background.jpg ;
 			form-action 'self';">
