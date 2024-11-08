@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			var aux =document.forms['user_modify_password'];
             if (!comprobarContrasena(aux)) {
 				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
-			}window.alert ("La letra del DNI no es correcta");
+			}
         });
     }
 });
@@ -269,7 +269,7 @@ function comprobarContrasena(form) {
 	var contrasena= form.nuevacontrasena1.value.trim(); 
 	window.alert (contrasena);
 	if (contrasena.indexOf(' ') !== -1) {
-		window.alert ("la contraseña no permite espacios en blanco");
+		window.alert ("La contraseña no permite espacios en blanco");
 		return false;} 
 
 	else if (contrasena.length < 8) {
