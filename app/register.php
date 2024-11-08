@@ -77,7 +77,7 @@ if ( isset($_POST['register_submit'])) {
 					$returnedValues = $result->fetch_assoc();
 					$_SESSION['user_id'] = $returnedValues['idUsuario'];
 					$_SESSION['tipo'] = $returnedValues['tipo'];
-          $_SESSION['randomID'] = bin2hex(random_bytes(32));
+          			$_SESSION['randomID'] = bin2hex(random_bytes(32));
 					echo "<script>
 						window.alert('Se ha registrado correctamente :)');
 						window.location.href = 'index.php';
