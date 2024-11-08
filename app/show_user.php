@@ -3,7 +3,7 @@
 session_start();
 
 //comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) ) {
+if (!isset($_SESSION['randomID']) ) {
     header("Location: index.php");
     exit();
 }
@@ -11,8 +11,12 @@ if (!isset($_SESSION['user_id']) ) {
 
 //comprueba si se pulsa el botón de cerrar sesión
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+	//borra las variables de sesion 
+	session_unset();
 	//elimina la sesión
+
     session_destroy();
+
     header("Location: index.php"); 
     exit();
 }

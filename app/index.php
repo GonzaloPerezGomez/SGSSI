@@ -18,7 +18,7 @@ session_start();?>
 
     <?php
     //si la sesión esta iniciada
-    if (isset($_SESSION['user_id'])) { 
+    if (isset($_SESSION['randomID'])) { 
         //se muestra
         echo
         '

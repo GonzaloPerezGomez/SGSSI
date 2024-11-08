@@ -13,10 +13,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // Maneja otro elemento si existe
     var user_modify_form = document.getElementById("user_modify_form");
     if (user_modify_form) {
-        user_modify_form.addEventListener("click", function(event) {
+        user_modify_form.addEventListener("submit", function(event) {
             if (!comprobardatosModificar()) {
 				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
 			}
+        });
+    }
+
+
+	var user_modify_password = document.getElementById("user_modify_password");
+    if (user_modify_password) {
+        user_modify_password.addEventListener("submit", function(event) {
+			var aux =document.forms['user_modify_password'];
+            if (!comprobarContrasena(aux)) {
+				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
+			}window.alert ("La letra del DNI no es correcta");
         });
     }
 });
@@ -26,7 +37,7 @@ function comprobardatosRegistro(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 
     //comprueba si los campos son validos
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux) && comprobarContrasena(aux));
 	return result;
 }
 
@@ -255,11 +266,38 @@ function comprobarUsuario(form) {
 
 //Comprobacion de la contraseña
 function comprobarContrasena(form) {
-	var contrasena= form.contrasena.value.trim(); //trim para eliminar los espacios en blanco al principio y al final (para que no pueda poner como contraseña " ")
-	if (contrasena.length>0 && contrasena.indexOf(' ') === -1) {return true;} //si se ha escrito algo (longitud mayor que 0) y no es más de una palabra (no contiene espacios)
-	else{
-		//avisa el error
-		window.alert ("La contraseña no es válida");
-		//devuelve false
-		return false;}
+	var contrasena= form.nuevacontrasena1.value.trim(); 
+	window.alert (contrasena);
+	if (contrasena.indexOf(' ') !== -1) {
+		window.alert ("la contraseña no permite espacios en blanco");
+		return false;} 
+
+	else if (contrasena.length < 8) {
+		window.alert ("La contraseña debe tener al menos 8 caracteres");
+		return false;} 
+
+    if (!/[A-Z]/.test(contrasena)) {
+		window.alert ("La contraseña debe contener al menos una letra mayúscula");
+		return false;} 
+
+    if (!/[a-z]/.test(contrasena)) {
+		window.alert ("La contraseña debe contener al menos una letra minúscula");
+		return false;} 
+
+    if (!/[0-9]/.test(contrasena)) {
+		window.alert ("La contraseña debe contener al menos un número");
+		return false;} 
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(contrasena)) {
+		window.alert ("La contraseña debe contener al menos un carácter especial");
+		return false;} 
+
+    if (/(.)\1{2}/.test(contrasena)) {  
+		window.alert ("La contraseña no debe tener caracteres repetidos consecutivos");
+		return false;} 
+
+	return true;
+
 }
+
+

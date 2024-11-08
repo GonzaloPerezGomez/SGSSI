@@ -3,7 +3,7 @@
 session_start();
 
 //comprueba si se ha iniciado sesion
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['randomID'])) {
     header("Location: index.php");
     exit();
 }
@@ -47,6 +47,7 @@ require 'setup_sql.php';
                     //guarda en la variable global sesion el id del usuario que se acaba de registrar
                     $_SESSION['user_id'] = $result['idUsuario'];
                     $_SESSION['tipo'] = $result['tipo'];
+                    $_SESSION['randomID'] = bin2hex(random_bytes(32));
                     //redirige el sistema a la pagina index.php
                     echo "<script> window.alert('Sesión Iniciada');</script>";
                     echo "<script>window.location.href = 'items.php';</script>";

@@ -1,9 +1,17 @@
 <?php
+session_set_cookie_params([
+    'lifetime' => 0,                 // La cookie de sesión solo se guarda hasta que el navegador se cierra
+    'path' => '/',                   // La cookie es válida en todo el dominio
+    'secure' => true,                 // Solo se envía por HTTPS
+    'httponly' => true,               // Evita el acceso a la cookie desde JavaScript
+    'samesite' => 'Strict'            // Solo se envía con solicitudes originadas en el mismo sitio
+]);
+//funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 session_start();
 
 
 //comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) ) {
+if (!isset($_SESSION['randomID']) ) {
    header("Location: index.php");
    exit();
 }

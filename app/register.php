@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['randomID'])) {
     header("Location: index.php");
     exit();
 }
@@ -72,6 +72,7 @@ if ( isset($_POST['register_submit'])) {
 			$returnedValues = $result->fetch_assoc();
 			$_SESSION['user_id'] = $returnedValues['idUsuario'];
 			$_SESSION['tipo'] = $returnedValues['tipo'];
+			$_SESSION['randomID'] = bin2hex(random_bytes(32));
 			echo "<script>
 				window.alert('Se ha registrado correctamente :)');
 				window.location.href = 'index.php';
@@ -90,7 +91,6 @@ if ( isset($_POST['register_submit'])) {
 
 	}
 }
-//se cierra la conexión
 $conn->close();
 
 ?>
@@ -124,7 +124,7 @@ $conn->close();
 		Nombre de usuario<br>
 		<input type="text" name="usuario" autocomplete="off" required><br>
 		Contraseña:<br>
-		<input type="text" name="contrasena" autocomplete="off" required> <br>
+		<input type="text" name="nuevacontrasena1" autocomplete="off" required> <br>
 
 		<br>
 		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">

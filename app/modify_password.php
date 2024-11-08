@@ -5,7 +5,7 @@ session_start();
 
 
 //comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) ) {
+if (!isset($_SESSION['randomID']) ) {
     header("Location: index.php");
     exit();
 }
@@ -61,36 +61,38 @@ if (isset($_SESSION['user_id'])) {
         $nuevacontrasena1 = htmlspecialchars($_POST['nuevacontrasena1']);
         $nuevacontrasena2 = htmlspecialchars($_POST['nuevacontrasena2']);
         
-        $actualcontrasena = $actualcontrasena . $salt;
-        $actualcontrasena = hash('sha256', $actualcontrasena);
+        $actualcontrasena1 = $actualcontrasena . $salt;
+        $actualcontrasena1 = hash('sha256', $actualcontrasena1);
 
         //se comprueba si la contraseña introducida es correcata
-        if ($contrasena==$actualcontrasena) {
-            //se comprueba si las nuevas contraseñas con la misma
-            if($nuevacontrasena1==$nuevacontrasena2){
-                 //para que la nueva contraseña no puedan ser espacios en blanco y que sea una sola palabra
-                if(trim($nuevacontrasena1)!= '' && strpos(trim($nuevacontrasena1), ' ') === false) {
+        if ($contrasena==$actualcontrasena1) {
+            if ($actualcontrasena != $nuevacontrasena1){
+                //se comprueba si las nuevas contraseñas con la misma
+                if($nuevacontrasena1==$nuevacontrasena2 ){
+                    //para que la nueva contraseña no puedan ser espacios en blanco y que sea una sola palabra
+                    if(trim($nuevacontrasena1)!= '' && strpos(trim($nuevacontrasena1), ' ') === false) {
+                        $nuevacontrasena = $nuevacontrasena1 . $salt;
+                        $nuevacontrasena = hash('sha256', $nuevacontrasena);
+                        // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
+                        $sql = "UPDATE usuarios SET contrasena= ? WHERE idUsuario= ?";
+                        $sth = $conn->prepare($sql);
+                        $sth->bind_param('si', $nuevacontrasena, $userId);
+                        // Ejecutar la consulta
+                        if ($sth->execute()) {
+                            unset($_SESSION['csrf_token']);
+                            echo "<script>
+                            window.alert('Cambios guardados correctamente.');
+                            window.location.href = 'show_user.php';
+                            </script>";
+                        } else {
+                            //la instrucción no se ha ejecutado correctamente
+                            echo "Error al guardar los cambios: " . $sth->error;
+                        }
+                    } else {echo "<script> window.alert('La contraseña nueva no es válida'); </script>";}
+                }
+                else {echo "<script> window.alert('Las nuevas contraseñas no coinciden'); </script>";}
 
-                    $nuevacontrasena = $nuevacontrasena1 . $salt;
-                    $nuevacontrasena = hash('sha256', $nuevacontrasena);
-                    // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
-                    $sql = "UPDATE usuarios SET contrasena= ? WHERE idUsuario= ?";
-                    $sth = $conn->prepare($sql);
-	                $sth->bind_param('si', $nuevacontrasena, $userId);
-                    // Ejecutar la consulta
-                    if ($sth->execute()) {
-                        unset($_SESSION['csrf_token']);
-                        echo "<script>
-                        window.alert('Cambios guardados correctamente.');
-                        window.location.href = 'show_user.php';
-                        </script>";
-                    } else {
-                        //la instrucción no se ha ejecutado correctamente
-                        echo "Error al guardar los cambios: " . $sth->error;
-                    }
-                } else {echo "<script> window.alert('La contraseña nueva no es válida'); </script>";}
-            }
-            else {echo "<script> window.alert('Las nuevas contraseñas no coinciden'); </script>";}
+            } else{echo "<script> window.alert('No se puede repetir la contraseña'); </script>";}
         }
         else {echo "<script> window.alert('La contraseña actual no coincide con tu contraseña'); </script>";}
     }
@@ -111,7 +113,7 @@ $conn->close();
     <link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
-	<form name="user_modify_password" method="POST">
+	<form name="user_modify_password" method="POST" id="user_modify_password">
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<br>
   		Introduzca su contraseña actual:<br>
@@ -120,11 +122,12 @@ $conn->close();
 		<input type= text  name= nuevacontrasena1 placeholder="nueva contraseña" autocomplete="off" required> 
 		<input type= text  name= nuevacontrasena2 placeholder="repita la nueva contraseña" autocomplete="off" required> <br>
 
-		<input type="submit" value="Guardar cambios"name="modify_password_submit">
+		<input type="submit" value="Guardar cambios" name="modify_password_submit" class="button-submit">
 	</form>
 
 	<div class="button-container">
 		<a class="button" href="show_user.php">Volver</a>
 	</div>	
-	
-<html>
+	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
+    </body>
+</html>

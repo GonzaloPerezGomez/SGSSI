@@ -1,7 +1,7 @@
 <?php
 session_start();
 //comprueba si se ha iniciado sesion
-if (!isset($_SESSION['user_id']) ) {
+if (!isset($_SESSION['randomID']) ) {
 	header("Location: index.php");
     exit();
 }
