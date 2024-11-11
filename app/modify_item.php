@@ -4,7 +4,7 @@
 require 'setup_session.php';
 
 if (!isset($_SESSION['randomID'])) {
-    header("Location: items.php");
+    echo "<script> window.location.href = 'items.php';</script>";
     exit();
 }
 
