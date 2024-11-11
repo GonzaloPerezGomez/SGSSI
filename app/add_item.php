@@ -7,7 +7,7 @@ $error_log_file = 'logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ||  $_SESSION['tipo'] != 'admin') {
-    header("Location: items.php");
+    echo "<script> window.location.href = 'items.php';</script>";
     exit();
 }
 

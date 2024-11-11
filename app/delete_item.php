@@ -4,7 +4,7 @@ require 'setup_session.php';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) || $_SESSION['tipo'] != 'admin') {
-    header("Location: items.php");
+    echo "<script> window.location.href = 'items.php';</script>";
     exit();
 }
 
