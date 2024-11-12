@@ -67,6 +67,34 @@ CREATE TABLE `usuarios` (
   `tipo` text DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+
+DELIMITER //
+
+CREATE TRIGGER before_insert_usuarios
+BEFORE INSERT ON usuarios
+FOR EACH ROW
+BEGIN
+    DECLARE nuevo_id INT;
+    DECLARE id_unico BOOLEAN DEFAULT FALSE;
+
+    -- Generar un ID aleatorio hasta encontrar uno que no esté en uso
+    WHILE NOT id_unico DO
+        SET nuevo_id = FLOOR(100000 + RAND() * 899999); -- Cambia el rango según tu preferencia
+
+        -- Verificar si el ID ya existe en la tabla usuarios
+        IF (SELECT COUNT(*) FROM usuarios WHERE idUsuario = nuevo_id) = 0 THEN
+            SET id_unico = TRUE;
+        END IF;
+    END WHILE;
+
+    SET NEW.idUsuario = nuevo_id;
+END //
+
+DELIMITER ;
+
+
+
 --
 -- Dumping data for table `usuarios`
 --
