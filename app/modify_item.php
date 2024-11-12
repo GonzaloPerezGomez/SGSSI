@@ -8,7 +8,7 @@ if (!isset($_SESSION['randomID'])) {
     exit();
 }
 
-if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 	echo "<script>
 		window.alert('no se puede modificar el libro, pruebelo mas tarde');
 		window.location.href = 'items.php';
@@ -41,7 +41,7 @@ try {
 	//si no
 	else{
 		//no se ha encontrado el libro con esa id
-		echo "<script> window.alert('No se ha encontrado ningun libro'); </script>";
+		echo "<script> window.alert(" . $_POST['csrf_token'] !== $_SESSION['csrf_token'] . "); </script>";
 	}
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
@@ -140,7 +140,7 @@ $sth->close();
 </head>	
 	<body>
 	<!-- crea un formulario con el nombre item_add_form que realizará un método post en base al resultado del método comprobardatosModificar--> 	
-	<form name="item_modify_form" method="POST" id="item_modify_form" enctype="multipart/form-data">
+	<form name="item_modify_form" method="POST" id="item_modify_form" enctype="multipart/form-data" autocomplete="off">
 		<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($idLibro); ?>">
 		<!-- centra el párrafo que contendra todos los campos a tendran el valor actual del objeto --> 

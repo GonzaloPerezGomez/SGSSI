@@ -6,7 +6,7 @@ if (!isset($_SESSION['randomID']) ) {
     exit();
 }
 
-if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if ( $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     echo "<script>
 		window.alert('no se puede mostrar el libro, pruebalo mas tarde');
 		window.location.href = 'items.php';
@@ -39,7 +39,7 @@ try {
 	}
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-	$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+	$error_message = 'Excepcion de select: ' . htmlspecialchars((string)$e). '. Error: ' . htmlspecialchars($conn->error);
 	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 

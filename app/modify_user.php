@@ -126,7 +126,7 @@ if (isset($_SESSION['user_id'])) {
 	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
 	<body>
-	<form name="user_modify_form" method="POST" id="user_modify_form">
+	<form name="user_modify_form" method="POST" id="user_modify_form" autocomplete="off">
 	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
