@@ -135,7 +135,7 @@ require 'setup_sql.php';
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <p>Introduzca el nombre del usuario y su contraseña:</p>
         Nombre de usuario:<input type="text" name="nombreUsuario" autocomplete="off" required> 
-        Contraseña:<input type="text" name="contraseña" autocomplete="off" required> 
+        Contraseña:<input type="password" name="contraseña" autocomplete="new-password" required> 
     
         <br>
         <!-- se trata de un boton del tipo submit, que al pulsar realiza el login_submit--> 

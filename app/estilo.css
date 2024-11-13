@@ -95,6 +95,7 @@ th {
 /* Estilos de formularios */
 input[type="text"],
 input[type="email"],
+input[type="password"],
 textarea {
     color: var(--color-textotabla);
     width: 100%;

@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				event.preventDefault(); // Evita el envío si comprobardatosRegistro devuelve falso
 			}
         });
+		register_form.addEventListener("input", function(event) {
+			if (event.target.id === "nuevacontrasena1") {
+				const valor = event.target.value;
+				const asteriscos = "*".repeat(valor.length);
+				event.target.value = asteriscos;
+			}
+		});
     }
 
     // Maneja otro elemento si existe
@@ -30,6 +37,11 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
         });
     }
+
+
+	
+
+
 });
 
 
