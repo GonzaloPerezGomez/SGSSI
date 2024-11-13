@@ -2,6 +2,9 @@
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 require 'setup_session.php';
 
+//rutas de los archivos de log
+$error_log_file = '/var/www/logs/errores.log';
+
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ) {
     echo "<script> window.location.href = 'index.php';</script>";
@@ -45,7 +48,7 @@ try {
 	}
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-	$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+	$error_message = 'Excepcion de select en show_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 

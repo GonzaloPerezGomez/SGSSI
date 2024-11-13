@@ -78,24 +78,22 @@ require 'setup_sql.php';
                 else {
                     //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
                     //echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
-                    $error_message = 'El usuario o la contraseña no coinciden';
-                    echo "<script> window.alert('$error_message');</script>";
+                    echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
                     $_SESSION['intentos_fallidos']++;
                     // Registrar intento fallido
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: El usuario o la contraseña no coinciden \n", FILE_APPEND);
                 }
 
             }
             else{
-                $error_message = 'No existe un usuario con ese nombre de usuario';
-                echo "<script> window.alert('$error_message');</script>";
+                echo "<script> window.alert('No existe un usuario con ese nombre de usuario');</script>";
                 $_SESSION['intentos_fallidos']++;
                 // Registrar intento fallido
-                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: " . htmlspecialchars($error_message) .  "\n", FILE_APPEND);      
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: No existe un usuario con ese nombre de usuario \n ", FILE_APPEND);      
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-            $error_message = 'Excepcion: ' . htmlspecialchars($e);
+            $error_message = 'Excepcion de select en login: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
             file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         }
     }
