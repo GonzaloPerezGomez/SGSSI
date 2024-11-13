@@ -2,6 +2,9 @@
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 require 'setup_session.php';
 
+//rutas de los archivos de log
+$error_log_file = '/var/www/logs/errores.log';
+
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID'])) {
     echo "<script> window.location.href = 'index.php';</script>";
@@ -39,12 +42,12 @@ if (isset($_SESSION['user_id'])) {
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		$error_message = 'Excepcion de select en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	$sth->close();
 
-	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($infousuario)) { //muestra los datos solo si $infousuario tiene datos
 		// Verificación del token CSRF
 		if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 			$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
@@ -95,13 +98,13 @@ if (isset($_SESSION['user_id'])) {
 					</script>";
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-					$error_message = 'Excepcion de update: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					$error_message = 'Excepcion de update en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 			}
 		}catch(Exception $e){
 			echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-			$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+			$error_message = 'Excepcion de select en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 			file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		}
 		
@@ -130,7 +133,7 @@ if (isset($_SESSION['user_id'])) {
 	<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<?php
         //el readonly es para que no se pueda editar, es un formulario pero sin poder editarlo
-        if (isset($_SESSION['user_id'])) {
+        if (isset($_SESSION['user_id']) && isset($infousuario)) { //isset($infousuario) para que no entre si no ha encontrado el usuario con id
 			echo
 			"
 			Nombre completo:<br>

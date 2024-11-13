@@ -2,8 +2,8 @@
 
 require 'setup_session.php';
 
-// Rutas de los archivos de log
-$error_log_file = 'logs/errores.log';
+//rutas de los archivos de log
+$error_log_file = '/var/www/logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ||  $_SESSION['tipo'] != 'admin') {
@@ -102,18 +102,18 @@ if (isset($_POST['item_add_submit'])) {
 					exit();
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
-					$error_message = 'Excepcion de select para imagen: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					$error_message = 'Excepcion de select para imagen en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 			}catch(Exception $e){
 				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-				$error_message = 'Excepcion de insert into: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+				$error_message = 'Excepcion de insert into en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		$error_message = 'Excepcion de select en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 }

@@ -3,6 +3,9 @@
 
 require 'setup_session.php';
 
+//rutas de los archivos de log
+$error_log_file = '/var/www/logs/errores.log';
+
 if (!isset($_SESSION['randomID'])) {
     echo "<script> window.location.href = 'items.php';</script>";
     exit();
@@ -41,11 +44,11 @@ try {
 	//si no
 	else{
 		//no se ha encontrado el libro con esa id
-		echo "<script> window.alert(" . $_POST['csrf_token'] !== $_SESSION['csrf_token'] . "); </script>";
+		echo "<script> window.alert('No se ha encontrado ningún libro con ese id.'); </script>";
 	}
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-	$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+	$error_message = 'Excepcion de select en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 //guardamos nombre de la portada del libro
@@ -61,7 +64,7 @@ if (isset($_POST['item_modify_submit'])) {
 		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
         file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		echo "<script>
-					window.alert('no ha sido modificar el libro, pruebalo mas tarde');
+					window.alert('No ha sido modificar el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
 				</script>";
         exit();
@@ -112,7 +115,7 @@ if (isset($_POST['item_modify_submit'])) {
 		exit();
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		$error_message = 'Excepcion de update en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	//cerramos conexion

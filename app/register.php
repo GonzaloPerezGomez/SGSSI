@@ -1,6 +1,9 @@
 <?php
 require 'setup_session.php';
 
+//rutas de los archivos de log
+$error_log_file = '/var/www/logs/errores.log';
+
 if (isset($_SESSION['randomID'])) {
     echo "<script> window.location.href = 'index.php';</script>";
     exit();
@@ -15,7 +18,6 @@ require 'setup_sql.php';
 // comprobar si se ha enviado el formulario
 if ( isset($_POST['register_submit'])) {
 
-
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
         file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);	
@@ -26,7 +28,6 @@ if ( isset($_POST['register_submit'])) {
 			exit();
 		}
 		
-
 	// guardar la información del formulario
     $nombre = htmlspecialchars($_POST['nombre']);
     $apellido= htmlspecialchars($_POST['apellido']);
@@ -84,7 +85,7 @@ if ( isset($_POST['register_submit'])) {
 					</script>";
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-					$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+					$error_message = 'Excepcion de select2 en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 				//se cierra la conexión
@@ -93,7 +94,7 @@ if ( isset($_POST['register_submit'])) {
 				//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
 			}catch(Exception $e){
 				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-				$error_message = 'Excepcion de insert into: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+				$error_message = 'Excepcion de insert into en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
 		
@@ -101,7 +102,7 @@ if ( isset($_POST['register_submit'])) {
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select: ' . htmlspecialchars($e). '. Error: ' . htmlspecialchars($conn->error);
+		$error_message = 'Excepcion de select en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	
