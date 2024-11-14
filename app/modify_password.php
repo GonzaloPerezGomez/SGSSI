@@ -124,11 +124,10 @@ $conn->close();
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 		<br>
   		Introduzca su contraseña actual:<br>
-  		<input type= password  name= actualcontrasena placeholder="contraseña actual" autocomplete="new-password" required> 
+  		<input type= password  name= actualcontrasena placeholder="contraseña actual" class="form-control form-control-lg" value="" autocomplete="current-password"  required> 
         Introduzca la nueva contraseña:<br>
-		<input type= password  name= nuevacontrasena1 placeholder="nueva contraseña" autocomplete="new-password" required> 
-        <input type= password  name= nuevacontrasena2 placeholder="repita la nueva contraseña" autocomplete="new-password" required> 
-
+		<input type= password  name= nuevacontrasena1 placeholder="nueva contraseña" class="form-control form-control-lg" value="" autocomplete="current-password"  required> 
+        <input type= password  name= nuevacontrasena2 placeholder="repita la nueva contraseña" class="form-control form-control-lg" value="" autocomplete="current-password" required> 
 		<input type="submit" value="Guardar cambios" name="modify_password_submit" class="button-submit">
 	</form>
 
