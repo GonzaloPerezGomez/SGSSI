@@ -140,8 +140,8 @@ $conn->close();
 		Nombre de usuario<br>
 		<input type="text" name="usuario" autocomplete="off" required><br>
 		Contraseña:<br>
-		<input type="text" name="nuevacontrasena1" autocomplete="off" required> <br>
-
+		<input type="password" name="nuevacontrasena1" id="nuevacontrasena1" class="form-control form-control-lg" value="" autocomplete="current-password" required> <br>
+        <br>
 		<br>
 		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">
 	</form>

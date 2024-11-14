@@ -267,6 +267,7 @@ function comprobarUsuario(form) {
 //Comprobacion de la contraseña
 function comprobarContrasena(form) {
 	var contrasena= form.nuevacontrasena1.value.trim(); 
+
 	//window.alert (contrasena);
 	if (contrasena.indexOf(' ') !== -1) {
 		window.alert ("La contraseña no permite espacios en blanco");
@@ -299,5 +300,3 @@ function comprobarContrasena(form) {
 	return true;
 
 }
-
-
