@@ -1,5 +1,6 @@
 <?php
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 
 //comprueba si se ha iniciado sesion
@@ -109,7 +110,7 @@ if (!isset($_SESSION['csrf_token'])) {
                         <form method='POST' action='show_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
 
-                                <input type='hidden' name='ISBN' value=" . htmlspecialchars($row['ISBN']) . ">
+                                <input type='hidden' name='ISBN' value=" . decrypt(htmlspecialchars($row['ISBN'])) . ">
                                 <button type='submit' class='button'>
                                     <img src='$nombimagen' class='imagen_catalogo'>
                                 </button>
@@ -117,9 +118,9 @@ if (!isset($_SESSION['csrf_token'])) {
 
                     </td>
                     <!--informacion del titulo del libro-->
-                    <td>" . htmlspecialchars($row['titulo']) . "</td>
+                    <td>" . decrypt(htmlspecialchars($row['titulo'])) . "</td>
                     <!--informacion del autor del libro-->
-                    <td>" . htmlspecialchars($row['autor']) . "</td> 
+                    <td>" . decrypt(htmlspecialchars($row['autor'])) . "</td> 
                     <td>
                         <!--contenedor de los botones de modificacion y eliminacion con su respectivas imagenes-->
                         <div class=button-container>
@@ -132,7 +133,7 @@ if (!isset($_SESSION['csrf_token'])) {
                             </form>
                             <form method='POST' action='delete_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                                <input type='hidden' name='ISBN' value='" . htmlspecialchars($row['ISBN']) . "'>
+                                <input type='hidden' name='ISBN' value='" . decrypt(htmlspecialchars($row['ISBN'])) . "'>
                                 <button type='submit' class='button'>
                                     <img src='image/borrar.png' class='imagen_funcionalidades'>
                                 </button>
@@ -150,16 +151,16 @@ if (!isset($_SESSION['csrf_token'])) {
                         <!--referencia as show_item.php cargado con el ISBN del libro-->
                         <form method='POST' action='show_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                                <input type='hidden' name='ISBN' value='" . htmlspecialchars($row['ISBN']) . "'>
+                                <input type='hidden' name='ISBN' value='" . decrypt(htmlspecialchars($row['ISBN'])) . "'>
                                 <button type='submit' class='button'>
                                     <img src='$nombimagen' class='imagen_catalogo'>
                                 </button>
                         </form>
                     </td>
                     <!--informacion del titulo del libro-->
-                    <td>" . htmlspecialchars($row['titulo']) . "</td>
+                    <td>" . decrypt(htmlspecialchars($row['titulo'])) . "</td>
                     <!--informacion del autor del libro-->
-                    <td>" . htmlspecialchars($row['autor']) . "</td>
+                    <td>" . decrypt(htmlspecialchars($row['autor'])) . "</td>
                 </tr>";}
         }
 

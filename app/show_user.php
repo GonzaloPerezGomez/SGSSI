@@ -1,6 +1,7 @@
 <?php
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -77,19 +78,19 @@ $conn->close();
 		echo
 		"<br>
 		Nombre completo:<br>
-		<input type= text name= nombre value= '" . htmlspecialchars($infousuario['nombre']) . "' readonly>
-		<input type= text  name= apellido value=  '" . htmlspecialchars($infousuario['apellido']) . "' readonly> <br>
+		<input type= text name= nombre value= '" . decrypt(htmlspecialchars($infousuario['nombre'])) . "' readonly>
+		<input type= text  name= apellido value=  '" . decrypt(htmlspecialchars($infousuario['apellido'])) . "' readonly> <br>
   		DNI:<br>
-  		<input type= text  name= numeroDNI value= '" . htmlspecialchars($infousuario['numeroDNI']) . "' readonly> <br>
-		<input type= text  name= letraDNI value= '" . htmlspecialchars($infousuario['letraDNI']) . "' readonly><br>
+  		<input type= text  name= numeroDNI value= '" . decrypt(htmlspecialchars($infousuario['numeroDNI'])) . "' readonly> <br>
+		<input type= text  name= letraDNI value= '" . decrypt(htmlspecialchars($infousuario['letraDNI'])) . "' readonly><br>
 		Teléfono:<br>
-		<input type= text  name= telefono value='" . htmlspecialchars($infousuario['telefono']) . "' readonly> <br>
+		<input type= text  name= telefono value='" . decrypt(htmlspecialchars($infousuario['telefono'])) . "' readonly> <br>
         Fecha de Nacimiento:<br>
-		<input type= text  name= nacimiento value= '" . htmlspecialchars($infousuario['nacimiento']) . "' readonly> <br>
+		<input type= text  name= nacimiento value= '" . decrypt(htmlspecialchars($infousuario['nacimiento'])) . "' readonly> <br>
         Email:<br>
-		<input type= text  name= email value= '" . htmlspecialchars($infousuario['email']) . "' readonly> <br>
+		<input type= text  name= email value= '" . decrypt(htmlspecialchars($infousuario['email'])) . "' readonly> <br>
         Usuario:<br>
-		<input type= text  name= usuario value= '" . htmlspecialchars($infousuario['usuario']) . "' readonly>
+		<input type= text  name= usuario value= '" . decrypt(htmlspecialchars($infousuario['usuario'])) . "' readonly>
 		";
 		}
 		else {

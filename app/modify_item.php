@@ -2,6 +2,7 @@
 // conexión a la base de datos
 
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -73,15 +74,15 @@ if (isset($_POST['item_modify_submit'])) {
     // guardar la info del formulario
 
 	//el titulo
-    $titulo = htmlspecialchars($_POST['titulo']);
+    $titulo = encrypt(htmlspecialchars($_POST['titulo']));
 	//el autor
-    $autor= htmlspecialchars($_POST['autor']);
+    $autor= encrypt(htmlspecialchars($_POST['autor']));
 	//la fecha de publicacion
-    $f_publicacion = htmlspecialchars($_POST['f_publicacion']);
+    $f_publicacion = encrypt(htmlspecialchars($_POST['f_publicacion']));
 	//el ISBN
-    $ISBN=htmlspecialchars($_POST['ISBN']);
+    $ISBN= encrypt(htmlspecialchars($_POST['ISBN']));
 	//el numero de paginas
-    $n_paginas=htmlspecialchars($_POST['n_paginas']);
+    $n_paginas= encrypt(htmlspecialchars($_POST['n_paginas']));
 	//el id del libro
 	$idLibro = htmlspecialchars($_POST['idLibro']);
 	//guardamos la instruccion update
@@ -153,15 +154,15 @@ $sth->close();
 		"
 		
 		Título:<br>
-		<input type= text name= titulo value= '". htmlspecialchars($libro['titulo']). "'>
+		<input type=text name=titulo value= '". decrypt(htmlspecialchars($libro['titulo'])). "'>
         Autor: <br>
-		<input type= text  name= autor value=  '". htmlspecialchars($libro['autor']). "'><br>
+		<input type=text  name=autor value=  '". decrypt(htmlspecialchars($libro['autor'])). "'><br>
   		Fecha de Publicación:<br>
-  		<input type= text  name= f_publicacion value= '". htmlspecialchars($libro['f_publicacion']). "'><br>
+  		<input type=text  name=f_publicacion value= '". decrypt(htmlspecialchars($libro['f_publicacion'])). "'><br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= '". htmlspecialchars($libro['ISBN']). "'><br>
+		<input type=text  name=ISBN value= '". decrypt(htmlspecialchars($libro['ISBN'])). "'><br>
 		Nº de Páginas:<br>
-		<input type= text  name= n_paginas value= '". htmlspecialchars($libro['n_paginas']). "'> <br>
+		<input type=text  name=n_paginas value= '". decrypt(htmlspecialchars($libro['n_paginas'])). "'> <br>
 		Imagen:<br>
 		<img src='" . $nombimagen . "' class='imagen_show'> <br>
 		Cambiar imagen (.jpeg):<br>
