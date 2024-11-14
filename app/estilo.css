@@ -66,9 +66,15 @@ h2, h3 {
 table {
     background-color: var(--color-tablafondo);
     border-collapse: collapse; /* Colapsar bordes */
-    width: auto; /* Ancho de la tabla */
     margin: 20px auto; /* Centrar la tabla */
-    color: var(--color-textotabla)
+    color: var(--color-textotabla);
+    width: 100%; /* Full width of container */
+    border-collapse: collapse; /* Removes space between cells */
+    table-layout: fixed; /* Ensures fixed column widths */
+}
+
+th-items {
+    width: 25%;
 }
 
 th, td {

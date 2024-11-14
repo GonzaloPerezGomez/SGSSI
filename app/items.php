@@ -66,13 +66,14 @@ if (!isset($_SESSION['csrf_token'])) {
                     <thead>
                         <tr>
                             <!--titulo de la primera columna-->
-                            <th>Imagen</th>
+                            <th class=\"th-items\"> Imagen</th>
                             <!--titulo de la segunda columna-->
-                            <th>Título</th>
+                            <th class=\"th-items\">  Título  </th>
                             <!--titulo de la tercera columna-->
-                            <th>Autor</th>
+                            <th class=\"th-items\">Autor</th>
                             <!--titulo de la cuarta columna-->
-                            <th>Editar / Borrar</th>
+                            <th class=\"th-items\">Editar/ Borrar</th>
+                            
                         </tr>
                     </thead>
                 <tbody>";}
