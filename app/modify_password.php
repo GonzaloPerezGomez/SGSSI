@@ -4,7 +4,7 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ) {
@@ -47,14 +47,14 @@ if (isset($_SESSION['user_id'])) {
     }catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 		$error_message = 'Excepcion de select en modify_password: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
     $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verificación del token CSRF
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
             $error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		    echo "<script>
                         window.alert('No ha sido posible modificar la contraseña, pruebalo mas tarde');
                         window.location.href = 'items.php';
@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
                         }catch(Exception $e){
                             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
                             $error_message = 'Excepcion de update en modify_password: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-                            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+                            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
                         }
                     } else {echo "<script> window.alert('La nueva contraseña no es válida'); </script>";}
                 }

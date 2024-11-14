@@ -3,7 +3,7 @@ require 'setup_session.php';
 
 // Rutas de los archivos de log
 $log_file = '/var/www/logs/login_intentos.log';
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 // Límite de intentos fallidos
 $intentos_maximos = 5;
@@ -33,7 +33,7 @@ require 'setup_sql.php';
 
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
             $error_message = 'sin token:' . $_POST['csrf_token'] . ' o tokens diferentes: ' . $_POST['csrf_token'] . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
             echo "<script> window.alert('No ha sido posible iniciar sesión, pruébalo más tarde');</script>";
             echo "<script> window.location.href = 'index.php';</script>";
             exit();
@@ -41,7 +41,7 @@ require 'setup_sql.php';
 
         if ($_SESSION['intentos_fallidos'] >= $intentos_maximos) {
             $error_message = 'Demasiados intentos fallidos con token: ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
             echo "<script> window.alert('Demasiados intentos fallidos. Por favor, intenta más tarde.');</script>";
             echo "<script> window.location.href = 'index.php';</script>";
         } else {
@@ -94,7 +94,7 @@ require 'setup_sql.php';
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
             $error_message = 'Excepcion de select en login: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-            file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         }
     }
         

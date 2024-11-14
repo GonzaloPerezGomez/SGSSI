@@ -105,7 +105,7 @@ function comprobarDNI(form) {
 			return false;}}	
 	else{
 		//si no son tiene la longitud esperada indica fallo en el numero del DNI
-		window.alert ("El numero del DNI no es correcto");
+		window.alert ("El número del DNI no es correcto");
 		return false;}	
 	
 }
@@ -191,7 +191,7 @@ function comprobarFecha(form){
                 //si la fecha es valida e inferior a la actual devuelve un true
                 return true;}}}
     //si el programa no ha terminado, es decir, no se han cumplido todos los terminos de validacion salta una alarma de alerta
-    window.alert ("La fecha de nacimiento no es valida");
+    window.alert ("La fecha de nacimiento no es válida");
     //devuelve un false
     return false;}
     

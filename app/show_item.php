@@ -2,7 +2,7 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ) {
@@ -44,7 +44,7 @@ try {
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 	$error_message = 'Excepcion de select en show_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 
 $idLibro = htmlspecialchars($libro['idLibro']);

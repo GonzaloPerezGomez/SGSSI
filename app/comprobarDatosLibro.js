@@ -52,7 +52,7 @@ function comprobarTitulo(form){
 		return true;}
 	else{
 		//si no se cumple, lo indica en una ventana de alerta
-		window.alert ("El titulo no sigue el formato requerido");
+		window.alert ("El título no sigue el formato requerido");
 		//devolvemos false
 		return false;}}
 
@@ -104,7 +104,7 @@ function comprobarFecha(form){
                 //si la fecha es valida e inferior a la actual devuelve un true
                 return true;}}}
     //si el programa no ha terminado, es decir, no se han cumplido todos los terminos de validacion salta una alarma de alerta
-    window.alert ("La fecha de publicación no es valida");
+    window.alert ("La fecha de publicación no es válida");
     //devuelve un false
     return false;}
     
@@ -155,7 +155,7 @@ function comprobarISBN(form){
 		return true;}
 	else{
 	    //si no cumple alerta del fallo en el telefono
-		window.alert ("El numero ISBN tienen que ser 13 numeros");
+		window.alert ("El ISBN tiene que tener 13 números");
 		//devuelve false
 		return false;}}
 
@@ -176,7 +176,7 @@ function comprobarNumPaginas(form){
 		return true;}
 	else{
 	    //si no cumple alerta del fallo en el telefono
-		window.alert ("El numero de paginas es un numero");
+		window.alert ("El número de páginas tiene que ser un número");
 		//devuelve false
 		return false;}}
 

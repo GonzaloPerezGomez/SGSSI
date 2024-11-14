@@ -3,7 +3,7 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) || $_SESSION['tipo'] != 'admin') {
@@ -30,7 +30,7 @@ if (isset($_POST['item_delete_submit'])) {
     // Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+        file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         echo "<script>
 					window.alert('no ha sido posible borrar el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
@@ -65,7 +65,7 @@ if (isset($_POST['item_delete_submit'])) {
     }catch(Exception $e){
         echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
         $error_message = 'Excepcion de delete en delete_item: ' . htmlspecialchars($e->getMessage()) . '. Error: ' . htmlspecialchars($conn->error);
-        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+        file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
     }
 
     //cierra conexión con la base de datos
@@ -100,7 +100,6 @@ if (isset($_POST['item_delete_submit'])) {
     <input type="hidden" name="ISBN" value="<?php echo htmlspecialchars($ISBN); ?>">
         <!-- se trata de un boton del tipo submit-->
         <input type="submit" name="item_delete_submit" value='Confirmar'>
-        
         <br>
         <!-- botton normal que al pulsar redirige la pagina a items.php --> 
         <a type="button" class="button" href="items.php">Cancelar</a>
