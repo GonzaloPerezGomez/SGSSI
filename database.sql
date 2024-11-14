@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db:3306
--- Tiempo de generación: 14-11-2024 a las 21:32:18
+-- Tiempo de generación: 14-11-2024 a las 22:04:54
 -- Versión del servidor: 10.8.2-MariaDB-1:10.8.2+maria~focal
 -- Versión de PHP: 8.2.8
 
@@ -41,11 +41,10 @@ CREATE TABLE `libro` (
 --
 
 INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_paginas`) VALUES
-(1, 'Nacidos de la Bruma', 'Brandon Sanderson', '2014-09-01', '9788419260246', '500'),
-(17, 'Los Juegos del Hambre', 'Suzanne Collins', '2008-09-14', '9788413144856', '400'),
-(18, 'El Asesinato de Roger Ackroyd', 'Agatha Christie', '1926-06-12', '9788467052978', '272'),
-(20, 'Harry Potter y la piedra filosofal', 'J K Rowling', '1997-06-26', '9788478884452', '264'),
-(21, 'MNWcS0QkHVj1Rf6n7W5U0A==', 'DGWUqpmwPxqcPexI7KWyFg==', 'kjecf34FuTT0E7lldump7Q==', 't3EtRQaBzAvwnP+RZ21ovg==', 'TOp0E+pMC0LcdVLR+plAQA==');
+(1, 'zkHwCu9D/LhrhAC793KmYfuIz4xAgymlAAV+pioThe8=', '3k4iQrdYqwA3g0Wmj4HQ2yWcTmzYUWcPy+a3a0LfoUQ=', 'b+gJIzB8jEKZM0hJA0Oj2g==', 'OFEYzuPORtiL+xC/wC904A==', 'tvGcYD5jOxfXpRRhAC3rpA=='),
+(17, 'GEcdS5z4wUcbejyBRkLf+fkyZ1vQ2OaHeimCUpo4LPM=', 'z+tHEYM0kos/Er3uqyM3Yg==', '6C0SjLyK4RqEQ7I5jK/bgA==', 'QlIPb+ZuNvUTmngTx0vSYg==', 'aoCUfLITOXwHpo9KrPZc0g=='),
+(18, '9Bc1Dfnc/YSY3hImUUzRJVa0jfoOlZL0dt71Re7ym7k=', 'iwdRdiJn/i6fSHxxBxmn0A==', 'Cgx+jOofXfPp+MP9giUtKw==', 'ciQhHbesfrVR5RaJnveOIw==', 'zzGKrYTtLGrs16QYuQz19Q=='),
+(20, 'y1IWIn5BCQHMzQLKgjRCcegOC1jCl3nLGU01ZmjIx0t29VC+AfkjxPoPms0le6Ul', 'MJdzzW2tZIuwWeA5kd+Y5w==', 'rnSVmJJFkD3tj7WtlEbvZw==', '9rV2LU7XLlcACe6Nfgrevg==', 'XpmmGYu/Sk1PczBzOhPq6g==');
 
 -- --------------------------------------------------------
 
@@ -122,7 +121,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `libro`
 --
 ALTER TABLE `libro`
-  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

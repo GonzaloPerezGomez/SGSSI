@@ -2,14 +2,14 @@
 require 'setup_session.php';
 include 'mysql_secret.php';
 
-// Rutas de los archivos de log
+//rutas de los archivos de log
 $log_file = '/var/www/logs/login_intentos.log';
 $error_file = '/var/www/logs/errores.log';
 
-// Límite de intentos fallidos
+//límite de intentos fallidos
 $intentos_maximos = 5;
 
-// Inicializar el contador de intentos fallidos
+//inicializar el contador de intentos fallidos
 if (!isset($_SESSION['intentos_fallidos'])) {
     $_SESSION['intentos_fallidos'] = 0;
 }
@@ -71,7 +71,7 @@ require 'setup_sql.php';
                     $_SESSION['tipo'] = $result['tipo'];
                     $_SESSION['randomID'] = bin2hex(random_bytes(32));
                     // Registrar intento exitoso
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso: " . htmlspecialchars($usuario) . "\n", FILE_APPEND);
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso: " . htmlspecialchars($_POST['nombreUsuario']) . "\n", FILE_APPEND);
                     //redirige el sistema a la pagina index.php
                     echo "<script> window.alert('Sesión Iniciada');</script>";
                     echo "<script>window.location.href = 'index.php';</script>";
@@ -79,11 +79,10 @@ require 'setup_sql.php';
                     //si no
                 else {
                     //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
-                    //echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
                     echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
                     $_SESSION['intentos_fallidos']++;
                     // Registrar intento fallido
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: El usuario o la contraseña no coinciden \n", FILE_APPEND);
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: El usuario o la contraseña no coinciden \n", FILE_APPEND);
                 }
 
             }
@@ -91,7 +90,7 @@ require 'setup_sql.php';
                 echo "<script> window.alert('No existe un usuario con ese nombre de usuario');</script>";
                 $_SESSION['intentos_fallidos']++;
                 // Registrar intento fallido
-                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($usuario) . " Error: No existe un usuario con ese nombre de usuario \n ", FILE_APPEND);      
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: No existe un usuario con ese nombre de usuario \n", FILE_APPEND);      
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
