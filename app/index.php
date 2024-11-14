@@ -32,7 +32,7 @@ require 'setup_session.php';?>
             <img src="image/user.png"  class="imagen_funcionalidades"></a>
         </div>';}
     //si no ha iniciado sesión
-    else {                              
+    else {                        
         echo
         '
         <!--contenedor de botones con los siguientes botones-->

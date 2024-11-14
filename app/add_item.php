@@ -1,6 +1,7 @@
 <?php
 
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -36,15 +37,17 @@ if (isset($_POST['item_add_submit'])) {
 
     // guardar la información del formulario
     //guarda el título del libro
-    $titulo = htmlspecialchars($_POST['titulo']);
+    $titulo = encrypt(htmlspecialchars($_POST['titulo']));
     //guarda el autor del libro
-    $autor= htmlspecialchars($_POST['autor']);
+    $autor= encrypt(htmlspecialchars($_POST['autor']));
     //guarda la fecha de publicación del libro
-    $f_publicacion = htmlspecialchars($_POST['f_publicacion']);
+    $f_publicacion = encrypt(htmlspecialchars($_POST['f_publicacion']));
     //guarda el ISBN del libro
-    $ISBN=htmlspecialchars($_POST['ISBN']);
+    $ISBN= encrypt(htmlspecialchars($_POST['ISBN']));
     //guarda el número de páginas del libro
-    $n_paginas=htmlspecialchars($_POST['n_paginas']);
+    $n_paginas= encrypt(htmlspecialchars($_POST['n_paginas']));
+
+	
 	
 	//guarda la instrucción de SQL que quire utilizar, en este caso un select
 	$sql = "SELECT ISBN from libro where ISBN = ?";

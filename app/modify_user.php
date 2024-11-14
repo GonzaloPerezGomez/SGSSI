@@ -1,6 +1,7 @@
 <?php
 //funcion que almacena la sesion iniciada en la web a lo largo de todo su funcionamiento
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -61,12 +62,12 @@ if (isset($_SESSION['user_id'])) {
 		
 		// Obtener los datos del formulario
 		$id_usuario = htmlspecialchars($_POST['idUsuario']);
-		$nuevo_nombre = htmlspecialchars($_POST['nombre']);
-		$nuevo_apellido = htmlspecialchars($_POST['apellido']);
-		$nuevo_telefono = htmlspecialchars($_POST['telefono']);
-		$nueva_fecha = htmlspecialchars($_POST['nacimiento']);
-		$nuevo_email = htmlspecialchars($_POST['email']);
-		$nuevo_usuario = htmlspecialchars($_POST['usuario']);
+		$nuevo_nombre = encrypt(htmlspecialchars($_POST['nombre']));
+		$nuevo_apellido = encrypt(htmlspecialchars($_POST['apellido']));
+		$nuevo_telefono = encrypt(htmlspecialchars($_POST['telefono']));
+		$nueva_fecha = encrypt(htmlspecialchars($_POST['nacimiento']));
+		$nuevo_email = encrypt(htmlspecialchars($_POST['email']));
+		$nuevo_usuario = encrypt(htmlspecialchars($_POST['usuario']));
 		
 		//guarda la instrucción de SQL que quere utilizar, en este caso un select
 		$sql = "SELECT usuario from usuarios where usuario = ?";
@@ -86,7 +87,7 @@ if (isset($_SESSION['user_id'])) {
 				$sql = "UPDATE usuarios SET nombre= ?, apellido= ?, telefono= ?, nacimiento= ?, email= ?, usuario= ? WHERE idUsuario= ?";
 				
 				$sth = $conn->prepare($sql);
-				$sth->bind_param('ssisssi', $nuevo_nombre, $nuevo_apellido, $nuevo_telefono, $nueva_fecha, $nuevo_email, $nuevo_usuario, $_SESSION['user_id']);
+				$sth->bind_param('ssssssi', $nuevo_nombre, $nuevo_apellido, $nuevo_telefono, $nueva_fecha, $nuevo_email, $nuevo_usuario, $_SESSION['user_id']);
 
 				// Ejecutar la consulta
 				try {
@@ -137,19 +138,19 @@ if (isset($_SESSION['user_id'])) {
 			echo
 			"
 			Nombre completo:<br>
-			<input type= text name= nombre value= '" . htmlspecialchars($infousuario['nombre']) . "' required>
-			<input type= text  name= apellido value=  '" . htmlspecialchars($infousuario['apellido']) . "' required> <br>
+			<input type= text name= nombre value= '" . decrypt(htmlspecialchars($infousuario['nombre'])) . "' required>
+			<input type= text  name= apellido value=  '" . decrypt(htmlspecialchars($infousuario['apellido'])) . "' required> <br>
 			DNI:<br>
-			<input type= text  name= numeroDNI value= '" . htmlspecialchars($infousuario['numeroDNI']) . "' required> <br>
-			<input type= text  name= letraDNI value= '" . htmlspecialchars($infousuario['letraDNI']) . "' required> <br>
+			<input type= text  name= numeroDNI value= '" . decrypt(htmlspecialchars($infousuario['numeroDNI'])) . "' required> <br>
+			<input type= text  name= letraDNI value= '" . decrypt(htmlspecialchars($infousuario['letraDNI'])) . "' required> <br>
 			Teléfono:<br>
-			<input type= text  name= telefono value= '" . htmlspecialchars($infousuario['telefono']) . "' required> <br>
+			<input type= text  name= telefono value= '" . decrypt(htmlspecialchars($infousuario['telefono'])) . "' required> <br>
 			Fecha de Nacimiento:<br>
-			<input type= text  name= nacimiento value= '" . htmlspecialchars($infousuario['nacimiento']) . "' required> <br>
+			<input type= text  name= nacimiento value= '" . decrypt(htmlspecialchars($infousuario['nacimiento'])) . "' required> <br>
 			Email:<br>
-			<input type= text  name= email value= '" . htmlspecialchars($infousuario['email']) . "' required> <br>
+			<input type= text  name= email value= '" . decrypt(htmlspecialchars($infousuario['email'])) . "' required> <br>
 			Usuario:<br>
-			<input type= text  name= usuario value= '" . htmlspecialchars($infousuario['usuario']) . "' required> <br>
+			<input type= text  name= usuario value= '" . decrypt(htmlspecialchars($infousuario['usuario'])) . "' required> <br>
 			";
         }
         else {

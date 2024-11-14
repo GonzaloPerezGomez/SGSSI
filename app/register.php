@@ -1,5 +1,6 @@
 <?php
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $log_file = '/var/www/logs/login_intentos.log';
@@ -39,11 +40,20 @@ if ( isset($_POST['register_submit'])) {
     $email=htmlspecialchars($_POST['email']);
     $usuario=htmlspecialchars($_POST['usuario']);
     $contraseña=htmlspecialchars($_POST['contrasena']);
+
+	$nombre = encrypt($nombre);
+	$apellido = encrypt($apellido);
+	$DNI = encrypt($DNI);
+	$letraDNI = encrypt($letraDNI);
+	$telefono = encrypt($telefono);
+	$nacimiento = encrypt($nacimiento);
+	$email = encrypt($email);
+	$usuario = encrypt($usuario);
 	
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
 	$sth = $conn->prepare($sql);
-	$sth->bind_param('si', $usuario, $DNI);
+	$sth->bind_param('ss', $usuario, $DNI);
 	try {
 		$sth->execute();
 		//se ejecuta la instrucción
@@ -60,7 +70,7 @@ if ( isset($_POST['register_submit'])) {
 			$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
 			
 			$sth = $conn->prepare($sql);
-			$sth->bind_param('ssisisssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
+			$sth->bind_param('ssssssssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
 			//se comprueba si la instrucción se ha ejecutado de forma correcta
 			try {
 				$sth->execute();
@@ -91,7 +101,7 @@ if ( isset($_POST['register_submit'])) {
 					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 				//se cierra la conexión
-				$conn->close();
+				//$conn->close();
 				// Borra la cookie del CSRF token
 				//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
 			}catch(Exception $e){
@@ -142,7 +152,7 @@ $conn->close();
 		Nombre de usuario<br>
 		<input type="text" name="usuario" autocomplete="off" required><br>
 		Contraseña:<br>
-		<input type="password" name="nuevacontrasena1" id="nuevacontrasena1" class="form-control form-control-lg" value="" autocomplete="current-password" required> <br>
+		<input type="password" name="contrasena" id="contrasena" class="form-control form-control-lg" value="" autocomplete="current-password" required> <br>
         <br>
 		<br>
 		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">

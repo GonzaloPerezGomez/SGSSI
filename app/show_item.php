@@ -1,5 +1,6 @@
 <?php
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -21,7 +22,7 @@ if ( $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 require 'setup_sql.php';
 
 //se guarda el ISBN del libro seleccionado
-$ISBN = htmlspecialchars($_POST['ISBN']); 
+$ISBN = encrypt(htmlspecialchars($_POST['ISBN'])); 
 //guarda la instrucción de SQL que quere utilizar, en este caso un select
 $sql = "SELECT idLibro,titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE ISBN = ?";
 
@@ -74,15 +75,15 @@ $sth->close();
 		echo
 		"
 		Título:<br>
-		<input type= text name= titulo value='" . htmlspecialchars($libro['titulo']) . "' readonly>
+		<input type= text name= titulo value='" . decrypt(htmlspecialchars($libro['titulo'])) . "' readonly>
         Autor: <br>
-		<input type= text  name= autor value=  '" . htmlspecialchars($libro['autor']) ."' readonly> <br>
+		<input type= text  name= autor value=  '" . decrypt(htmlspecialchars($libro['autor'])) ."' readonly> <br>
   		Fecha de Publicación:<br>
-  		<input type= text  name= f_publicacion value= '" . htmlspecialchars($libro['f_publicacion']) . "' readonly> <br>
+  		<input type= text  name= f_publicacion value= '" . decrypt(htmlspecialchars($libro['f_publicacion'])) . "' readonly> <br>
 		ISBN:<br>
-		<input type= text  name= ISBN value= '" . htmlspecialchars($ISBN) . "' ><br>
+		<input type= text  name= ISBN value= '" . decrypt(htmlspecialchars($ISBN)) . "' ><br>
 		Nº de Páginas:<br>
-		<input type= text  name= n_paginas value= '" . htmlspecialchars($libro['n_paginas']) . "' readonly> <br>
+		<input type= text  name= n_paginas value= '" . decrypt(htmlspecialchars($libro['n_paginas'])) . "' readonly> <br>
 		Imagen:<br>
 		<img src='" . $nombimagen . "' class='imagen_show'> <br>
 		"

@@ -1,5 +1,6 @@
 <?php  
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 // Rutas de los archivos de log
 $log_file = '/var/www/logs/login_intentos.log';
@@ -47,12 +48,13 @@ require 'setup_sql.php';
         } else {
             // obtener el usuario y contraseña del formulario y meterlos en una variable
             $usuario = htmlspecialchars($_POST['nombreUsuario']);
-            $contraseña=htmlspecialchars($_POST['contraseña']);
+            $contraseña= htmlspecialchars($_POST['contraseña']);
+            
+            $usuario = encrypt($usuario);
 
-
-        $sql = "SELECT idUsuario, tipo, contrasena, salt from usuarios where usuario = ?";
-        $sth = $conn->prepare($sql);
-	      $sth->bind_param('s', $usuario);
+            $sql = "SELECT idUsuario, tipo, contrasena, salt from usuarios where usuario = ?";
+            $sth = $conn->prepare($sql);
+	        $sth->bind_param('s', $usuario);
         
         try {
             $sth->execute();
