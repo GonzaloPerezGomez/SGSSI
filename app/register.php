@@ -3,7 +3,7 @@ require 'setup_session.php';
 include 'mysql_secret.php';
 
 //rutas de los archivos de log
-$log_file = '/var/www/logs/login_intentos.log';
+$register_file = '/var/www/logs/register_intentos.log';
 $error_file = '/var/www/logs/errores.log';
 
 if (isset($_SESSION['randomID'])) {
@@ -90,7 +90,7 @@ if ( isset($_POST['register_submit'])) {
 					$_SESSION['user_id'] = $returnedValues['idUsuario'];
 					$_SESSION['tipo'] = $returnedValues['tipo'];
           			$_SESSION['randomID'] = bin2hex(random_bytes(32));
-					file_put_contents($log_file, date('Y-m-d H:i:s') . " - Registro exitoso: " . htmlspecialchars($usuario) . "\n", FILE_APPEND);
+					file_put_contents($register_file, date('Y-m-d H:i:s') . " - Registro exitoso: " . htmlspecialchars($_POST['usuario']) . "\n", FILE_APPEND);
 					echo "<script>
 						window.alert('Se ha registrado correctamente :)');
 						window.location.href = 'index.php';
