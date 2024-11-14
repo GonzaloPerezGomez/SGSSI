@@ -2,7 +2,8 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$log_file = '/var/www/logs/login_intentos.log';
+$error_file = '/var/www/logs/errores.log';
 
 if (isset($_SESSION['randomID'])) {
     echo "<script> window.location.href = 'index.php';</script>";
@@ -20,7 +21,7 @@ if ( isset($_POST['register_submit'])) {
 
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);	
+        file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);	
 		echo "<script>
 				window.alert('no ha sido posible registrarse, pruebalo mas tarde');
 				window.location.href = 'items.php';
@@ -79,6 +80,7 @@ if ( isset($_POST['register_submit'])) {
 					$_SESSION['user_id'] = $returnedValues['idUsuario'];
 					$_SESSION['tipo'] = $returnedValues['tipo'];
           			$_SESSION['randomID'] = bin2hex(random_bytes(32));
+					file_put_contents($log_file, date('Y-m-d H:i:s') . " - Registro exitoso: " . htmlspecialchars($usuario) . "\n", FILE_APPEND);
 					echo "<script>
 						window.alert('Se ha registrado correctamente :)');
 						window.location.href = 'index.php';
@@ -86,7 +88,7 @@ if ( isset($_POST['register_submit'])) {
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 					$error_message = 'Excepcion de select2 en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 				//se cierra la conexión
 				$conn->close();
@@ -95,7 +97,7 @@ if ( isset($_POST['register_submit'])) {
 			}catch(Exception $e){
 				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 				$error_message = 'Excepcion de insert into en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
 		
 
@@ -103,7 +105,7 @@ if ( isset($_POST['register_submit'])) {
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 		$error_message = 'Excepcion de select en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	
 }

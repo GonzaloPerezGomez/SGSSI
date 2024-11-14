@@ -3,7 +3,7 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 //comprueba si se ha iniciado sesion
 if (!isset($_SESSION['randomID']) ||  $_SESSION['tipo'] != 'admin') {
@@ -26,7 +26,7 @@ if (isset($_POST['item_add_submit'])) {
 	// Verificación del token CSRF
 	if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+        file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		echo "<script>
 					window.alert('no ha sido posible añadir el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
@@ -103,18 +103,18 @@ if (isset($_POST['item_add_submit'])) {
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
 					$error_message = 'Excepcion de select para imagen en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-					file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 			}catch(Exception $e){
 				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 				$error_message = 'Excepcion de insert into en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-				file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 		$error_message = 'Excepcion de select en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 }
 

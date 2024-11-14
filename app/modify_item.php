@@ -4,7 +4,7 @@
 require 'setup_session.php';
 
 //rutas de los archivos de log
-$error_log_file = '/var/www/logs/errores.log';
+$error_file = '/var/www/logs/errores.log';
 
 if (!isset($_SESSION['randomID'])) {
     echo "<script> window.location.href = 'items.php';</script>";
@@ -49,7 +49,7 @@ try {
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 	$error_message = 'Excepcion de select en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-	file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 //guardamos nombre de la portada del libro
 $nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
@@ -62,7 +62,7 @@ if (isset($_POST['item_modify_submit'])) {
 	// Verificación del token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
 		$error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-        file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+        file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 		echo "<script>
 					window.alert('No ha sido modificar el libro, pruebalo mas tarde');
 					window.location.href = 'items.php';
@@ -96,7 +96,7 @@ if (isset($_POST['item_modify_submit'])) {
 
 		unset($_SESSION['csrf_token']);
 
-		if (isset($_FILES["imagen"])) {
+		if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
 			$target_dir = "/var/www/imagen/";
 			$target_file = $target_dir . strval($idLibro) . ".jpeg"; //imágenes
 			if (file_exists($target_file)) {
@@ -116,7 +116,7 @@ if (isset($_POST['item_modify_submit'])) {
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
 		$error_message = 'Excepcion de update en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_log_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	//cerramos conexion
     $conn->close();
