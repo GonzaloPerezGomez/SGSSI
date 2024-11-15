@@ -1,6 +1,7 @@
 <?php
 
 require 'setup_session.php';
+include 'mysql_secret.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';

@@ -134,7 +134,7 @@ if (!isset($_SESSION['csrf_token'])) {
                             </form>
                             <form method='POST' action='delete_item.php'>
                                 <input type='hidden' name='csrf_token' value='" . htmlspecialchars($_SESSION['csrf_token']) . "'>
-                                <input type='hidden' name='ISBN' value='" . decrypt(htmlspecialchars($row['ISBN'])) . "'>
+                                <input type='hidden' name='ISBN' value='" . htmlspecialchars($row['ISBN']) . "'>
                                 <button type='submit' class='button'>
                                     <img src='image/borrar.png' class='imagen_funcionalidades'>
                                 </button>
