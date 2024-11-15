@@ -8,7 +8,7 @@ $error_file = '/var/www/logs/errores.log';
 
 //límite de intentos fallidos
 $intentos_maximos = 5; //5 intentos para logearse
-$bloqueo_duracion = 70;//300; //5 minutos de bloqueo si el usuario pone 5 veces datos incorrectos al logearse
+$bloqueo_duracion = 300;//300; //5 minutos de bloqueo si el usuario pone 5 veces datos incorrectos al logearse
 
 //inicializar el contador de intentos fallidos
 if (!isset($_SESSION['intentos_fallidos'])) {
