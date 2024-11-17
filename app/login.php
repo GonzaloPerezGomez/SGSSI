@@ -95,16 +95,20 @@ require 'setup_sql.php';
                     //imprime por pantalla un mensaje que indica que la contraseña o usuario no es correcto
                     echo "<script> window.alert('El usuario o la contraseña no coinciden');</script>";
                     $_SESSION['intentos_fallidos']++;
+                    $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+                    $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
                     // Registrar intento fallido
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: El usuario o la contraseña no coinciden \n", FILE_APPEND);
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: El usuario o la contraseña no coinciden. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);
                 }
 
             }
             else{
                 echo "<script> window.alert('No existe un usuario con ese nombre de usuario');</script>";
                 $_SESSION['intentos_fallidos']++;
+                $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+                $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
                 // Registrar intento fallido
-                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: No existe un usuario con ese nombre de usuario \n", FILE_APPEND);      
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: No existe un usuario con ese nombre de usuario. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);      
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
@@ -114,7 +118,9 @@ require 'setup_sql.php';
         if ($_SESSION['intentos_fallidos'] >= $intentos_maximos) {
             $_SESSION['tiempo_bloqueo'] = time(); //registramos el inicio del bloqueo
             $error_message = 'Demasiados intentos fallidos con token: ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . ". IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);
             echo "<script> window.alert('Demasiados intentos fallidos. Por favor, intenta más tarde.');</script>";
             echo "<script> window.location.href = 'index.php';</script>";
         }  
