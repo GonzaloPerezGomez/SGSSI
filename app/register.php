@@ -1,6 +1,7 @@
 <?php
 require 'setup_session.php';
 include 'mysql_secret.php';
+include 'id_gen.php';
 
 //rutas de los archivos de log
 $register_file = '/var/www/logs/register_intentos.log';
@@ -49,7 +50,15 @@ if ( isset($_POST['register_submit'])) {
 	$nacimiento = encrypt($nacimiento);
 	$email = encrypt($email);
 	$usuario = encrypt($usuario);
+
+	if ($idUsuario=id_gen("usuarios") != -1){
+		$idUsuario = encrypt($idUsuario);
+		echo "<script> window.alert(aaaaaaaaa    " . $idUsuario . ") </script>";
+	}
+	else
+		exit();
 	
+	echo "<script> window.alert(aaaaaaaaa    " . $idUsuario . ") </script>";
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
 	$sth = $conn->prepare($sql);
@@ -67,10 +76,10 @@ if ( isset($_POST['register_submit'])) {
 			$contraseña_completa = $contraseña . $salt;
 			$hash_contraseña = hash("sha256", $contraseña_completa);
 			//guarda la instrucción de SQL que quere utilizar, en este caso un insert
-			$sql = "INSERT INTO usuarios (nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?)";
+			$sql = "INSERT INTO usuarios (idUsuario,nombre,apellido,numeroDNI,letraDNI,telefono,nacimiento,email,usuario,contrasena,salt) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			
 			$sth = $conn->prepare($sql);
-			$sth->bind_param('ssssssssss', $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
+			$sth->bind_param('sssssssssss', $idUsuario, $nombre, $apellido, $DNI, $letraDNI, $telefono, $nacimiento, $email, $usuario, $hash_contraseña, $salt);
 			//se comprueba si la instrucción se ha ejecutado de forma correcta
 			try {
 				$sth->execute();
