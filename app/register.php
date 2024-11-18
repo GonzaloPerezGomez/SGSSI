@@ -53,12 +53,12 @@ if ( isset($_POST['register_submit'])) {
 
 	if ($idUsuario=id_gen("usuarios") != -1){
 		$idUsuario = encrypt($idUsuario);
-		echo "<script> window.alert(aaaaaaaaa    " . $idUsuario . ") </script>";
 	}
-	else
-		exit();
+	else{
+		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		echo "window.location.href = 'register.php'";
+	}
 	
-	echo "<script> window.alert(aaaaaaaaa    " . $idUsuario . ") </script>";
 	//guarda la instrucción de SQL que quere utilizar, en este caso un select
 	$sql = "SELECT usuario from usuarios where usuario = ? OR numeroDNI = ?";
 	$sth = $conn->prepare($sql);

@@ -2,6 +2,7 @@
 
 require 'setup_session.php';
 include 'mysql_secret.php';
+include 'id_gen.php';
 
 //rutas de los archivos de log
 $error_file = '/var/www/logs/errores.log';
@@ -65,12 +66,19 @@ if (isset($_POST['item_add_submit'])) {
 			echo "<script> window.alert('No se puede añadir, ya existe un libro con ese ISBN'); </script>";}
 		//si no
 		else{
+			if ($idLibro=id_gen("libro") != -1){
+				$idLibro = encrypt($idLibro);
+			}
+			else{
+				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+				echo "window.location.href = 'items.php'";
+			}
 			//prepara la inserción del nuevo libro con el comando de SQL insert into
-			$sql = "INSERT INTO libro (titulo, autor,f_publicacion,ISBN,n_paginas)
-			VALUES (?,?,?,?,?)";
+			$sql = "INSERT INTO libro (idLibro, titulo, autor,f_publicacion,ISBN,n_paginas)
+			VALUES (?,?,?,?,?,?)";
 			
 			$sth = $conn->prepare($sql);
-			$sth->bind_param("sssss", $titulo, $autor, $f_publicacion, $ISBN, $n_paginas);
+			$sth->bind_param("ssssss", $idLibro, $titulo, $autor, $f_publicacion, $ISBN, $n_paginas);
 
 			//si al realizar el insert into en sql, el resultado es true(se ha realizado la introducción)
 			try {

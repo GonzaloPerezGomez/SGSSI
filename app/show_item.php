@@ -48,10 +48,9 @@ try {
 	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 
-$idLibro = htmlspecialchars($libro['idLibro']);
+$idLibro = $libro['idLibro'];
 //se obtiene el nombre de la imagen a partir del titulo
-$nombimagen = "libros/" . htmlspecialchars(strval($idLibro)) . ".jpeg"; //imágenes
-$nombimagen = str_replace(" ", "-", $nombimagen);
+$nombimagen = "libros/" . $idLibro . ".jpeg"; //imágenes
 
 $sth->close();
 ?>

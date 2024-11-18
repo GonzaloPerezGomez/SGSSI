@@ -25,12 +25,12 @@ if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_tok
 require 'setup_sql.php';
 
 //obtenemos el id del libro
-$idLibro = isset($_POST['idLibro']) ? intval(trim($_POST['idLibro'])) : 0;
+$idLibro = isset($_POST['idLibro']) ? trim($_POST['idLibro']) : 0;
 
 //guardamso la instruccion select en una variable
 $sql = "SELECT titulo, autor, f_publicacion, ISBN, n_paginas FROM libro WHERE idLibro = ?";
 $sth = $conn->prepare($sql);
-$sth->bind_param('i', $idLibro);
+$sth->bind_param('s', $idLibro);
 
 //si da no fallo la preparacion del select
 try {
@@ -53,10 +53,7 @@ try {
 	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 }
 //guardamos nombre de la portada del libro
-$nombimagen = "libros/" . strval($idLibro) . ".jpeg"; //imágenes
-echo "<script> window.alert($nombimagen); </script>";
-//quitemos los espacios por guiones
-$nombimagen = str_replace(" ", "-", $nombimagen);
+$nombimagen = "libros/" . $idLibro . ".jpeg"; //imágenes
 
 // cuando se pulsa el botón "Guardar" entra en el if:
 if (isset($_POST['item_modify_submit'])) {
