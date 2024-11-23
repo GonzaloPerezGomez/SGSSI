@@ -5,7 +5,6 @@ include 'mysql_secret.php';
 //rutas de los archivos de log
 $log_file = '/var/www/logs/login_intentos.log';
 $error_file = '/var/www/logs/errores.log';
-
 //límite de intentos fallidos
 $intentos_maximos = 5; //5 intentos para logearse
 $bloqueo_duracion = 300;//300; //5 minutos de bloqueo si el usuario pone 5 veces datos incorrectos al logearse
@@ -45,9 +44,8 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
     }
 
-
+require 'reCaptcha.php';
 require 'setup_sql.php';
-
     //si se ha pulsado el botón que llama a login_submit
     if (isset($_POST['login_submit'])) {
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
@@ -128,14 +126,15 @@ require 'setup_sql.php';
     $conn->close();
     
 ?>
-
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Security-Policy"
          content="default-src 'none';
-			script-src 'self' 'nonce-abc123' ;
-			style-src 'self' 'nonce-abc123' ;
-			img-src 'self' http://localhost:81/image/background.jpg ;
+            script-src 'self' https://www.google.com https://www.gstatic.com 'nonce-abc123';
+            style-src 'self' https://fonts.googleapis.com 'nonce-abc123';
+			img-src 'self' https://www.gstatic.com http://localhost:81/image/background.jpg ;
+            frame-src https://www.google.com;
 			form-action 'self';">
     <title> login </title> 
     <!-- indica desde que script modela la pagina web --> 
@@ -156,11 +155,15 @@ require 'setup_sql.php';
     
     <!-- crea un formulario con el nombre login_form que realizará un metodo post  --> 
     <form name="login_form" method="post" id="login_form">
+        
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <p>Introduzca el nombre del usuario y su contraseña:</p>
         Nombre de usuario:<input type="text" name="nombreUsuario" autocomplete="off" required> 
         Contraseña:<input type="password" name="contraseña" id="contraseña" class="form-control form-control-lg" value="" autocomplete="current-password" required> 
         <br>
+
+        <div class="g-recaptcha" data-sitekey="<?php echo getenv('RECAPTCHA_WEB_SIDE'); ?>"></div>
+
         <!-- se trata de un boton del tipo submit, que al pulsar realiza el login_submit--> 
         <input type="submit" name="login_submit" value="Acceder" >
         
@@ -170,6 +173,8 @@ require 'setup_sql.php';
     <div class="button-container">
         <a href="index.php" class="button">Volver a inicio</a>
     </div>
+
+    <script nonce="abc123" src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     </body>
 <html>

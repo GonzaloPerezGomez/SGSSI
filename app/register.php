@@ -15,7 +15,7 @@ if (isset($_SESSION['randomID'])) {
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Genera un token aleatorio seguro
 }
-
+require 'reCaptcha.php';
 require 'setup_sql.php';
 
 // comprobar si se ha enviado el formulario
@@ -114,7 +114,7 @@ if ( isset($_POST['register_submit'])) {
 				// Borra la cookie del CSRF token
 				//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
 			}catch(Exception $e){
-				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+				echo "<script> window.alert('hola 2 Ocurrió un error, intente más tarde.');</script>";
 				$error_message = 'Excepcion de insert into en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
@@ -122,7 +122,7 @@ if ( isset($_POST['register_submit'])) {
 
 		}
 	}catch(Exception $e){
-		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
+		echo "<script> window.alert('hola 3 Ocurrió un error, intente más tarde.');</script>";
 		$error_message = 'Excepcion de select en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
 		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
@@ -132,15 +132,17 @@ $conn->close();
 
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Security-Policy"
 		content="default-src 'none';
-			script-src 'self' 'nonce-abc123' ;
-			style-src 'self' 'nonce-abc123' ;
-			img-src 'self' http://localhost:81/image/background.jpg ;
+            script-src 'self' https://www.google.com https://www.gstatic.com 'nonce-abc123';
+            style-src 'self' https://fonts.googleapis.com 'nonce-abc123';
+			img-src 'self' https://www.gstatic.com http://localhost:81/image/background.jpg ;
+            frame-src https://www.google.com;
 			form-action 'self';">
-			
+
 	<title> Registrarse </title>
 	<link nonce="abc123" rel="stylesheet" href="estilo.css">
 </head>
@@ -163,6 +165,7 @@ $conn->close();
 		Contraseña:<br>
 		<input type="password" name="contrasena" id="contrasena" class="form-control form-control-lg" value="" autocomplete="current-password" required> <br>
         <br>
+		<div class="g-recaptcha" data-sitekey="<?php echo getenv('RECAPTCHA_WEB_SIDE'); ?>"></div>
 		<br>
 		<input type="submit" value="Registrarme" name="register_submit" class="button-submit">
 	</form>
@@ -172,6 +175,7 @@ $conn->close();
 	</div>
 
 	<script nonce="abc123" src="comprobacionDeDatos.js"></script>
+	<script nonce="abc123" src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 	</body>
 	
