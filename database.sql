@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `libro` (
-  `idLibro` int(11) NOT NULL,
+  `idLibro` varchar(40) NOT NULL,
   `titulo` text NOT NULL,
   `autor` text NOT NULL,
   `f_publicacion` text NOT NULL,
@@ -53,7 +53,7 @@ INSERT INTO `libro` (`idLibro`, `titulo`, `autor`, `f_publicacion`, `ISBN`, `n_p
 --
 
 CREATE TABLE `usuarios` (
-  `idUsuario` int(11) NOT NULL,
+  `idUsuario` varchar(40) NOT NULL,
   `nombre` text NOT NULL,
   `apellido` text NOT NULL,
   `numeroDNI` text NOT NULL,
