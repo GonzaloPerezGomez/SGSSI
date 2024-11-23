@@ -53,9 +53,14 @@ if (isset($_SESSION['user_id'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verificación del token CSRF
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            $error_message = 'sin token:' . htmlspecialchars($_POST['csrf_token']) . ' o tokens diferentes: ' . htmlspecialchars($_POST['csrf_token']) . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
-		    echo "<script>
+            $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
+            $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+            $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+            $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+            $peticion = "$metodo_http $uri $version_http"; //construcción completa
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF. Error con el token en modify_password. Token:" . htmlspecialchars($_POST['csrf_token']) . " Usuario: " . htmlspecialchars($_SESSION['user_id']) . " IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);
+            echo "<script>
                         window.alert('No ha sido posible modificar la contraseña, pruebalo mas tarde');
                         window.location.href = 'items.php';
                     </script>";

@@ -8,7 +8,7 @@ $error_file = '/var/www/logs/errores.log';
 
 //límite de intentos fallidos
 $intentos_maximos = 5; //5 intentos para logearse
-$bloqueo_duracion = 300;//300; //5 minutos de bloqueo si el usuario pone 5 veces datos incorrectos al logearse
+$bloqueo_duracion = 300; //5 minutos de bloqueo si el usuario pone 5 veces datos incorrectos al logearse
 
 //inicializar el contador de intentos fallidos
 if (!isset($_SESSION['intentos_fallidos'])) {
@@ -51,8 +51,13 @@ require 'setup_sql.php';
     //si se ha pulsado el botón que llama a login_submit
     if (isset($_POST['login_submit'])) {
         if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            $error_message = 'sin token:' . $_POST['csrf_token'] . ' o tokens diferentes: ' . $_POST['csrf_token'] . ' != ' . htmlspecialchars($_SESSION['csrf_token']);
-            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF: " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+            $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
+            $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+            $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+            $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+            $peticion = "$metodo_http $uri $version_http"; //construcción completa
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - Error CSRF. Error con el token en login. Token:" . htmlspecialchars($_POST['csrf_token']) . " IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);
             echo "<script> window.alert('No ha sido posible iniciar sesión, pruébalo más tarde');</script>";
             echo "<script> window.location.href = 'index.php';</script>";
             exit();
@@ -82,7 +87,15 @@ require 'setup_sql.php';
                     $_SESSION['tipo'] = $result['tipo'];
                     $_SESSION['randomID'] = bin2hex(random_bytes(32));
                     //registramos intento exitoso
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso: " . htmlspecialchars($_POST['nombreUsuario']) . "\n", FILE_APPEND);
+                    $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
+                    $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
+                    //construir la petición del cliente
+                    $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+                    $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+                    $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+                    $peticion = "$metodo_http $uri $version_http"; //construcción completa
+                    //registrar intento fallido
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login exitoso. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);
                     //reiniciamos intentos fallidos en caso de login éxito
                     $_SESSION['intentos_fallidos'] = 0;
                     $_SESSION['tiempo_bloqueo'] = 0;
@@ -97,8 +110,13 @@ require 'setup_sql.php';
                     $_SESSION['intentos_fallidos']++;
                     $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
                     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
-                    // Registrar intento fallido
-                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: El usuario o la contraseña no coinciden. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);
+                    //construir la petición del cliente
+                    $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+                    $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+                    $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+                    $peticion = "$metodo_http $uri $version_http"; //construcción completa
+                    //registrar intento fallido
+                    file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: El usuario o la contraseña no coinciden. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);
                 }
 
             }
@@ -107,8 +125,13 @@ require 'setup_sql.php';
                 $_SESSION['intentos_fallidos']++;
                 $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
                 $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
+                //construir la petición del cliente
+                $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+                $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+                $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+                $peticion = "$metodo_http $uri $version_http"; //construcción completa
                 // Registrar intento fallido
-                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: No existe un usuario con ese nombre de usuario. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);      
+                file_put_contents($log_file, date('Y-m-d H:i:s') . " - Login fallido. Usuario: " . htmlspecialchars($_POST['nombreUsuario']) . " Error: No existe un usuario con ese nombre de usuario. IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);      
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
@@ -120,7 +143,12 @@ require 'setup_sql.php';
             $error_message = 'Demasiados intentos fallidos con token: ' . htmlspecialchars($_SESSION['csrf_token']);
             $ip_usuario = $_SERVER['REMOTE_ADDR'] ?? 'IP no disponible';
             $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'User-Agent no disponible';
-            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . ". IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . " \n", FILE_APPEND);
+            //construir la petición del cliente
+            $metodo_http = $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'; //metodo HTTP
+            $uri = $_SERVER['REQUEST_URI'] ?? '/'; //URI solicitada
+            $version_http = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.0'; //versión del protocolo
+            $peticion = "$metodo_http $uri $version_http"; //construcción completa
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . ". IP: " . htmlspecialchars($ip_usuario) . ". User-Agent: " . htmlspecialchars($user_agent) . ". Peticion: " . htmlspecialchars($peticion) . " \n", FILE_APPEND);
             echo "<script> window.alert('Demasiados intentos fallidos. Por favor, intenta más tarde.');</script>";
             echo "<script> window.location.href = 'index.php';</script>";
         }  
