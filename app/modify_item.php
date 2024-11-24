@@ -49,8 +49,7 @@ try {
 	}
 }catch(Exception $e){
 	echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-	$error_message = 'Excepcion de select en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+	file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select en modify_item: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 }
 //guardamos nombre de la portada del libro
 $nombimagen = "libros/" . $idLibro . ".jpeg"; //imágenes
@@ -118,8 +117,7 @@ if (isset($_POST['item_modify_submit'])) {
 		exit();
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de update en modify_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de update en modify_item: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 	}
 	//cerramos conexion
     $conn->close();
