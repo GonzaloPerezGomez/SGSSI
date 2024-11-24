@@ -43,8 +43,7 @@ if (isset($_SESSION['user_id'])) {
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select1 en modify_user: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 	}
 	$sth->close();
 
@@ -104,14 +103,12 @@ if (isset($_SESSION['user_id'])) {
 					</script>";
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-					$error_message = 'Excepcion de update en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de update en modify_user: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 				}
 			}
 		}catch(Exception $e){
 			echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-			$error_message = 'Excepcion de select en modify_user: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-			file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+			file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select2 en modify_user: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 		}
 		
 		$sth->close();
