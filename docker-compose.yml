@@ -1,7 +1,6 @@
 services:
  web:
   image: web
-  command: ngrok http 81
   environment:
     ALLOW_OVERRIDE: "true"
     MYSQL_SERVER: db
