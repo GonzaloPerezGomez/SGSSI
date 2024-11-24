@@ -1,6 +1,7 @@
 services:
  web:
   image: web
+  command: ngrok http 81
   environment:
     ALLOW_OVERRIDE: "true"
     MYSQL_SERVER: db
@@ -9,6 +10,9 @@ services:
     MYSQL_DATABASE: database
     MYSQL_KEY: TuVqjGQvVfUEp4b
     MYSQL_IV: 3628760feb7b4b72
+    RECAPTCHA_SECRET_KEY: 6Lf7CocqAAAAALVjStGhz-Um7EUdfrNF_KGD9XTi
+    RECAPTCHA_WEB_SIDE: 6Lf7CocqAAAAAN8d05nYXwpVcmZs9y53c-xPV6jt
+    
   ports:
    - "81:80"
   volumes:
