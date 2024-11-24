@@ -118,19 +118,16 @@ if (isset($_POST['item_add_submit'])) {
 					exit();
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error con la imagen, intente más tarde.');</script>";
-					$error_message = 'Excepcion de select para imagen en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select para imagen en add_item: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 				}
 			}catch(Exception $e){
 				echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-				$error_message = 'Excepcion de insert into en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de insert into en add_item: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 			}
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select en add_item: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select en add_item: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 	}
 }
 
