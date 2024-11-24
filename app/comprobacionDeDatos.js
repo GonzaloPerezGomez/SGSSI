@@ -37,7 +37,7 @@ function comprobardatosRegistro(){
     //guarda el comienzo de la ubicacion del formulario del cual cogeremos los datos en una variable
     var aux = document.forms['register_form']; 
     //comprueba si los campos son validos
-	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux));
+	result = (comprobarNombreApellido(aux) && comprobarDNI(aux) && comprobarTelefono(aux) && comprobarFecha(aux) && comprobarCorreo(aux) && comprobarUsuario(aux) && comprobarContrasena(aux) && comprobarContrasena(aux));
 	return result;
 }
 
@@ -266,15 +266,9 @@ function comprobarUsuario(form) {
 
 //Comprobacion de la contraseña
 function comprobarContrasena(form) {
-	//determinar qué formulario se está utilizando
-    var contrasena;
-    if (form.name === "register_form") {
-        //si es el formulario de registro, usamos 'contrasena'
-        contrasena = form.contrasena.value.trim();
-    } else if (form.name === "user_modify_password") {
-        //si es el formulario de modificación de usuario, usamos 'nuevacontrasena1'
-        contrasena = form.nuevacontrasena1.value.trim();
-    }
+	var contrasena= form.nuevacontrasena1.value.trim(); 
+
+	//window.alert (contrasena);
 	if (contrasena.indexOf(' ') !== -1) {
 		window.alert ("La contraseña no permite espacios en blanco");
 		return false;} 

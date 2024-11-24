@@ -110,7 +110,8 @@ if ( isset($_POST['register_submit'])) {
 					</script>";
 				}catch(Exception $e){
 					echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select2 en register: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
+					$error_message = 'Excepcion de select2 en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
+					file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 				}
 				//se cierra la conexión
 				//$conn->close();
@@ -118,14 +119,16 @@ if ( isset($_POST['register_submit'])) {
 				//exit();(cuando se solucione lo de que no hace nada del script quitarlo)
 			}catch(Exception $e){
 				echo "<script> window.alert('hola 2 Ocurrió un error, intente más tarde.');</script>";
-				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de insert into en register: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
+				$error_message = 'Excepcion de insert into en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
+				file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 			}
 		
 
 		}
 	}catch(Exception $e){
 		echo "<script> window.alert('hola 3 Ocurrió un error, intente más tarde.');</script>";
-		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select1 en register: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
+		$error_message = 'Excepcion de select en register: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
 	}
 	
 }

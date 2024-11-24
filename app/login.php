@@ -133,7 +133,8 @@ require 'setup_sql.php';
             }
         }catch(Exception $e){
             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select en login: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
+            $error_message = 'Excepcion de select en login: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
+            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
         }
         if ($_SESSION['intentos_fallidos'] >= $intentos_maximos) {
             $_SESSION['tiempo_bloqueo'] = time(); //registramos el inicio del bloqueo
