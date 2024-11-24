@@ -46,8 +46,7 @@ if (isset($_SESSION['user_id'])) {
         }
     }catch(Exception $e){
 		echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-		$error_message = 'Excepcion de select en modify_password: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+		file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de select en modify_password: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
 	}
     $sth->close();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -74,8 +73,7 @@ if (isset($_SESSION['user_id'])) {
         $actualcontrasena1 = $actualcontrasena . $salt;
         $actualcontrasena1 = hash('sha256', $actualcontrasena1);
 
-        //se comprueba si la contraseña introducida es correcata
-
+        //se comprueba si la contraseña introducida es correcta
         if ($contrasena==$actualcontrasena1) {
             if ($actualcontrasena != $nuevacontrasena1){
                 //se comprueba si las nuevas contraseñas con la misma
@@ -87,7 +85,7 @@ if (isset($_SESSION['user_id'])) {
                         // Preparar la consulta SQL (utilizando prepared statements para prevenir inyecciones SQL)
                         $sql = "UPDATE usuarios SET contrasena= ? WHERE idUsuario= ?";
                         $sth = $conn->prepare($sql);
-                        $sth->bind_param('si', $nuevacontrasena, $userId);
+                        $sth->bind_param('ss', $nuevacontrasena, $userId);
                         // Ejecutar la consulta
                         try {
                            $sth->execute();
@@ -98,8 +96,7 @@ if (isset($_SESSION['user_id'])) {
                            </script>";
                         }catch(Exception $e){
                             echo "<script> window.alert('Ocurrió un error, intente más tarde.');</script>";
-                            $error_message = 'Excepcion de update en modify_password: ' . htmlspecialchars($e->getMessage()). '. Error: ' . htmlspecialchars($conn->error);
-                            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . htmlspecialchars($error_message) . "\n", FILE_APPEND);
+                            file_put_contents($error_file, date('Y-m-d H:i:s') . " - " . "Excepcion de update en modify_password: " . htmlspecialchars($e->getMessage()) . "\n", FILE_APPEND);
                         }
                     } else {echo "<script> window.alert('La nueva contraseña no es válida'); </script>";}
                 }
